@@ -52,4 +52,8 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: true,
   },
+
+  server: {
+    port: 3000,
+  },
 });
