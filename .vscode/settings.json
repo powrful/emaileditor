@@ -3,26 +3,29 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": true,
   "search.exclude": {
-    "package-lock.json": true
+    "package-lock.json": true,
+    "dist": true,
+    "build": true,
+    "bun.lockb": true
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
+    "source.fixAll.biome": "explicit",
     "source.addMissingImports": "explicit"
   },
   "[json][jsonc][yaml]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[postcss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"

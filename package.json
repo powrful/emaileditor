@@ -7,22 +7,18 @@
   "main": "dist/main.js",
   "module": "lib/main.ts",
   "types": "dist/main.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/mrgoonie/react-vite-component-starter"
   },
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": ["**/*.css"],
   "scripts": {
     "dev": "vite",
     "build": "tsc --p ./tsconfig-build.json && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "biome check .",
     "preview": "vite preview",
-    "format": "lint && prettier . --write",
+    "format": "biome check --write .",
     "lint-staged": "lint-staged",
     "commit": "git add . && cz && git push origin",
     "test": "echo \"No test specified\" && exit 0",
@@ -37,40 +33,31 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md}": [
-      "prettier --write"
-    ]
+    "*.{js,jsx,ts,tsx}": ["biome check --write ."],
+    "*.{json,md}": ["biome check --write ."]
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@commitlint/cz-commitlint": "^19.6.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^22.10.5",
+    "@types/node": "^22.10.6",
     "@types/react": "^19.0.6",
     "@types/react-dom": "^19.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.20.0",
-    "@typescript-eslint/parser": "^8.20.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "ajv": "^8.17.1",
     "autoprefixer": "^10.4.20",
     "commitlint": "^19.6.1",
-    "eslint": "^9.18.0",
-    "eslint-plugin-react-hooks": "^5.1.0",
-    "eslint-plugin-react-refresh": "^0.4.18",
     "glob": "^11.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
     "postcss": "^8.4.49",
-    "prettier": "^3.4.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "semantic-release": "^24.2.1",
@@ -81,6 +68,19 @@
     "vite-plugin-lib-inject-css": "^2.2.1"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001692"
+    "@radix-ui/react-avatar": "^1.1.2",
+    "@radix-ui/react-collapsible": "^1.1.2",
+    "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-dropdown-menu": "^2.1.4",
+    "@radix-ui/react-label": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.1",
+    "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-switch": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.6",
+    "caniuse-lite": "^1.0.30001692",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.471.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
