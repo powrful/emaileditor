@@ -54,7 +54,12 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+import { EmailCanvasProps } from "@/components/canvas";
+
+export function AppSidebar({
+  onBack,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & Pick<EmailCanvasProps, "onBack">) {
   const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
   const { setOpen } = useSidebar();
 
@@ -77,7 +82,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
                 <div className="mt-2">
                   <Tooltip text="Back">
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" onClick={onBack}>
                       <ArrowLeft className="size-4" />
                     </Button>
                   </Tooltip>

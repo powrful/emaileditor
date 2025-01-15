@@ -8,6 +8,8 @@ import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useState } from "react";
 type ScreenSize = "mobile" | "desktop" | "full";
 
+import { EmailCanvasProps } from "@/components/canvas";
+
 interface ScreenSizeToggleProps {
   selected: ScreenSize;
   onChange: (value: ScreenSize) => void;
@@ -64,8 +66,34 @@ const UndoRedo = () => {
   );
 };
 
-export default function EditorWrapper() {
+const htmlTemplate = `
+<div>
+  <h1>Hello World</h1>
+</div>
+`;
+
+const jsonTemplate = {
+  html: htmlTemplate,
+};
+
+const reactComponent = <div>Hello World</div>;
+
+export type EmailCanvasProps = {
+  onSave: (
+    htmlTemplate: string,
+    jsonTemplate: { html: string },
+    reactComponent: React.ReactNode,
+  ) => void;
+  onBack: () => void;
+};
+
+export default function EditorWrapper({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
+
+  const handleSave = () => {
+    // Using the templates defined in the file
+    onSave(htmlTemplate, jsonTemplate, reactComponent);
+  };
 
   return (
     <SidebarProvider
@@ -75,15 +103,16 @@ export default function EditorWrapper() {
         } as React.CSSProperties
       }
     >
-      <AppSidebar />
+      <AppSidebar onBack={onBack} />
       <SidebarInset>
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4">
-          {/* <SidebarTrigger className="-ml-1" /> */}
           <div className="flex-1" />
           <div className="flex items-center gap-2">
             <ScreenSizeToggle selected={selected} onChange={setSelected} />
             <UndoRedo />
-            <Button size="sm">Save</Button>
+            <Button size="sm" onClick={handleSave}>
+              Save
+            </Button>
           </div>
         </header>
         <div className="flex flex-1 flex-col items-center gap-4 p-4 bg-[#F1F1F1]">
