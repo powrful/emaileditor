@@ -1,8 +1,8 @@
 import { Tooltip } from "@/components/custom/tooltip";
+import { FullscreenButton } from "@/components/layout/fullscreen-button";
+import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { FullscreenButton } from "@/components/wrapper/fullscreen-button";
-import { AppSidebar } from "@/components/wrapper/sidebar";
 import { cn } from "@/utils";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useState } from "react";
@@ -78,16 +78,7 @@ const jsonTemplate = {
 
 const reactComponent = <div>Hello World</div>;
 
-export type EmailCanvasProps = {
-  onSave: (
-    htmlTemplate: string,
-    jsonTemplate: { html: string },
-    reactComponent: React.ReactNode,
-  ) => void;
-  onBack: () => void;
-};
-
-export default function EditorWrapper({ onSave, onBack }: EmailCanvasProps) {
+export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
 
   const handleSave = () => {

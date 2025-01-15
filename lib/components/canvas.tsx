@@ -1,4 +1,4 @@
-import EditorWrapper from "@/components/wrapper";
+import EditorLayout from "@/components/layout";
 
 export type EmailCanvasProps = {
   onSave: (
@@ -21,5 +21,5 @@ export type EmailCanvasProps = {
 };
 
 export const EmailCanvas = ({ onSave, onBack, defaults }: EmailCanvasProps) => {
-  return <EditorWrapper onSave={onSave} onBack={onBack} defaults={defaults} />;
+  return <EditorLayout onSave={onSave} onBack={onBack} defaults={defaults} />;
 };
