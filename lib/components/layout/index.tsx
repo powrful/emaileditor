@@ -1,4 +1,6 @@
 import { Tooltip } from "@/components/custom/tooltip";
+import { Email, template } from "@/components/email";
+import { Frame } from "@/components/email/frame";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useState } from "react";
+
 type ScreenSize = "mobile" | "desktop" | "full";
 
 import { EmailCanvasProps } from "@/components/canvas";
@@ -80,7 +83,6 @@ const reactComponent = <div>Hello World</div>;
 
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
-
   const handleSave = () => {
     // Using the templates defined in the file
     onSave(htmlTemplate, jsonTemplate, reactComponent);
@@ -107,55 +109,16 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
           </div>
         </header>
         <div className="flex flex-1 flex-col items-center gap-4 p-4 bg-[#F1F1F1]">
-          <div
-            id="preview"
+          <Frame
             className={cn(
-              "border bg-transparent h-full rounded",
+              "bg-transparent h-full rounded",
               "transition-[width] duration-300 ease-in-out",
-              selected === "mobile" && "w-[480px] scale-[0.90] origin-top",
-              selected === "desktop" && "w-full scale-100",
+              selected === "mobile" && "w-[480px]",
+              selected === "desktop" && "w-full",
             )}
           >
-            <div className="bg-white py-16 sm:py-24 lg:py-32 max-w-full">
-              <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-8">
-                <h2 className="max-w-xl text-balance text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:col-span-7">
-                  Want product news and updates? Sign up for our newsletter.
-                </h2>
-                <form className="w-full max-w-md lg:col-span-5 lg:pt-2">
-                  <div className="flex gap-x-4">
-                    <label htmlFor="email-address" className="sr-only">
-                      Email address
-                    </label>
-                    <input
-                      id="email-address"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      className="min-w-0 flex-auto rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      placeholder="Enter your email"
-                    />
-                    <button
-                      type="submit"
-                      className="flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Subscribe
-                    </button>
-                  </div>
-                  <p className="mt-4 text-sm/6 text-gray-900">
-                    We care about your data. Read our{" "}
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      privacy&nbsp;policy
-                    </a>
-                    .
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
+            <Email title="Hello World" template={template} />
+          </Frame>
         </div>
       </SidebarInset>
     </SidebarProvider>

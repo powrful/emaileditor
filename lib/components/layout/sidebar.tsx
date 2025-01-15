@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   Globe,
-  LayoutList,
   LayoutPanelTop,
+  MailPlus,
+  SwatchBook,
   Trash2,
 } from "lucide-react";
 import * as React from "react";
@@ -33,9 +34,16 @@ const data = {
     {
       title: "Templates",
       url: "#",
-      icon: LayoutList,
+      icon: MailPlus,
       isActive: true,
       content: "Content for templates",
+    },
+    {
+      title: "Components",
+      url: "#",
+      icon: LayoutPanelTop,
+      isActive: false,
+      content: "Content for components",
     },
     {
       title: "Global settings",
@@ -45,11 +53,11 @@ const data = {
       content: "Content for global settings",
     },
     {
-      title: "Sections",
+      title: "Design",
       url: "#",
-      icon: LayoutPanelTop,
+      icon: SwatchBook,
       isActive: false,
-      content: "Content for sections",
+      content: "Content for design",
     },
   ],
 };
@@ -69,9 +77,6 @@ export function AppSidebar({
       className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row"
       {...props}
     >
-      {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
-      {/* This will make the sidebar appear as icons. */}
       <Sidebar
         collapsible="none"
         className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
