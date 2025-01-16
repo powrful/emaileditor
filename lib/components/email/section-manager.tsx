@@ -1,8 +1,16 @@
 import { Tooltip } from "@/components/custom/tooltip";
 import { Button } from "@/components/ui/button";
+import { useIframeElementPosition } from "@/hooks/use-iframe-element-position";
 import { cn } from "@/utils";
 import { ArrowDown, ArrowUp, Plus, Trash } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface SectionOverlayProps {
   sectionId: string;
@@ -23,59 +31,26 @@ const SectionOverlay = ({
   isFirst,
   isLast,
 }: SectionOverlayProps) => {
-  const [position, setPosition] = useState({
-    top: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-  });
+  const position = useIframeElementPosition(
+    `[data-section-id="${sectionId}"]`,
+    15,
+  );
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const updatePosition = () => {
-      const iframe = document.querySelector("iframe");
-      const iframeDocument = iframe?.contentDocument;
-
-      if (iframeDocument) {
-        const section = iframeDocument.querySelector(
-          `[data-section-id="${sectionId}"]`,
-        );
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          const iframeRect = iframe.getBoundingClientRect();
-
-          setPosition({
-            top: rect.top + iframeRect.top,
-            left: rect.left + 15,
-            width: rect.width,
-            height: rect.height,
-          });
-        }
-      }
+    const handlePositionUpdate = () => {
+      window.dispatchEvent(new Event("resize"));
     };
 
-    // Create resize observer for iframe
-    const iframe = document.querySelector("iframe");
-    const resizeObserver = new ResizeObserver(updatePosition);
-    if (iframe) {
-      resizeObserver.observe(iframe);
-    }
-
-    // Add window resize listener
-    window.addEventListener("resize", updatePosition);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", updatePosition);
-      resizeObserver.disconnect();
-    };
+    const timeoutId = setTimeout(handlePositionUpdate, 100);
+    return () => clearTimeout(timeoutId);
   }, [sectionId]);
 
   return (
     <div
       className={cn(
         "group absolute border-2 border-dashed transition-all duration-200",
-        isHovered ? "border-zinc-700 opacity-80" : "border-transparent",
+        isHovered ? "border-zinc-900/50" : "border-transparent",
       )}
       style={{
         top: position.top,
@@ -86,7 +61,7 @@ const SectionOverlay = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="opacity-0 group-hover:opacity-100 absolute -left-[1px] top-0 flex flex-col items-center gap-1 -translate-x-full px-1 bg-white shadow-lg rounded-2xl py-2 -ml-8">
+      <div className="opacity-0 group-hover:opacity-100 absolute top-0 flex flex-col items-center gap-1 -translate-x-full px-1 bg-white shadow-lg rounded-2xl py-2 -left-1.5">
         <Tooltip text="Move up" side="right">
           <Button
             size="iconSm"
@@ -112,21 +87,64 @@ const SectionOverlay = ({
         </Tooltip>
 
         <Tooltip text="Add section" side="right">
-          <Button
-            size="iconSm"
-            variant="ghost"
-            onClick={() => onAddSection(sectionId)}
-            className="rounded-full"
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                size="iconSm"
+                variant="ghost"
+                onClick={() => onAddSection(sectionId)}
+                className="rounded-full"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent side="right" className="w-[360px]">
+              <div className="grid grid-cols-4 gap-4">
+                <div className="flex flex-col items-center justify-center">
+                  <Button variant="outline" size="icon">
+                    <ChevronRight />
+                  </Button>
+                  H
+                </div>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  02
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+                <Button variant="ghost" size="sm" className="justify-center">
+                  03
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </Tooltip>
 
         <Tooltip text="Delete section" side="right">
           <Button
             size="iconSm"
             variant="ghost"
-            onClick={() => onDelete(sectionId)}
+            onClick={() => {
+              onDelete(sectionId);
+            }}
             className="rounded-full"
           >
             <Trash className="h-4 w-4" />

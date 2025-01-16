@@ -1,14 +1,15 @@
 import { Tooltip } from "@/components/custom/tooltip";
-import { Email, template } from "@/components/email";
+import { Email, TemplateType } from "@/components/email";
 import { Frame } from "@/components/email/frame";
 import { SectionManager } from "@/components/email/section-manager";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { nanoid } from "@/utils";
 import { cn } from "@/utils";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ScreenSize = "mobile" | "desktop" | "full";
 
@@ -84,10 +85,209 @@ const reactComponent = <div>Hello World</div>;
 
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
+  const [template, setTemplate] = useState<TemplateType>({
+    container: {
+      style: {
+        padding: {
+          paddingTop: "20px",
+          paddingRight: "20px",
+          paddingBottom: "20px",
+          paddingLeft: "20px",
+        },
+        backgroundColor: "#ffffff",
+        border: {
+          borderWidth: "1px",
+          borderColor: "#eaeaea",
+          borderRadius: "14px",
+        },
+        width: "600px",
+        align: "center",
+      },
+      sections: [
+        {
+          id: nanoid(),
+          style: {
+            backgroundColor: "#f9f9f9",
+            padding: {
+              paddingTop: "32px",
+              paddingRight: "32px",
+              paddingBottom: "32px",
+              paddingLeft: "32px",
+            },
+          },
+          elements: [
+            {
+              id: nanoid(),
+              type: "heading",
+              text: "Welcome to Our Newsletter",
+              level: "h2",
+              style: {
+                // fontSize: "24px",
+                color: "#333333",
+                align: "center",
+              },
+            },
+            {
+              id: nanoid(),
+              type: "spacer",
+              height: "20px",
+            },
+            {
+              id: nanoid(),
+              type: "text",
+              content: "We're excited to share our latest updates with you!",
+              style: {
+                fontSize: "16px",
+                color: "#666666",
+                lineHeight: "1.5",
+                align: "center",
+              },
+            },
+          ],
+        },
+        {
+          id: nanoid(),
+          style: {
+            padding: {
+              paddingTop: "32px",
+              paddingRight: "32px",
+              paddingBottom: "32px",
+              paddingLeft: "32px",
+            },
+          },
+          elements: [
+            {
+              id: nanoid(),
+              type: "columns",
+              style: {
+                padding: {
+                  paddingTop: "20px",
+                  paddingRight: "0",
+                  paddingBottom: "20px",
+                  paddingLeft: "0",
+                },
+              },
+              columns: [
+                {
+                  id: nanoid(),
+                  type: "column",
+                  width: "50%",
+                  elements: [
+                    {
+                      id: nanoid(),
+                      type: "image",
+                      src: "https://picsum.photos/id/110/650.webp",
+                      alt: "Product 1",
+                      style: {
+                        maxWidth: "100%",
+                      },
+                    },
+                    {
+                      id: nanoid(),
+                      type: "text",
+                      content: "Check out our new product!",
+                      style: {
+                        fontSize: "16px",
+                        align: "center",
+                      },
+                    },
+                  ],
+                },
+                {
+                  id: nanoid(),
+                  type: "column",
+                  width: "50%",
+                  elements: [
+                    {
+                      id: nanoid(),
+                      type: "image",
+                      src: "https://picsum.photos/id/250/650.webp",
+                      alt: "Product 2",
+                      style: {
+                        maxWidth: "100%",
+                        padding: {
+                          paddingTop: "20px",
+                          paddingRight: "0",
+                          paddingBottom: "20px",
+                          paddingLeft: "0",
+                        },
+                      },
+                    },
+                    {
+                      id: nanoid(),
+                      type: "text",
+                      content: "Another amazing product!",
+                      style: {
+                        fontSize: "16px",
+                        align: "center",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: nanoid(),
+          style: {
+            padding: {
+              paddingTop: "32px",
+              paddingRight: "32px",
+              paddingBottom: "32px",
+              paddingLeft: "32px",
+            },
+          },
+          elements: [
+            {
+              id: nanoid(),
+              type: "button",
+              text: "Shop Now",
+              href: "https://example.com/shop",
+              style: {
+                backgroundColor: "#007bff",
+                color: "#ffffff",
+                padding: {
+                  paddingTop: "12px",
+                  paddingRight: "24px",
+                  paddingBottom: "12px",
+                  paddingLeft: "24px",
+                },
+                align: "center",
+                border: {
+                  borderRadius: "4px",
+                  borderWidth: "1px",
+                  borderColor: "#007bff",
+                },
+              },
+            },
+            {
+              id: nanoid(),
+              type: "spacer",
+              height: "20px",
+            },
+            {
+              id: nanoid(),
+              type: "divider",
+              style: {
+                color: "#dddddd",
+                thickness: "1px",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  });
+
   const handleSave = () => {
     // Using the templates defined in the file
     onSave(htmlTemplate, jsonTemplate, reactComponent);
   };
+
+  useEffect(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, [template]);
 
   return (
     <SidebarProvider
@@ -124,9 +324,50 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
 
         <SectionManager
           sections={template.container.sections || []}
-          onAddSection={() => {}}
-          onDeleteSection={() => {}}
-          onMoveSection={() => {}}
+          onAddSection={(id) => {
+            console.log("add section", id);
+
+            setTimeout(() => {
+              window.dispatchEvent(new Event("resize"));
+            }, 0);
+          }}
+          onDeleteSection={(id) => {
+            setTemplate((prev) => {
+              const newSections = Array.from(prev.container.sections || []);
+              const indexToDelete = newSections.findIndex(
+                (section) => section.id === id,
+              );
+              if (indexToDelete !== -1) {
+                newSections.splice(indexToDelete, 1);
+              }
+              return {
+                ...prev,
+                container: { ...prev.container, sections: newSections },
+              };
+            });
+
+            setTimeout(() => {
+              window.dispatchEvent(new Event("resize"));
+            }, 0);
+          }}
+          onMoveSection={(fromIndex, toIndex) => {
+            setTemplate((prev) => {
+              const newSections = Array.from(prev.container.sections || []);
+              newSections.splice(
+                toIndex,
+                0,
+                newSections.splice(fromIndex, 1)[0],
+              );
+              return {
+                ...prev,
+                container: { ...prev.container, sections: newSections },
+              };
+            });
+
+            setTimeout(() => {
+              window.dispatchEvent(new Event("resize"));
+            }, 0);
+          }}
         />
       </SidebarInset>
     </SidebarProvider>

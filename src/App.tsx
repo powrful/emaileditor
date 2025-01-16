@@ -5,19 +5,12 @@ function App() {
     <>
       <EmailCanvas
         onSave={(htmlTemplate, jsonTemplate, reactComponent) => {
-          console.log("Save button clicked");
-          console.log({ htmlTemplate });
-          console.log({ jsonTemplate });
-          console.log({ reactComponent });
+          // Do whatever you want with html, json and react template
         }}
         onBack={() => {
-          alert("back");
+          // Redirect back to where ever you want
         }}
-        defaults={{
-          design: {
-            backgroundColor: "#f0f0f0",
-          },
-        }}
+        // template={jsonTemplate} // Optional
       />
     </>
   );

@@ -1,3 +1,4 @@
+import { TemplateType } from "@/components/email";
 import EditorLayout from "@/components/layout";
 
 export type EmailCanvasProps = {
@@ -7,19 +8,9 @@ export type EmailCanvasProps = {
     reactComponent: React.ReactNode,
   ) => void;
   onBack: () => void;
-  defaults: {
-    design: {
-      backgroundColor?: string;
-      fontFamily?: string;
-      fontSize?: string;
-      button?: {
-        backgroundColor?: string;
-        color?: string;
-      };
-    };
-  };
+  template?: TemplateType;
 };
 
-export const EmailCanvas = ({ onSave, onBack, defaults }: EmailCanvasProps) => {
-  return <EditorLayout onSave={onSave} onBack={onBack} defaults={defaults} />;
+export const EmailCanvas = ({ onSave, onBack, template }: EmailCanvasProps) => {
+  return <EditorLayout onSave={onSave} onBack={onBack} template={template} />;
 };
