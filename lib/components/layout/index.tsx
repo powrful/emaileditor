@@ -1,6 +1,7 @@
 import { Tooltip } from "@/components/custom/tooltip";
 import { Email, template } from "@/components/email";
 import { Frame } from "@/components/email/frame";
+import { SectionManager } from "@/components/email/section-manager";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
@@ -113,12 +114,19 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
             className={cn(
               "bg-transparent h-full rounded",
               "transition-[width] duration-300 ease-in-out",
-              selected === "mobile" && "w-[480px]",
+              selected === "mobile" && "w-[375px]",
               selected === "desktop" && "w-full",
             )}
           >
             <Email title="Hello World" template={template} />
           </Frame>
+
+          <SectionManager
+            sections={template.container.sections || []}
+            onAddSection={() => {}}
+            onDeleteSection={() => {}}
+            onMoveSection={() => {}}
+          />
         </div>
       </SidebarInset>
     </SidebarProvider>

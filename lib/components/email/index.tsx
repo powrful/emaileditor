@@ -364,6 +364,7 @@ export function Email({ title, template }: EmailSchema) {
       case "heading":
         return (
           <Heading
+            key={element.id}
             as={element.level}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
@@ -375,6 +376,7 @@ export function Email({ title, template }: EmailSchema) {
       case "text":
         return (
           <Text
+            key={element.id}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
           >
@@ -385,6 +387,7 @@ export function Email({ title, template }: EmailSchema) {
       case "button":
         return (
           <Button
+            key={element.id}
             href={element.href}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
@@ -396,6 +399,7 @@ export function Email({ title, template }: EmailSchema) {
       case "image":
         return (
           <Img
+            key={element.id}
             src={element.src}
             alt={element.alt}
             data-element-id={element.id}
@@ -406,6 +410,7 @@ export function Email({ title, template }: EmailSchema) {
       case "divider":
         return (
           <Hr
+            key={element.id}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
           />
@@ -414,6 +419,7 @@ export function Email({ title, template }: EmailSchema) {
       case "spacer":
         return (
           <div
+            key={element.id}
             data-element-id={element.id}
             style={{ height: element.height, lineHeight: element.height }}
           >
@@ -424,11 +430,13 @@ export function Email({ title, template }: EmailSchema) {
       case "columns":
         return (
           <Row
+            key={element.id}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
           >
             {element.columns.map((column) => (
               <Column
+                key={column.id}
                 data-column-id={column.id}
                 style={{ width: column.width }}
               >
@@ -444,6 +452,7 @@ export function Email({ title, template }: EmailSchema) {
     <Container style={flattenStyles(template.container.style)}>
       {template.container.sections?.map((section) => (
         <Section
+          key={section.id}
           data-section-id={section.id}
           style={flattenStyles(section.style)}
         >

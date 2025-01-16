@@ -8,14 +8,15 @@ import {
 interface TooltipProps {
   text: string;
   children: React.ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
 }
 
-export const Tooltip = ({ text, children }: TooltipProps) => {
+export const Tooltip = ({ text, children, side = "top" }: TooltipProps) => {
   return (
     <TooltipProvider>
-      <TooltipPrimitive>
+      <TooltipPrimitive delayDuration={100}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side={side}>
           <p>{text}</p>
         </TooltipContent>
       </TooltipPrimitive>

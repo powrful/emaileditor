@@ -6,7 +6,7 @@ import {
   LayoutPanelTop,
   MailPlus,
   SwatchBook,
-  Trash2,
+  Trash,
 } from "lucide-react";
 import * as React from "react";
 
@@ -142,7 +142,7 @@ export function AppSidebar({
               size="iconSm"
               className="flex items-center gap-2 text-sm"
             >
-              <Trash2 className="size-4 text-red-500" />
+              <Trash className="size-4 text-red-500" />
             </Button>
           </div>
         </SidebarHeader>
