@@ -75,7 +75,7 @@ const SectionOverlay = ({
     <div
       className={cn(
         "group absolute border-2 border-dashed transition-all duration-200",
-        isHovered ? "border-zinc-700" : "border-transparent",
+        isHovered ? "border-zinc-700 opacity-80" : "border-transparent",
       )}
       style={{
         top: position.top,

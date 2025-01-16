@@ -140,12 +140,12 @@ type EmailSchema = {
 export const template: TemplateType = {
   container: {
     style: {
-      padding: {
-        paddingTop: "20px",
-        paddingRight: "20px",
-        paddingBottom: "20px",
-        paddingLeft: "20px",
-      },
+      // padding: {
+      //   paddingTop: "20px",
+      //   paddingRight: "20px",
+      //   paddingBottom: "20px",
+      //   paddingLeft: "20px",
+      // },
       backgroundColor: "#ffffff",
       border: {
         borderWidth: "1px",
@@ -283,7 +283,6 @@ export const template: TemplateType = {
       {
         id: nanoid(),
         style: {
-          backgroundColor: "#f0f0f0",
           padding: {
             paddingTop: "32px",
             paddingRight: "32px",

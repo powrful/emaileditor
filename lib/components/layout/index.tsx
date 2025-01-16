@@ -113,21 +113,21 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
           <Frame
             className={cn(
               "bg-transparent h-full rounded",
-              "transition-[width] duration-300 ease-in-out",
+              "transition-[width] duration-300 ease-in-out m-0 p-0 overflow-hidden",
               selected === "mobile" && "w-[375px]",
               selected === "desktop" && "w-full",
             )}
           >
             <Email title="Hello World" template={template} />
           </Frame>
-
-          <SectionManager
-            sections={template.container.sections || []}
-            onAddSection={() => {}}
-            onDeleteSection={() => {}}
-            onMoveSection={() => {}}
-          />
         </div>
+
+        <SectionManager
+          sections={template.container.sections || []}
+          onAddSection={() => {}}
+          onDeleteSection={() => {}}
+          onMoveSection={() => {}}
+        />
       </SidebarInset>
     </SidebarProvider>
   );
