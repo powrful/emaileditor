@@ -25,6 +25,7 @@ const BaseStyleSchema = z.object({
 
 // Individual element schemas
 const HeadingSchema = z.object({
+  id: z.string(),
   type: z.literal("heading"),
   text: z.string(),
   level: z.enum(["h1", "h2", "h3", "h4", "h5", "h6"]),
@@ -35,6 +36,7 @@ const HeadingSchema = z.object({
 });
 
 const TextSchema = z.object({
+  id: z.string(),
   type: z.literal("text"),
   content: z.string(),
   style: BaseStyleSchema.extend({
@@ -45,6 +47,7 @@ const TextSchema = z.object({
 });
 
 const ButtonSchema = z.object({
+  id: z.string(),
   type: z.literal("button"),
   text: z.string(),
   href: z.string().url(),
@@ -55,6 +58,7 @@ const ButtonSchema = z.object({
 });
 
 const ImageSchema = z.object({
+  id: z.string(),
   type: z.literal("image"),
   src: z.string().url(),
   alt: z.string(),
@@ -64,6 +68,7 @@ const ImageSchema = z.object({
 });
 
 const DividerSchema = z.object({
+  id: z.string(),
   type: z.literal("divider"),
   style: BaseStyleSchema.extend({
     color: z.string().optional(),
@@ -72,23 +77,27 @@ const DividerSchema = z.object({
 });
 
 const SpacerSchema = z.object({
+  id: z.string(),
   type: z.literal("spacer"),
   height: z.string(),
 });
 
 type ColumnType = {
+  id: string;
   type: "column";
   width: string;
   elements: Array<z.infer<typeof ElementSchema>>;
 };
 
 const ColumnSchema: z.ZodType<ColumnType> = z.object({
+  id: z.string(),
   type: z.literal("column"),
   width: z.string(),
   elements: z.lazy(() => ElementSchema.array()),
 });
 
 const ColumnsSchema = z.object({
+  id: z.string(),
   type: z.literal("columns"),
   columns: z.array(ColumnSchema),
   style: BaseStyleSchema,
@@ -107,6 +116,7 @@ const ElementSchema = z.discriminatedUnion("type", [
 
 // Section schema
 const SectionSchema = z.object({
+  id: z.string(),
   style: BaseStyleSchema,
   elements: ElementSchema.array(),
 });
@@ -147,6 +157,7 @@ export const template: TemplateType = {
     },
     sections: [
       {
+        id: nanoid(),
         style: {
           backgroundColor: "#f9f9f9",
           padding: {
@@ -158,6 +169,7 @@ export const template: TemplateType = {
         },
         elements: [
           {
+            id: nanoid(),
             type: "heading",
             text: "Welcome to Our Newsletter",
             level: "h2",
@@ -168,10 +180,12 @@ export const template: TemplateType = {
             },
           },
           {
+            id: nanoid(),
             type: "spacer",
             height: "20px",
           },
           {
+            id: nanoid(),
             type: "text",
             content: "We're excited to share our latest updates with you!",
             style: {
@@ -184,6 +198,7 @@ export const template: TemplateType = {
         ],
       },
       {
+        id: nanoid(),
         style: {
           padding: {
             paddingTop: "32px",
@@ -194,6 +209,7 @@ export const template: TemplateType = {
         },
         elements: [
           {
+            id: nanoid(),
             type: "columns",
             style: {
               padding: {
@@ -205,10 +221,12 @@ export const template: TemplateType = {
             },
             columns: [
               {
+                id: nanoid(),
                 type: "column",
                 width: "50%",
                 elements: [
                   {
+                    id: nanoid(),
                     type: "image",
                     src: "https://picsum.photos/1000/1000",
                     alt: "Product 1",
@@ -217,6 +235,7 @@ export const template: TemplateType = {
                     },
                   },
                   {
+                    id: nanoid(),
                     type: "text",
                     content: "Check out our new product!",
                     style: {
@@ -227,10 +246,12 @@ export const template: TemplateType = {
                 ],
               },
               {
+                id: nanoid(),
                 type: "column",
                 width: "50%",
                 elements: [
                   {
+                    id: nanoid(),
                     type: "image",
                     src: "https://picsum.photos/1000/1000",
                     alt: "Product 2",
@@ -245,6 +266,7 @@ export const template: TemplateType = {
                     },
                   },
                   {
+                    id: nanoid(),
                     type: "text",
                     content: "Another amazing product!",
                     style: {
@@ -259,6 +281,7 @@ export const template: TemplateType = {
         ],
       },
       {
+        id: nanoid(),
         style: {
           backgroundColor: "#f0f0f0",
           padding: {
@@ -270,6 +293,7 @@ export const template: TemplateType = {
         },
         elements: [
           {
+            id: nanoid(),
             type: "button",
             text: "Shop Now",
             href: "https://example.com/shop",
@@ -291,10 +315,12 @@ export const template: TemplateType = {
             },
           },
           {
+            id: nanoid(),
             type: "spacer",
             height: "20px",
           },
           {
+            id: nanoid(),
             type: "divider",
             style: {
               color: "#dddddd",
@@ -338,8 +364,8 @@ export function Email({ title, template }: EmailSchema) {
       case "heading":
         return (
           <Heading
-            key={nanoid()}
             as={element.level}
+            data-element-id={element.id}
             style={flattenStyles(element.style)}
           >
             {element.text}
@@ -348,7 +374,10 @@ export function Email({ title, template }: EmailSchema) {
 
       case "text":
         return (
-          <Text key={nanoid()} style={flattenStyles(element.style)}>
+          <Text
+            data-element-id={element.id}
+            style={flattenStyles(element.style)}
+          >
             {element.content}
           </Text>
         );
@@ -356,8 +385,8 @@ export function Email({ title, template }: EmailSchema) {
       case "button":
         return (
           <Button
-            key={nanoid()}
             href={element.href}
+            data-element-id={element.id}
             style={flattenStyles(element.style)}
           >
             {element.text}
@@ -367,20 +396,25 @@ export function Email({ title, template }: EmailSchema) {
       case "image":
         return (
           <Img
-            key={nanoid()}
             src={element.src}
             alt={element.alt}
+            data-element-id={element.id}
             style={flattenStyles(element.style)}
           />
         );
 
       case "divider":
-        return <Hr key={nanoid()} style={flattenStyles(element.style)} />;
+        return (
+          <Hr
+            data-element-id={element.id}
+            style={flattenStyles(element.style)}
+          />
+        );
 
       case "spacer":
         return (
           <div
-            key={nanoid()}
+            data-element-id={element.id}
             style={{ height: element.height, lineHeight: element.height }}
           >
             &nbsp;
@@ -389,9 +423,15 @@ export function Email({ title, template }: EmailSchema) {
 
       case "columns":
         return (
-          <Row key={nanoid()} style={flattenStyles(element.style)}>
+          <Row
+            data-element-id={element.id}
+            style={flattenStyles(element.style)}
+          >
             {element.columns.map((column) => (
-              <Column key={nanoid()} style={{ width: column.width }}>
+              <Column
+                data-column-id={column.id}
+                style={{ width: column.width }}
+              >
                 {column.elements.map(renderElement)}
               </Column>
             ))}
@@ -403,7 +443,10 @@ export function Email({ title, template }: EmailSchema) {
   return (
     <Container style={flattenStyles(template.container.style)}>
       {template.container.sections?.map((section) => (
-        <Section key={nanoid()} style={flattenStyles(section.style)}>
+        <Section
+          data-section-id={section.id}
+          style={flattenStyles(section.style)}
+        >
           {section.elements.map(renderElement)}
         </Section>
       ))}
