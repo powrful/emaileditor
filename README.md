@@ -1,6 +1,7 @@
-# A simple react component library starter
+# Email Editor
+> Email Editor is a simple email editor for creating and previewing emails.
 
-This repository was published together with an article on how to create a react component library using Vite's library mode.
+![Email Editor](./.github/images/sc.png)
 
 ## Stack
 
@@ -8,12 +9,13 @@ This repository was published together with an article on how to create a react 
 - TypeScript
 - React
 - TailwindCSS
+- Shadcn/UI
 - Semantic Release
 - Commitizen
 - Conventional Commits
 - Lint-staged
 - Github Actions
-- NPM
+- Bun
 
 ## Installation
 
@@ -82,10 +84,16 @@ bun run publish
 ## Usage
 
 ```javascript
-import { Button, Label, Input } from "your-component-library";
+import { EmailEditor } from "email-editor";
+
+
+<EmailCanvas
+  onSave={(htmlTemplate, jsonTemplate, reactComponent) => {
+    // Do whatever you want with html, json and react template
+  }}
+  onBack={() => {
+    // Redirect back to where ever you want
+  }}
+  template={jsonTemplate} // Optional
+/>
 ```
-
-## Credits
-
-- This repository was created by [@mrgoonie](https://github.com/mrgoonie).
-- 👉 Follow me on [X](https://x.com/goon_nguyen).

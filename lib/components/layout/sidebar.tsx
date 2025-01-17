@@ -9,6 +9,7 @@ import {
   Trash,
 } from "lucide-react";
 import * as React from "react";
+import { Templates } from "./templates";
 
 import {
   Sidebar,
@@ -36,7 +37,7 @@ const data = {
       url: "#",
       icon: MailPlus,
       isActive: true,
-      content: "Content for templates",
+      content: <Templates />,
     },
     {
       title: "Components",
