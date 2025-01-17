@@ -11,7 +11,7 @@ import {
 } from "@react-email/components";
 import { z } from "zod";
 
-import { BorderSchema, PaddingSchema } from "@/components/blocks/schema";
+import { BorderSchema, PaddingSchema } from "./schema";
 
 // Base style schemas that can be shared across elements
 const BaseStyleSchema = z.object({
