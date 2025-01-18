@@ -11,3 +11,5 @@ export const TextSchema = z.object({
     lineHeight: z.string().optional(),
   }),
 });
+
+export type TextType = z.infer<typeof TextSchema>;

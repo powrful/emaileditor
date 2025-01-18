@@ -10,3 +10,5 @@ export const ImageSchema = z.object({
     maxWidth: z.string().optional(),
   }),
 });
+
+export type ImageType = z.infer<typeof ImageSchema>;

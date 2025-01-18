@@ -5,3 +5,5 @@ export const SpacerSchema = z.object({
   type: z.literal("spacer"),
   height: z.string(),
 });
+
+export type SpacerType = z.infer<typeof SpacerSchema>;

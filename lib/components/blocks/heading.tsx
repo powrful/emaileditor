@@ -11,3 +11,5 @@ export const HeadingSchema = z.object({
     color: z.string().optional(),
   }),
 });
+
+export type HeadingType = z.infer<typeof HeadingSchema>;

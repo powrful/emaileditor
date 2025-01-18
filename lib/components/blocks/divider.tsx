@@ -9,3 +9,5 @@ export const DividerSchema = z.object({
     thickness: z.string().optional(),
   }),
 });
+
+export type DividerType = z.infer<typeof DividerSchema>;

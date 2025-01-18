@@ -11,3 +11,5 @@ export const ButtonSchema = z.object({
     backgroundColor: z.string().optional(),
   }),
 });
+
+export type ButtonType = z.infer<typeof ButtonSchema>;

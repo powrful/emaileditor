@@ -8,3 +8,5 @@ export const RowSchema = z.object({
   row: z.array(ColumnSchema),
   style: BaseStyleSchema,
 });
+
+export type RowType = z.infer<typeof RowSchema>;
