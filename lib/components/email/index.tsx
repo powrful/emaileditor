@@ -161,7 +161,7 @@ const flattenStyles = (style: any) => {
   return flatStyle;
 };
 
-export function Email({ title, template }: EmailSchema) {
+export function Email({ template }: EmailSchema) {
   const renderElement = (element: z.infer<typeof ElementSchema>) => {
     switch (element.type) {
       case "heading":

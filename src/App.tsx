@@ -5,7 +5,7 @@ function App() {
     <>
       <EmailCanvas
         onSave={(htmlTemplate, jsonTemplate, reactComponent) => {
-          // Do whatever you want with html, json and react template
+          console.log(htmlTemplate, jsonTemplate, reactComponent);
         }}
         onBack={() => {
           // Redirect back to where ever you want

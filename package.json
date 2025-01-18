@@ -1,6 +1,6 @@
 {
   "name": "@email/canvas",
-  "author": "mrgoonie",
+  "author": "dahal",
   "private": false,
   "version": "0.0.1",
   "type": "module",
@@ -15,7 +15,8 @@
   "sideEffects": ["**/*.css"],
   "scripts": {
     "dev": "vite",
-    "build": "tsc --p ./tsconfig-build.json && vite build",
+    "build": "tsc -b && vite build",
+    "build:lib": "tsc --p ./tsconfig-build.json && vite build",
     "lint": "biome check .",
     "preview": "vite preview",
     "format": "biome check --write .",
