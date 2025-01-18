@@ -11,27 +11,11 @@ import {
 } from "@react-email/components";
 import { z } from "zod";
 
-import { BaseStyleSchema } from "@/components/blocks/base";
 import type { ColumnType } from "@/components/blocks/column";
-import { ElementsSchema } from "@/components/blocks/elements";
-
-// Section schema
-const SectionSchema = z.object({
-  id: z.string(),
-  style: BaseStyleSchema,
-  elements: ElementsSchema.array(),
-});
-
-// Update the TemplateSchema
-const TemplateSchema = z.object({
-  container: z.object({
-    style: BaseStyleSchema,
-    sections: SectionSchema.array().optional(),
-    elements: ElementsSchema.array().optional(),
-  }),
-});
-
-export type TemplateType = z.infer<typeof TemplateSchema>;
+import {
+  ElementsSchema,
+  type TemplateType,
+} from "@/components/blocks/elements";
 
 type EmailSchema = {
   title: string;
