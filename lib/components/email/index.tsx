@@ -11,113 +11,15 @@ import {
 } from "@react-email/components";
 import { z } from "zod";
 
-import { BorderSchema, PaddingSchema } from "./schema";
-
-// Base style schemas that can be shared across elements
-const BaseStyleSchema = z.object({
-  padding: PaddingSchema.optional(),
-  backgroundColor: z.string().optional(),
-  border: BorderSchema.optional(),
-  width: z.string().optional(),
-  align: z.enum(["left", "center", "right"]).optional(),
-});
-
-// Individual element schemas
-const HeadingSchema = z.object({
-  id: z.string(),
-  type: z.literal("heading"),
-  text: z.string(),
-  level: z.enum(["h1", "h2", "h3", "h4", "h5", "h6"]),
-  style: BaseStyleSchema.extend({
-    fontSize: z.string().optional(),
-    color: z.string().optional(),
-  }),
-});
-
-const TextSchema = z.object({
-  id: z.string(),
-  type: z.literal("text"),
-  content: z.string(),
-  style: BaseStyleSchema.extend({
-    fontSize: z.string().optional(),
-    color: z.string().optional(),
-    lineHeight: z.string().optional(),
-  }),
-});
-
-const ButtonSchema = z.object({
-  id: z.string(),
-  type: z.literal("button"),
-  text: z.string(),
-  href: z.string().url(),
-  style: BaseStyleSchema.extend({
-    color: z.string().optional(),
-    backgroundColor: z.string().optional(),
-  }),
-});
-
-const ImageSchema = z.object({
-  id: z.string(),
-  type: z.literal("image"),
-  src: z.string().url(),
-  alt: z.string(),
-  style: BaseStyleSchema.extend({
-    maxWidth: z.string().optional(),
-  }),
-});
-
-const DividerSchema = z.object({
-  id: z.string(),
-  type: z.literal("divider"),
-  style: BaseStyleSchema.extend({
-    color: z.string().optional(),
-    thickness: z.string().optional(),
-  }),
-});
-
-const SpacerSchema = z.object({
-  id: z.string(),
-  type: z.literal("spacer"),
-  height: z.string(),
-});
-
-type ColumnType = {
-  id: string;
-  type: "column";
-  width: string;
-  elements: Array<z.infer<typeof ElementSchema>>;
-};
-
-const ColumnSchema: z.ZodType<ColumnType> = z.object({
-  id: z.string(),
-  type: z.literal("column"),
-  width: z.string(),
-  elements: z.lazy(() => ElementSchema.array()),
-});
-
-const ColumnsSchema = z.object({
-  id: z.string(),
-  type: z.literal("columns"),
-  columns: z.array(ColumnSchema),
-  style: BaseStyleSchema,
-});
-
-// Combined element schema using discriminated union
-const ElementSchema = z.discriminatedUnion("type", [
-  HeadingSchema,
-  TextSchema,
-  ButtonSchema,
-  ImageSchema,
-  DividerSchema,
-  SpacerSchema,
-  ColumnsSchema,
-]);
+import { BaseStyleSchema } from "@/components/blocks/base";
+import type { ColumnType } from "@/components/blocks/column";
+import { ElementsSchema } from "@/components/blocks/elements";
 
 // Section schema
 const SectionSchema = z.object({
   id: z.string(),
   style: BaseStyleSchema,
-  elements: ElementSchema.array(),
+  elements: ElementsSchema.array(),
 });
 
 // Update the TemplateSchema
@@ -125,7 +27,7 @@ const TemplateSchema = z.object({
   container: z.object({
     style: BaseStyleSchema,
     sections: SectionSchema.array().optional(),
-    elements: ElementSchema.array().optional(),
+    elements: ElementsSchema.array().optional(),
   }),
 });
 
@@ -162,7 +64,7 @@ const flattenStyles = (style: any) => {
 };
 
 export function Email({ template }: EmailSchema) {
-  const renderElement = (element: z.infer<typeof ElementSchema>) => {
+  const renderElement = (element: z.infer<typeof ElementsSchema>) => {
     switch (element.type) {
       case "heading":
         return (
@@ -230,14 +132,14 @@ export function Email({ template }: EmailSchema) {
           </div>
         );
 
-      case "columns":
+      case "row":
         return (
           <Row
             key={element.id}
             data-element-id={element.id}
             style={flattenStyles(element.style)}
           >
-            {element.columns.map((column) => (
+            {element.row.map((column: ColumnType) => (
               <Column
                 key={column.id}
                 data-column-id={column.id}

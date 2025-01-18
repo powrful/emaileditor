@@ -158,7 +158,7 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
           elements: [
             {
               id: nanoid(),
-              type: "columns",
+              type: "row",
               style: {
                 padding: {
                   paddingTop: "20px",
@@ -167,7 +167,7 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
                   paddingLeft: "0",
                 },
               },
-              columns: [
+              row: [
                 {
                   id: nanoid(),
                   type: "column",
