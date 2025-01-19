@@ -1,4 +1,6 @@
+import type { TemplateType } from "@/components/blocks/elements";
 import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,6 +8,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 type BlockPickerProps = {
   trigger: React.ReactNode;
+  template: TemplateType;
+  setTemplate: (template: TemplateType) => void;
 };
 
 import {
@@ -19,7 +23,11 @@ import {
   SquareSplitVertical,
 } from "lucide-react";
 
-export const BlockPicker = ({ trigger }: BlockPickerProps) => {
+export const BlockPicker = ({
+  trigger,
+  template,
+  setTemplate,
+}: BlockPickerProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>

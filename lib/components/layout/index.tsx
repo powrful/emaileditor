@@ -1,5 +1,6 @@
+import { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
-import { Email, TemplateType } from "@/components/email";
+import { Email } from "@/components/email";
 import { Frame } from "@/components/email/frame";
 import { SectionManager } from "@/components/email/section-manager";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
@@ -86,197 +87,209 @@ const reactComponent = <div>Hello World</div>;
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
   const [template, setTemplate] = useState<TemplateType>({
+    // container: {
+    //   style: {
+    //     padding: {
+    //       paddingTop: "20px",
+    //       paddingRight: "20px",
+    //       paddingBottom: "20px",
+    //       paddingLeft: "20px",
+    //     },
+    //     backgroundColor: "#ffffff",
+    //     border: {
+    //       borderWidth: "1px",
+    //       borderColor: "#eaeaea",
+    //       borderRadius: "14px",
+    //     },
+    //     width: "600px",
+    //     align: "center",
+    //   },
+    //   sections: [
+    //     {
+    //       id: nanoid(),
+    //       style: {
+    //         backgroundColor: "#f9f9f9",
+    //         padding: {
+    //           paddingTop: "32px",
+    //           paddingRight: "32px",
+    //           paddingBottom: "32px",
+    //           paddingLeft: "32px",
+    //         },
+    //       },
+    //       elements: [
+    //         {
+    //           id: nanoid(),
+    //           type: "heading",
+    //           text: "Welcome to Our Newsletter",
+    //           level: "h2",
+    //           style: {
+    //             // fontSize: "24px",
+    //             color: "#333333",
+    //             align: "center",
+    //           },
+    //         },
+    //         {
+    //           id: nanoid(),
+    //           type: "spacer",
+    //           height: "20px",
+    //         },
+    //         {
+    //           id: nanoid(),
+    //           type: "text",
+    //           content: "We're excited to share our latest updates with you!",
+    //           style: {
+    //             fontSize: "16px",
+    //             color: "#666666",
+    //             lineHeight: "1.5",
+    //             align: "center",
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       id: nanoid(),
+    //       style: {
+    //         padding: {
+    //           paddingTop: "32px",
+    //           paddingRight: "32px",
+    //           paddingBottom: "32px",
+    //           paddingLeft: "32px",
+    //         },
+    //       },
+    //       elements: [
+    //         {
+    //           id: nanoid(),
+    //           type: "row",
+    //           style: {
+    //             padding: {
+    //               paddingTop: "20px",
+    //               paddingRight: "0",
+    //               paddingBottom: "20px",
+    //               paddingLeft: "0",
+    //             },
+    //           },
+    //           row: [
+    //             {
+    //               id: nanoid(),
+    //               type: "column",
+    //               width: "50%",
+    //               elements: [
+    //                 {
+    //                   id: nanoid(),
+    //                   type: "image",
+    //                   src: "https://picsum.photos/id/110/650.webp",
+    //                   alt: "Product 1",
+    //                   style: {
+    //                     maxWidth: "100%",
+    //                   },
+    //                 },
+    //                 {
+    //                   id: nanoid(),
+    //                   type: "text",
+    //                   content: "Check out our new product!",
+    //                   style: {
+    //                     fontSize: "16px",
+    //                     align: "center",
+    //                   },
+    //                 },
+    //               ],
+    //             },
+    //             {
+    //               id: nanoid(),
+    //               type: "column",
+    //               width: "50%",
+    //               elements: [
+    //                 {
+    //                   id: nanoid(),
+    //                   type: "image",
+    //                   src: "https://picsum.photos/id/250/650.webp",
+    //                   alt: "Product 2",
+    //                   style: {
+    //                     maxWidth: "100%",
+    //                     padding: {
+    //                       paddingTop: "20px",
+    //                       paddingRight: "0",
+    //                       paddingBottom: "20px",
+    //                       paddingLeft: "0",
+    //                     },
+    //                   },
+    //                 },
+    //                 {
+    //                   id: nanoid(),
+    //                   type: "text",
+    //                   content: "Another amazing product!",
+    //                   style: {
+    //                     fontSize: "16px",
+    //                     align: "center",
+    //                   },
+    //                 },
+    //               ],
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       id: nanoid(),
+    //       style: {
+    //         padding: {
+    //           paddingTop: "32px",
+    //           paddingRight: "32px",
+    //           paddingBottom: "32px",
+    //           paddingLeft: "32px",
+    //         },
+    //       },
+    //       elements: [
+    //         {
+    //           id: nanoid(),
+    //           type: "button",
+    //           text: "Shop Now",
+    //           href: "https://example.com/shop",
+    //           style: {
+    //             backgroundColor: "#007bff",
+    //             color: "#ffffff",
+    //             padding: {
+    //               paddingTop: "12px",
+    //               paddingRight: "24px",
+    //               paddingBottom: "12px",
+    //               paddingLeft: "24px",
+    //             },
+    //             align: "center",
+    //             border: {
+    //               borderRadius: "4px",
+    //               borderWidth: "1px",
+    //               borderColor: "#007bff",
+    //             },
+    //           },
+    //         },
+    //         {
+    //           id: nanoid(),
+    //           type: "spacer",
+    //           height: "20px",
+    //         },
+    //         {
+    //           id: nanoid(),
+    //           type: "divider",
+    //           style: {
+    //             color: "#dddddd",
+    //             thickness: "1px",
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
+
     container: {
       style: {
+        backgroundColor: "#ffffff",
         padding: {
           paddingTop: "20px",
           paddingRight: "20px",
           paddingBottom: "20px",
           paddingLeft: "20px",
         },
-        backgroundColor: "#ffffff",
-        border: {
-          borderWidth: "1px",
-          borderColor: "#eaeaea",
-          borderRadius: "14px",
-        },
-        width: "600px",
-        align: "center",
       },
-      sections: [
-        {
-          id: nanoid(),
-          style: {
-            backgroundColor: "#f9f9f9",
-            padding: {
-              paddingTop: "32px",
-              paddingRight: "32px",
-              paddingBottom: "32px",
-              paddingLeft: "32px",
-            },
-          },
-          elements: [
-            {
-              id: nanoid(),
-              type: "heading",
-              text: "Welcome to Our Newsletter",
-              level: "h2",
-              style: {
-                // fontSize: "24px",
-                color: "#333333",
-                align: "center",
-              },
-            },
-            {
-              id: nanoid(),
-              type: "spacer",
-              height: "20px",
-            },
-            {
-              id: nanoid(),
-              type: "text",
-              content: "We're excited to share our latest updates with you!",
-              style: {
-                fontSize: "16px",
-                color: "#666666",
-                lineHeight: "1.5",
-                align: "center",
-              },
-            },
-          ],
-        },
-        {
-          id: nanoid(),
-          style: {
-            padding: {
-              paddingTop: "32px",
-              paddingRight: "32px",
-              paddingBottom: "32px",
-              paddingLeft: "32px",
-            },
-          },
-          elements: [
-            {
-              id: nanoid(),
-              type: "row",
-              style: {
-                padding: {
-                  paddingTop: "20px",
-                  paddingRight: "0",
-                  paddingBottom: "20px",
-                  paddingLeft: "0",
-                },
-              },
-              row: [
-                {
-                  id: nanoid(),
-                  type: "column",
-                  width: "50%",
-                  elements: [
-                    {
-                      id: nanoid(),
-                      type: "image",
-                      src: "https://picsum.photos/id/110/650.webp",
-                      alt: "Product 1",
-                      style: {
-                        maxWidth: "100%",
-                      },
-                    },
-                    {
-                      id: nanoid(),
-                      type: "text",
-                      content: "Check out our new product!",
-                      style: {
-                        fontSize: "16px",
-                        align: "center",
-                      },
-                    },
-                  ],
-                },
-                {
-                  id: nanoid(),
-                  type: "column",
-                  width: "50%",
-                  elements: [
-                    {
-                      id: nanoid(),
-                      type: "image",
-                      src: "https://picsum.photos/id/250/650.webp",
-                      alt: "Product 2",
-                      style: {
-                        maxWidth: "100%",
-                        padding: {
-                          paddingTop: "20px",
-                          paddingRight: "0",
-                          paddingBottom: "20px",
-                          paddingLeft: "0",
-                        },
-                      },
-                    },
-                    {
-                      id: nanoid(),
-                      type: "text",
-                      content: "Another amazing product!",
-                      style: {
-                        fontSize: "16px",
-                        align: "center",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: nanoid(),
-          style: {
-            padding: {
-              paddingTop: "32px",
-              paddingRight: "32px",
-              paddingBottom: "32px",
-              paddingLeft: "32px",
-            },
-          },
-          elements: [
-            {
-              id: nanoid(),
-              type: "button",
-              text: "Shop Now",
-              href: "https://example.com/shop",
-              style: {
-                backgroundColor: "#007bff",
-                color: "#ffffff",
-                padding: {
-                  paddingTop: "12px",
-                  paddingRight: "24px",
-                  paddingBottom: "12px",
-                  paddingLeft: "24px",
-                },
-                align: "center",
-                border: {
-                  borderRadius: "4px",
-                  borderWidth: "1px",
-                  borderColor: "#007bff",
-                },
-              },
-            },
-            {
-              id: nanoid(),
-              type: "spacer",
-              height: "20px",
-            },
-            {
-              id: nanoid(),
-              type: "divider",
-              style: {
-                color: "#dddddd",
-                thickness: "1px",
-              },
-            },
-          ],
-        },
-      ],
     },
   });
 
@@ -297,7 +310,11 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
         } as React.CSSProperties
       }
     >
-      <AppSidebar onBack={onBack} />
+      <AppSidebar
+        onBack={onBack}
+        template={template}
+        setTemplate={setTemplate}
+      />
       <SidebarInset>
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4">
           <div className="flex-1" />

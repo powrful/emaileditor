@@ -1,3 +1,4 @@
+import type { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
 import { DesignEditor } from "@/components/editor/design";
 import { Button } from "@/components/ui/button";
@@ -30,41 +31,50 @@ const data = {
   navs: [
     {
       title: "Templates",
-      url: "#",
+      slug: "templates",
       icon: MailPlus,
       isActive: true,
-      content: <Templates />,
     },
     {
       title: "Components",
-      url: "#",
+      slug: "components",
       icon: LayoutPanelTop,
       isActive: false,
-      content: "Content for components",
     },
     {
       title: "Global settings",
-      url: "#",
+      slug: "global-settings",
       icon: Globe,
       isActive: false,
-      content: "Content for global settings",
     },
     {
       title: "Design",
-      url: "#",
+      slug: "design",
       icon: SwatchBook,
       isActive: false,
-      content: <DesignEditor />,
     },
   ],
 };
 
 import { EmailCanvasProps } from "@/components/canvas";
 
+const Placeholder = ({ text }: { text: string }) => {
+  return <div>{text}</div>;
+};
+
+type AppSidebarProps = {
+  template: TemplateType;
+  setTemplate: (template: TemplateType) => void;
+};
+
 export function AppSidebar({
   onBack,
+  template,
+  setTemplate,
   ...props
-}: React.ComponentProps<typeof Sidebar> & Pick<EmailCanvasProps, "onBack">) {
+}: React.ComponentProps<typeof Sidebar> &
+  Pick<EmailCanvasProps, "onBack"> &
+  AppSidebarProps) {
   const [activeItem, setActiveItem] = React.useState(data.navs[0]);
   const { setOpen } = useSidebar();
 
@@ -147,7 +157,16 @@ export function AppSidebar({
         <SidebarContent>
           <SidebarGroup className="px-0">
             <SidebarGroupContent className="p-4">
-              {activeItem.content}
+              {activeItem.slug === "templates" && <Templates />}
+              {activeItem.slug === "components" && (
+                <Placeholder text="Components" />
+              )}
+              {activeItem.slug === "global-settings" && (
+                <Placeholder text="Global settings" />
+              )}
+              {activeItem.slug === "design" && (
+                <DesignEditor template={template} setTemplate={setTemplate} />
+              )}
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>

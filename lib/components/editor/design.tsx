@@ -1,9 +1,15 @@
+import type { TemplateType } from "@/components/blocks/elements";
 import { Button } from "@/components/ui/button";
 import { ImagePlus, LetterText, SquareMousePointer } from "lucide-react";
 import { BlockPicker } from "./block-picker";
 import { EmptyState } from "./empty-state";
 
-export const DesignEditor = () => {
+type DesignEditorProps = {
+  template: TemplateType;
+  setTemplate: (template: TemplateType) => void;
+};
+
+export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
   return (
     <EmptyState
       title="Template is empty"
@@ -11,6 +17,8 @@ export const DesignEditor = () => {
       icons={[SquareMousePointer, ImagePlus, LetterText]}
       cta={
         <BlockPicker
+          template={template}
+          setTemplate={setTemplate}
           trigger={
             <Button
               size="sm"

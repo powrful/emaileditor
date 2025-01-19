@@ -1,4 +1,4 @@
-import { TemplateType } from "@/components/email";
+import { TemplateType } from "@/components/blocks/elements";
 import EditorLayout from "@/components/layout";
 
 export type EmailCanvasProps = {
