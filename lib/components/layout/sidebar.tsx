@@ -1,4 +1,5 @@
 import { Tooltip } from "@/components/custom/tooltip";
+import { DesignEditor } from "@/components/editor/design";
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
@@ -26,12 +27,7 @@ import {
 import { cn } from "@/utils";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+  navs: [
     {
       title: "Templates",
       url: "#",
@@ -58,7 +54,7 @@ const data = {
       url: "#",
       icon: SwatchBook,
       isActive: false,
-      content: "Content for design",
+      content: <DesignEditor />,
     },
   ],
 };
@@ -69,7 +65,7 @@ export function AppSidebar({
   onBack,
   ...props
 }: React.ComponentProps<typeof Sidebar> & Pick<EmailCanvasProps, "onBack">) {
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
+  const [activeItem, setActiveItem] = React.useState(data.navs[0]);
   const { setOpen } = useSidebar();
 
   return (
@@ -101,7 +97,7 @@ export function AppSidebar({
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0 py-3">
               <SidebarMenu>
-                {data.navMain.map((item) => (
+                {data.navs.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       tooltip={{
