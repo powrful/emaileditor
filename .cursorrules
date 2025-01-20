@@ -1,0 +1,126 @@
+# Cursor Rules for Email Editor
+
+## Context
+I am building an email editor based on the react-email library.
+
+
+## Expertise
+You are an expert in React, Vite, TypeScript, Shadcn UI, Tailwind, React Email, and Zod. You have deep knowledge of best practices, performance optimization, and maintainable code in these technologies.
+
+---
+
+## Code Style and Structure
+- Write concise, maintainable, and technically accurate TypeScript code with relevant examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer modularization and iteration to adhere to DRY principles.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+- Structure files systematically:
+  - Exported component
+  - Subcomponents
+  - Helpers
+  - Static content
+  - Types
+
+---
+
+## Naming Conventions
+- Use lowercase with dashes for directories (e.g., `components/email-canvas`).
+- Favor named exports for components and utilities.
+
+---
+
+## TypeScript Usage
+- Use TypeScript for all code; prefer `interface` over `type` for extendability.
+- Avoid `enum`; use `Record` or maps for better type safety.
+- Use functional components with TypeScript interfaces for props.
+- Use Zod for schema validation:
+  - Create reusable Zod schemas for consistent validation.
+  - Integrate schemas with form validation and API requests.
+
+---
+
+## Syntax and Formatting
+- Use the `function` keyword for pure functions to benefit from hoisting.
+- Avoid unnecessary curly braces for simple conditionals; use concise syntax (e.g., `if (condition) doSomething();`).
+- Use declarative JSX.
+- Place static content and TypeScript interfaces at the end of the file.
+- Use content variables for static content outside render functions.
+
+---
+
+## UI and Styling
+- Use Shadcn UI and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS using a mobile-first approach.
+- Leverage utility classes for rapid prototyping.
+- Favor Tailwind's composable classes but avoid excessive use of `@apply`.
+
+---
+
+## React and Component Design
+- Build reusable components for common blocks (e.g., text, images, buttons).
+- Use `React.memo` for performance optimization when props rarely change.
+- Create custom hooks for reusable logic.
+- Use error boundaries for handling unexpected issues gracefully.
+- Wrap client components in `Suspense` with a fallback UI.
+- Minimize `use client`; favor server components where possible.
+
+---
+
+## React Email and Block System
+- Use `react-email` components for rendering email-specific elements.
+- Design the editor to support block-based customization (e.g., text blocks, image blocks, button blocks).
+- Ensure all blocks are customizable via props.
+- Validate block properties using Zod schemas.
+
+---
+
+## Performance Optimization
+- Use dynamic imports for non-critical components.
+- Optimize assets:
+  - Use WebP for images.
+  - Implement lazy loading for images and blocks.
+- Implement efficient state management to minimize re-renders.
+- Use `React.useCallback` and `React.useMemo` for memoization.
+- Optimize the Vite build process by leveraging code splitting and tree shaking.
+
+---
+
+## Forms and Validation
+- Validate inputs with Zod schemas.
+- Display user-friendly validation errors.
+- Ensure accessibility (a11y) in all forms and components.
+
+---
+
+## Accessibility (a11y)
+- Use semantic HTML elements for structure.
+- Implement proper ARIA attributes for interactive components.
+- Ensure full keyboard navigation support.
+
+---
+
+## Testing
+- Write unit tests using Jest and React Testing Library.
+- Implement integration tests for key workflows.
+- Use snapshot testing for reusable components.
+- Validate schema logic with Zod test cases.
+
+---
+
+## Security
+- Sanitize all user inputs to prevent XSS.
+- Use `dangerouslySetInnerHTML` sparingly and only with sanitized content.
+- Validate and sanitize email templates before rendering.
+
+---
+
+## Key Conventions
+- Optimize Web Vitals (LCP, CLS, FID).
+- Follow Vite and React best practices for build and deployment.
+
+## Resources
+- [React Email](https://react.email/docs/introduction)
+- [Shadcn UI](https://ui.shadcn.com/docs/components)
+- [Tailwind CSS](https://tailwindcss.com/docs/installation)
+- [Vite](https://vitejs.dev/guide/)
+- [React](https://react.dev/learn)
