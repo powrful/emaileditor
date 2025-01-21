@@ -27,11 +27,20 @@ export type PaddingStyle = z.infer<typeof StyleSchema.Padding>;
 
 // Base style schema that can be extended by other components
 export const BaseStyleSchema = z.object({
-  padding: StyleSchema.Padding.optional(),
-  backgroundColor: z.string().optional(),
-  border: StyleSchema.Border.optional(),
-  width: z.string().optional(),
-  align: z.enum(["left", "center", "right"]).optional(),
+  padding: StyleSchema.Padding.optional().default({
+    paddingTop: "5px",
+    paddingRight: "5px",
+    paddingBottom: "5px",
+    paddingLeft: "5px",
+  }),
+  backgroundColor: z.string().optional().default("white"),
+  border: StyleSchema.Border.optional().default({
+    borderWidth: "1px",
+    borderColor: "black",
+    borderRadius: "0",
+  }),
+  width: z.string().optional().default("100%"),
+  align: z.enum(["left", "center", "right"]).optional().default("left"),
 });
 
 export type BaseStyle = z.infer<typeof BaseStyleSchema>;

@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { z } from "zod";
 import { BaseStyleSchema } from "./base";
 import { ButtonSchema } from "./button";
@@ -22,7 +23,7 @@ export type ElementsType = z.infer<typeof ElementsSchema>;
 
 // Section schema
 const SectionSchema = z.object({
-  id: z.string(),
+  id: z.string().default(nanoid()),
   style: BaseStyleSchema,
   elements: ElementsSchema.array(),
 });

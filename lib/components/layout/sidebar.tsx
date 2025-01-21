@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { cn } from "@/utils";
+import localforage from "localforage";
 
 const data = {
   navs: [
@@ -34,6 +35,12 @@ const data = {
       slug: "templates",
       icon: MailPlus,
       isActive: true,
+    },
+    {
+      title: "Design",
+      slug: "design",
+      icon: SwatchBook,
+      isActive: false,
     },
     {
       title: "Components",
@@ -45,12 +52,6 @@ const data = {
       title: "Global settings",
       slug: "global-settings",
       icon: Globe,
-      isActive: false,
-    },
-    {
-      title: "Design",
-      slug: "design",
-      icon: SwatchBook,
       isActive: false,
     },
   ],
@@ -67,6 +68,8 @@ type AppSidebarProps = {
   setTemplate: (template: TemplateType) => void;
 };
 
+const ACTIVE_SIDEBAR_KEY = "email-editor-active-sidebar";
+
 export function AppSidebar({
   onBack,
   template,
@@ -77,6 +80,28 @@ export function AppSidebar({
   AppSidebarProps) {
   const [activeItem, setActiveItem] = React.useState(data.navs[0]);
   const { setOpen } = useSidebar();
+
+  // Load saved active item on mount
+  React.useEffect(() => {
+    async function loadActiveItem() {
+      const savedSlug = await localforage.getItem<string>(ACTIVE_SIDEBAR_KEY);
+      if (savedSlug) {
+        const savedItem = data.navs.find((item) => item.slug === savedSlug);
+        if (savedItem) setActiveItem(savedItem);
+      }
+    }
+    loadActiveItem();
+  }, []);
+
+  // Save active item when changed
+  const handleItemClick = React.useCallback(
+    async (item: (typeof data.navs)[0]) => {
+      setActiveItem(item);
+      setOpen(true);
+      await localforage.setItem(ACTIVE_SIDEBAR_KEY, item.slug);
+    },
+    [setOpen],
+  );
 
   return (
     <Sidebar
@@ -114,10 +139,7 @@ export function AppSidebar({
                         children: item.title,
                         hidden: false,
                       }}
-                      onClick={() => {
-                        setActiveItem(item);
-                        setOpen(true);
-                      }}
+                      onClick={() => handleItemClick(item)}
                       isActive={activeItem.title === item.title}
                       className={cn(
                         "px-2.5 md:px-2",

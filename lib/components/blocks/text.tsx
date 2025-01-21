@@ -1,15 +1,16 @@
+import { nanoid } from "nanoid";
 import { z } from "zod";
 import { BaseStyleSchema } from "./base";
 import type { TemplateType } from "./elements";
 
 export const TextSchema = z.object({
-  id: z.string(),
-  type: z.literal("text"),
-  content: z.string(),
+  id: z.string().default(nanoid()),
+  type: z.literal("text").default("text"),
+  content: z.string().default("Text"),
   style: BaseStyleSchema.extend({
-    fontSize: z.string().optional(),
-    color: z.string().optional(),
-    lineHeight: z.string().optional(),
+    fontSize: z.string().optional().default("16px"),
+    color: z.string().optional().default("black"),
+    lineHeight: z.string().optional().default("1.5"),
   }),
 });
 
