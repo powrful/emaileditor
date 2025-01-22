@@ -26,6 +26,7 @@
       "@/lib/*": ["lib/*"],
       "@/src/*": ["src/*"],
       "@/hooks/*": ["lib/hooks/*"],
+      "@/images/*": ["lib/images/*"],
       "@/components/*": ["lib/components/*"]
     }
   },
