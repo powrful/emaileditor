@@ -9,12 +9,24 @@ import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { nanoid } from "@/utils";
 import { cn } from "@/utils";
+import localforage from "localforage";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type ScreenSize = "mobile" | "desktop" | "full";
 
 import { EmailCanvasProps } from "@/components/canvas";
+
+import {
+  Body,
+  Column,
+  Container,
+  Button as EmailButton,
+  Font,
+  Head,
+  Html,
+  Row,
+} from "@/components/elements";
 
 interface ScreenSizeToggleProps {
   selected: ScreenSize;
@@ -83,6 +95,9 @@ const jsonTemplate = {
 };
 
 const reactComponent = <div>Hello World</div>;
+
+// Add constant for storage key
+const SCREEN_SIZE_KEY = "email-editor-screen-size";
 
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
@@ -293,6 +308,35 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
     },
   });
 
+  // Load saved screen size preference on mount
+  useEffect(() => {
+    async function loadScreenSize() {
+      try {
+        const savedSize =
+          await localforage.getItem<ScreenSize>(SCREEN_SIZE_KEY);
+        if (savedSize) {
+          setSelected(savedSize);
+        }
+      } catch (error) {
+        console.error("Error loading screen size preference:", error);
+      }
+    }
+
+    loadScreenSize();
+  }, []);
+
+  // Save screen size preference when it changes
+  const handleScreenSizeChange = async (size: ScreenSize) => {
+    try {
+      await localforage.setItem(SCREEN_SIZE_KEY, size);
+      setSelected(size);
+    } catch (error) {
+      console.error("Error saving screen size preference:", error);
+      // Still update the UI even if save fails
+      setSelected(size);
+    }
+  };
+
   const handleSave = () => {
     // Using the templates defined in the file
     onSave(htmlTemplate, jsonTemplate, reactComponent);
@@ -319,7 +363,10 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4">
           <div className="flex-1" />
           <div className="flex items-center gap-2">
-            <ScreenSizeToggle selected={selected} onChange={setSelected} />
+            <ScreenSizeToggle
+              selected={selected}
+              onChange={handleScreenSizeChange}
+            />
             <UndoRedo />
             <Button size="sm" onClick={handleSave}>
               Save
@@ -331,11 +378,118 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
             className={cn(
               "bg-transparent h-full rounded",
               "transition-[width] duration-300 ease-in-out m-0 p-0 overflow-hidden",
-              selected === "mobile" && "w-[375px]",
+              selected === "mobile" && "w-[400px]",
               selected === "desktop" && "w-full",
             )}
           >
-            <Email title="Hello World" template={template} />
+            <Html lang="en" dir="ltr">
+              <Head title="Hello World">
+                <Font fontFamily="Inter" fallbackFontFamily={["Arial"]} />
+              </Head>
+
+              <Body>
+                <Container
+                  style={{
+                    backgroundColor: "red",
+                    maxWidth: "680px",
+                    paddingTop: "20px",
+                    paddingRight: "20px",
+                    paddingBottom: "20px",
+                    paddingLeft: "20px",
+                    borderRadius: "10px",
+                    borderColor: "#000000",
+                    // borderWidth: "2px",
+                    borderStyle: "solid",
+                  }}
+                >
+                  <Row
+                    type="33/33/33"
+                    gap="10px"
+                    style={{
+                      backgroundColor: "#ffffff",
+                      // paddingTop: "20px",
+                      // paddingRight: "20px",
+                      // paddingBottom: "20px",
+                      // paddingLeft: "20px",
+                      align: "center",
+                    }}
+                  >
+                    <Column
+                      style={{
+                        // backgroundColor: "#f1f1f1",
+                        // // paddingTop: "10px",
+                        // // paddingRight: "10px",
+                        // // paddingBottom: "10px",
+                        // // paddingLeft: "10px",
+                        // borderWidth: "2px",
+                        // borderColor: "#000000",
+                        // borderRadius: "10px",
+                        align: "left",
+                        textAlign: "left",
+                        // borderStyle: "dotted",
+                        // verticalAlign: "top",
+                      }}
+                    >
+                      <p>
+                        lorem ipsum dolor sit amet consectetur adipiscing elit
+                        lorem ipsum dolor sit amet consectetur adipiscing elit
+                        lorem ipsum dolor sit amet consectetur adipiscing elit
+                      </p>
+                    </Column>
+                    <Column
+                    // style={{
+                    //   backgroundColor: "#ffffff",
+                    //   // paddingTop: "10px",
+                    //   // paddingRight: "10px",
+                    //   // paddingBottom: "10px",
+                    //   // paddingLeft: "10px",
+                    //   borderWidth: "2px",
+                    //   borderColor: "#000000",
+                    //   borderRadius: "0",
+                    //   align: "center",
+                    //   borderStyle: "dashed",
+                    //   verticalAlign: "middle",
+                    // }}
+                    >
+                      <EmailButton
+                        text="Click me"
+                        align="center"
+                        full={true}
+                        href="https://www.example.com"
+                        style={{
+                          backgroundColor: "#14f195",
+                          color: "#000000",
+                          paddingTop: "8px",
+                          paddingRight: "15px",
+                          paddingBottom: "8px",
+                          paddingLeft: "15px",
+                          borderRadius: "25px",
+                          fontSize: "16px",
+                          textAlign: "center",
+                        }}
+                      />
+                    </Column>
+                    <Column
+                    // style={{
+                    //   backgroundColor: "#ffffff",
+                    //   // paddingTop: "10px",
+                    //   // paddingRight: "10px",
+                    //   // paddingBottom: "10px",
+                    //   // paddingLeft: "10px",
+                    //   borderWidth: "2px",
+                    //   borderColor: "#000000",
+                    //   borderRadius: "0",
+                    //   align: "left",
+                    //   borderStyle: "dashed",
+                    //   verticalAlign: "bottom",
+                    // }}
+                    >
+                      <p>Hello World</p>
+                    </Column>
+                  </Row>
+                </Container>
+              </Body>
+            </Html>
           </Frame>
         </div>
 
