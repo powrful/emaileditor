@@ -12,6 +12,7 @@ export const ColumnSchema = z.object({
     paddingLeft: z.string().default("5px"),
 
     align: z.enum(["left", "center", "right"]).default("left"),
+    textAlign: z.enum(["left", "center", "right"]).default("left"),
     verticalAlign: z.enum(["top", "middle", "bottom"]).default("middle"),
 
     borderRadius: z.string().default("0px"),
@@ -50,6 +51,7 @@ Column.defaultProps = ColumnSchema.parse({
     paddingBottom: "5px",
     paddingLeft: "5px",
     align: "left",
+    textAlign: "left",
     verticalAlign: "middle",
     borderRadius: "0px",
     borderColor: "red",

@@ -1,4 +1,3 @@
-import { TemplateType } from "@/components/blocks/elements";
 import EditorLayout from "@/components/layout";
 
 export type EmailCanvasProps = {
@@ -8,7 +7,6 @@ export type EmailCanvasProps = {
     reactComponent: React.ReactNode,
   ) => void;
   onBack: () => void;
-  template?: TemplateType;
 };
 
 export const EmailCanvas = ({ onSave, onBack, template }: EmailCanvasProps) => {

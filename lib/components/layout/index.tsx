@@ -1,8 +1,8 @@
 import { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
-import { Email } from "@/components/email";
 import { Frame } from "@/components/email/frame";
 import { SectionManager } from "@/components/email/section-manager";
+import { EmailTemplate } from "@/components/email/template";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
@@ -377,119 +377,12 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
           <Frame
             className={cn(
               "bg-transparent h-full rounded",
-              "transition-[width] duration-300 ease-in-out m-0 p-0 overflow-hidden",
+              "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
               selected === "mobile" && "w-[400px]",
               selected === "desktop" && "w-full",
             )}
           >
-            <Html lang="en" dir="ltr">
-              <Head title="Hello World">
-                <Font fontFamily="Inter" fallbackFontFamily={["Arial"]} />
-              </Head>
-
-              <Body>
-                <Container
-                  style={{
-                    backgroundColor: "red",
-                    maxWidth: "680px",
-                    paddingTop: "20px",
-                    paddingRight: "20px",
-                    paddingBottom: "20px",
-                    paddingLeft: "20px",
-                    borderRadius: "10px",
-                    borderColor: "#000000",
-                    // borderWidth: "2px",
-                    borderStyle: "solid",
-                  }}
-                >
-                  <Row
-                    type="33/33/33"
-                    gap="10px"
-                    style={{
-                      backgroundColor: "#ffffff",
-                      // paddingTop: "20px",
-                      // paddingRight: "20px",
-                      // paddingBottom: "20px",
-                      // paddingLeft: "20px",
-                      align: "center",
-                    }}
-                  >
-                    <Column
-                      style={{
-                        // backgroundColor: "#f1f1f1",
-                        // // paddingTop: "10px",
-                        // // paddingRight: "10px",
-                        // // paddingBottom: "10px",
-                        // // paddingLeft: "10px",
-                        // borderWidth: "2px",
-                        // borderColor: "#000000",
-                        // borderRadius: "10px",
-                        align: "left",
-                        textAlign: "left",
-                        // borderStyle: "dotted",
-                        // verticalAlign: "top",
-                      }}
-                    >
-                      <p>
-                        lorem ipsum dolor sit amet consectetur adipiscing elit
-                        lorem ipsum dolor sit amet consectetur adipiscing elit
-                        lorem ipsum dolor sit amet consectetur adipiscing elit
-                      </p>
-                    </Column>
-                    <Column
-                    // style={{
-                    //   backgroundColor: "#ffffff",
-                    //   // paddingTop: "10px",
-                    //   // paddingRight: "10px",
-                    //   // paddingBottom: "10px",
-                    //   // paddingLeft: "10px",
-                    //   borderWidth: "2px",
-                    //   borderColor: "#000000",
-                    //   borderRadius: "0",
-                    //   align: "center",
-                    //   borderStyle: "dashed",
-                    //   verticalAlign: "middle",
-                    // }}
-                    >
-                      <EmailButton
-                        text="Click me"
-                        align="center"
-                        full={true}
-                        href="https://www.example.com"
-                        style={{
-                          backgroundColor: "#14f195",
-                          color: "#000000",
-                          paddingTop: "8px",
-                          paddingRight: "15px",
-                          paddingBottom: "8px",
-                          paddingLeft: "15px",
-                          borderRadius: "25px",
-                          fontSize: "16px",
-                          textAlign: "center",
-                        }}
-                      />
-                    </Column>
-                    <Column
-                    // style={{
-                    //   backgroundColor: "#ffffff",
-                    //   // paddingTop: "10px",
-                    //   // paddingRight: "10px",
-                    //   // paddingBottom: "10px",
-                    //   // paddingLeft: "10px",
-                    //   borderWidth: "2px",
-                    //   borderColor: "#000000",
-                    //   borderRadius: "0",
-                    //   align: "left",
-                    //   borderStyle: "dashed",
-                    //   verticalAlign: "bottom",
-                    // }}
-                    >
-                      <p>Hello World</p>
-                    </Column>
-                  </Row>
-                </Container>
-              </Body>
-            </Html>
+            <EmailTemplate />
           </Frame>
         </div>
 

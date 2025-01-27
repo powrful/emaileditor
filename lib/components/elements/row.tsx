@@ -7,7 +7,7 @@ export const RowSchema = z.object({
   gap: z.string().default("10px"),
   style: z.object({
     backgroundColor: z.string().default("#ffffff"),
-    align: z.enum(["left", "center", "right"]).default("center"),
+    // align: z.enum(["left", "center", "right"]).default("center"),
     paddingTop: z.string().default("5px"),
     paddingRight: z.string().default("5px"),
     paddingBottom: z.string().default("5px"),
@@ -48,9 +48,10 @@ export const Row = ({
       style={{
         ...props.style,
         width: "100%",
+        textAlign: props.style?.textAlign || "center",
       }}
+      align={"center"}
       bgcolor={props.style?.backgroundColor}
-      align={props.style?.align || "center"}
       cellPadding={halfGap}
       cellSpacing={halfGap}
     >
@@ -66,7 +67,7 @@ export const Row = ({
 
         const el = React.cloneElement(typedChild, {
           key: index,
-          align: props.style?.align || "center",
+          align: typedChild.props.align || "center",
           style: {
             ...typedChild.props.style,
             width,
@@ -89,14 +90,14 @@ export const Row = ({
               {`
                 @media only screen and (max-width: 600px) {
                   .column {
-                    width: 100% !important;
+                    width: 92% !important;
                     margin-bottom: ${halfGap};
                     display: block;
-                    textSizeAdjust: 100%;
-                    WebkitTextSizeAdjust: 100%;
-                    msTextSizeAdjust: 100%;
-                    msoTableLspace: 0pt;
-                    msoTableRspace: 0pt;
+                    text-size-adjust: 100%;
+                    webkit-text-size-adjust: 100%;
+                    ms-text-size-adjust: 100%;
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
                   }
                 }
               `}
