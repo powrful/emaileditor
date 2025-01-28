@@ -1,12 +1,12 @@
-import type { TemplateType } from "@/components/blocks/elements";
 import { Button } from "@/components/ui/button";
+import type { TemplateSchemaType } from "@/schemas/template";
 import { ImagePlus, LetterText, SquareMousePointer } from "lucide-react";
 import { BlockPicker } from "./block-picker";
 import { EmptyState } from "./empty-state";
 
 type DesignEditorProps = {
-  template: TemplateType;
-  setTemplate: (template: TemplateType) => void;
+  template: TemplateSchemaType;
+  setTemplate: (template: TemplateSchemaType) => void;
 };
 
 export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {

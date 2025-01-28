@@ -1,6 +1,6 @@
-import type { TemplateType } from "@/components/blocks/elements";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { TemplateSchemaType } from "@/schemas/template";
 
 import rows1 from "@/images/rows/1.webp";
 import rows2 from "@/images/rows/2.webp";
@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 type BlockPickerProps = {
   trigger: React.ReactNode;
-  template: TemplateType;
-  setTemplate: (template: TemplateType) => void;
+  template: TemplateSchemaType;
+  setTemplate: (template: TemplateSchemaType) => void;
 };
 
 import {

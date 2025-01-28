@@ -1,20 +1,34 @@
-import { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
-import { Email } from "@/components/email";
 import { Frame } from "@/components/email/frame";
 import { SectionManager } from "@/components/email/section-manager";
+import { EmailTemplate } from "@/components/email/template";
 import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { TemplateSchemaType } from "@/schemas/template";
 import { nanoid } from "@/utils";
 import { cn } from "@/utils";
+import localforage from "localforage";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import { defaultTemplate } from "@/schemas/template";
 
 type ScreenSize = "mobile" | "desktop" | "full";
 
 import { EmailCanvasProps } from "@/components/canvas";
+
+import {
+  Body,
+  Column,
+  Container,
+  Button as EmailButton,
+  Font,
+  Head,
+  Html,
+  Row,
+} from "@/components/elements";
 
 interface ScreenSizeToggleProps {
   selected: ScreenSize;
@@ -84,9 +98,12 @@ const jsonTemplate = {
 
 const reactComponent = <div>Hello World</div>;
 
+// Add constant for storage key
+const SCREEN_SIZE_KEY = "email-editor-screen-size";
+
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
-  const [template, setTemplate] = useState<TemplateType>({
+  const [template, setTemplate] = useState<TemplateSchemaType>({
     // container: {
     //   style: {
     //     padding: {
@@ -293,6 +310,35 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
     },
   });
 
+  // Load saved screen size preference on mount
+  useEffect(() => {
+    async function loadScreenSize() {
+      try {
+        const savedSize =
+          await localforage.getItem<ScreenSize>(SCREEN_SIZE_KEY);
+        if (savedSize) {
+          setSelected(savedSize);
+        }
+      } catch (error) {
+        console.error("Error loading screen size preference:", error);
+      }
+    }
+
+    loadScreenSize();
+  }, []);
+
+  // Save screen size preference when it changes
+  const handleScreenSizeChange = async (size: ScreenSize) => {
+    try {
+      await localforage.setItem(SCREEN_SIZE_KEY, size);
+      setSelected(size);
+    } catch (error) {
+      console.error("Error saving screen size preference:", error);
+      // Still update the UI even if save fails
+      setSelected(size);
+    }
+  };
+
   const handleSave = () => {
     // Using the templates defined in the file
     onSave(htmlTemplate, jsonTemplate, reactComponent);
@@ -319,7 +365,10 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
         <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4">
           <div className="flex-1" />
           <div className="flex items-center gap-2">
-            <ScreenSizeToggle selected={selected} onChange={setSelected} />
+            <ScreenSizeToggle
+              selected={selected}
+              onChange={handleScreenSizeChange}
+            />
             <UndoRedo />
             <Button size="sm" onClick={handleSave}>
               Save
@@ -330,16 +379,16 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
           <Frame
             className={cn(
               "bg-transparent h-full rounded",
-              "transition-[width] duration-300 ease-in-out m-0 p-0 overflow-hidden",
-              selected === "mobile" && "w-[375px]",
+              "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
+              selected === "mobile" && "w-[400px]",
               selected === "desktop" && "w-full",
             )}
           >
-            <Email title="Hello World" template={template} />
+            <EmailTemplate template={defaultTemplate} />
           </Frame>
         </div>
 
-        <SectionManager
+        {/* <SectionManager
           sections={template.container.sections || []}
           onAddSection={(id) => {
             console.log("add section", id);
@@ -385,7 +434,7 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
               window.dispatchEvent(new Event("resize"));
             }, 0);
           }}
-        />
+        /> */}
       </SidebarInset>
     </SidebarProvider>
   );

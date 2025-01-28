@@ -2,50 +2,59 @@ import { Button as Component } from "@react-email/button";
 import { z } from "zod";
 
 export const ButtonSchema = z.object({
+  id: z.string(),
   text: z.string(),
   href: z.string().optional(),
+  align: z.enum(["left", "center", "right"]).default("left"),
+  full: z.boolean().default(false),
   style: z.object({
     backgroundColor: z.string().default("#000000"),
     borderRadius: z.string().default("0"),
     color: z.string().default("#ffffff"),
-    paddingTop: z
-      .number()
-      .default(5)
-      .transform((value) => `${value}px`),
-    paddingRight: z
-      .number()
-      .default(5)
-      .transform((value) => `${value}px`),
-    paddingBottom: z
-      .number()
-      .default(5)
-      .transform((value) => `${value}px`),
-    paddingLeft: z
-      .number()
-      .default(5)
-      .transform((value) => `${value}px`),
+    paddingTop: z.string().default("5px"),
+    paddingRight: z.string().default("5px"),
+    paddingBottom: z.string().default("5px"),
+    paddingLeft: z.string().default("5px"),
+    fontSize: z.string().default("14px"),
     textAlign: z.enum(["left", "center", "right"]).default("center"),
   }),
 });
 
 export type ButtonSchemaType = z.infer<typeof ButtonSchema>;
 
-export const Button = ({ text, href, style }: ButtonSchemaType) => {
+export const Button = ({
+  id,
+  text,
+  href,
+  align,
+  style,
+  full,
+}: ButtonSchemaType) => {
   return (
     <table
-      width="100%"
+      width={full ? "100%" : "auto"}
       border={0}
-      cellPadding={0}
-      cellSpacing={0}
-      role="presentation"
+      cellSpacing="0"
+      cellPadding="0"
     >
-      <tr>
-        <td align={style.textAlign}>
-          <Component href={href} style={style}>
-            {text}
-          </Component>
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td align={align} width="100%">
+            <Component
+              data-element-type="button"
+              data-element-id={id}
+              href={href}
+              style={{
+                ...style,
+                display: "block",
+                textAlign: style.textAlign,
+              }}
+            >
+              {text}
+            </Component>
+          </td>
+        </tr>
+      </tbody>
     </table>
   );
 };
@@ -61,4 +70,21 @@ export const ButtonEditor = ({ ...props }: ButtonSchemaType) => {
   );
 };
 
-Button.defaultProps = ButtonSchema.parse({});
+Button.defaultProps = ButtonSchema.parse({
+  id: "button-1",
+  text: "Click me",
+  href: "https://www.example.com",
+  align: "left",
+  full: false,
+  style: {
+    backgroundColor: "#000000",
+    borderRadius: "0",
+    color: "#ffffff",
+    paddingTop: "5px",
+    paddingRight: "5px",
+    paddingBottom: "5px",
+    paddingLeft: "5px",
+    fontSize: "14px",
+    textAlign: "center",
+  },
+});
