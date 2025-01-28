@@ -1,5 +1,4 @@
 import { EmailCanvas } from "../lib/main";
-
 import { defaultTemplate } from "../lib/schemas/template";
 
 function App() {
@@ -12,10 +11,7 @@ function App() {
         onBack={() => {
           // Redirect back to where ever you want
         }}
-        template={defaultTemplate}
-        setTemplate={(template) => {
-          console.log(template);
-        }}
+        defaultTemplate={defaultTemplate}
       />
     </>
   );

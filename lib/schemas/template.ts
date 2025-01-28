@@ -314,7 +314,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-1",
                 type: "image",
-                src: "https://picsum.photos/seed/feature1/200/200",
+                src: "https://picsum.photos/seed/sample1/200/200",
                 alt: "Feature 1",
                 width: 200,
                 height: 100,
@@ -373,7 +373,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-2",
                 type: "image",
-                src: "https://picsum.photos/seed/feature2/200/200",
+                src: "https://picsum.photos/seed/sample2/200/200",
                 alt: "Feature 2",
                 width: 200,
                 height: 100,
@@ -432,7 +432,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-3",
                 type: "image",
-                src: "https://picsum.photos/seed/feature3/200/200",
+                src: "https://picsum.photos/seed/sample3/200/200",
                 alt: "Feature 3",
                 width: 200,
                 height: 100,

@@ -1,5 +1,6 @@
 import EditorLayout from "@/components/layout";
 import { TemplateSchemaType } from "@/schemas/template";
+import { useState } from "react";
 
 export type EmailCanvasProps = {
   onSave: (
@@ -8,16 +9,16 @@ export type EmailCanvasProps = {
     reactComponent: React.ReactNode,
   ) => void;
   onBack: () => void;
-  template: TemplateSchemaType;
-  setTemplate: (template: TemplateSchemaType) => void;
+  defaultTemplate: TemplateSchemaType;
 };
 
 export const EmailCanvas = ({
   onSave,
   onBack,
-  template,
-  setTemplate,
+  defaultTemplate,
 }: EmailCanvasProps) => {
+  const [template, setTemplate] = useState<TemplateSchemaType>(defaultTemplate);
+
   return (
     <EditorLayout
       onSave={onSave}

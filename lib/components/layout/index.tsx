@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 
 type ScreenSize = "mobile" | "desktop" | "full";
 import { EmailCanvasProps } from "@/components/canvas";
+import { TemplateSchemaType } from "@/schemas/template";
 
 interface ScreenSizeToggleProps {
   selected: ScreenSize;
@@ -89,7 +90,12 @@ export default function EditorLayout({
   onBack,
   template,
   setTemplate,
-}: EmailCanvasProps) {
+}: {
+  onSave: EmailCanvasProps["onSave"];
+  onBack: EmailCanvasProps["onBack"];
+  template: TemplateSchemaType;
+  setTemplate: React.Dispatch<React.SetStateAction<TemplateSchemaType>>;
+}) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
 
   // Load saved screen size preference on mount

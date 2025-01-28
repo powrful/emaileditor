@@ -96,7 +96,7 @@ export const Row = ({
               {`
                 @media only screen and (max-width: 600px) {
                   .column {
-                    width: 92% !important;
+                    width: 97% !important;
                     margin-bottom: ${halfGap};
                     display: block;
                     text-size-adjust: 100%;

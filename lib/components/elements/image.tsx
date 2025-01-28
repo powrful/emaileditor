@@ -5,22 +5,42 @@ export const ImgSchema = z.object({
   id: z.string(),
   src: z.string(),
   alt: z.string(),
-  height: z.number(),
-  width: z.number().default(100),
+  width: z.number().default(600),
+  height: z.number().default(300),
 });
 
 export type ImgSchemaType = z.infer<typeof ImgSchema>;
 
-export const Img = ({ id, src, alt, height, width }: ImgSchemaType) => {
+export const Img = ({ id, src, alt, width, height }: ImgSchemaType) => {
   return (
-    <Component
-      data-element-type="image"
-      data-element-id={id}
-      src={src}
-      alt={alt}
-      height={height}
+    <table
+      border={0}
+      cellPadding={0}
+      cellSpacing={0}
+      role="presentation"
       width="100%"
-    />
+      style={{ maxWidth: "100%" }}
+    >
+      <tr>
+        <td align="center">
+          <Component
+            data-element-type="image"
+            data-element-id={id}
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            style={{
+              display: "block",
+              width: "100%",
+              maxWidth: `100%`,
+              height: "auto",
+              margin: "0 auto",
+            }}
+          />
+        </td>
+      </tr>
+    </table>
   );
 };
 
@@ -39,6 +59,6 @@ Img.defaultProps = ImgSchema.parse({
   id: "image-1",
   src: "https://picsum.photos/600/300",
   alt: "Placeholder image",
-  height: 300,
   width: 600,
+  height: 300,
 });
