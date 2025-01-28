@@ -2,6 +2,7 @@ import { Button as Component } from "@react-email/button";
 import { z } from "zod";
 
 export const ButtonSchema = z.object({
+  id: z.string(),
   text: z.string(),
   href: z.string().optional(),
   align: z.enum(["left", "center", "right"]).default("left"),
@@ -22,6 +23,7 @@ export const ButtonSchema = z.object({
 export type ButtonSchemaType = z.infer<typeof ButtonSchema>;
 
 export const Button = ({
+  id,
   text,
   href,
   align,
@@ -39,6 +41,8 @@ export const Button = ({
         <tr>
           <td align={align} width="100%">
             <Component
+              data-element-type="button"
+              data-element-id={id}
               href={href}
               style={{
                 ...style,
@@ -67,6 +71,7 @@ export const ButtonEditor = ({ ...props }: ButtonSchemaType) => {
 };
 
 Button.defaultProps = ButtonSchema.parse({
+  id: "button-1",
   text: "Click me",
   href: "https://www.example.com",
   align: "left",

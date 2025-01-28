@@ -3,210 +3,70 @@ import {
   Column,
   Container,
   Heading,
+  Hr,
   Img,
   Link,
   Row,
   Text,
 } from "@/components/elements";
+import { type TemplateSchemaType } from "@/lib/schemas/template";
 import { Body, Font, Head, Html, Preview } from "@react-email/components";
+import React from "react";
 
-const template = {
-  title: "This is email title",
-  font: {},
-  preview: "This is email preview",
-  container: {
-    style: {},
-    children: [
-      {
-        row: {
-          id: "row-1",
-          type: "100",
-          gap: "10px",
-          style: {},
-          children: [
-            {
-              column: {
-                id: "column-1",
-                style: {},
-                children: [],
-              },
-            },
-          ],
-        },
-      },
+interface EmailTemplateProps {
+  template: TemplateSchemaType;
+}
 
-      {
-        row: {
-          id: "row-2",
-          type: "50/50",
-          gap: "10px",
-          style: {},
-          children: [
-            {
-              column: {
-                id: "column-2",
-                style: {},
-                children: [
-                  {
-                    img: {
-                      src: "https://picsum.photos/600/300",
-                      alt: "Placeholder",
-                    },
-                  },
-                ],
-              },
-            },
+export const EmailTemplate = ({ template }: EmailTemplateProps) => {
+  const renderElement = (element: any) => {
+    switch (element.type) {
+      case "button":
+        return <Button {...element} />;
+      case "heading":
+        return <Heading {...element} />;
+      case "hr":
+        return <Hr {...element} />;
+      case "image":
+        return <Img {...element} />;
+      case "link":
+        return <Link {...element} />;
+      case "text":
+        return <Text {...element} />;
+      default:
+        return null;
+    }
+  };
 
-            {
-              column: {
-                id: "column-3",
-                style: {},
-                children: [
-                  {
-                    button: {
-                      text: "Click me",
-                      href: "https://www.example.com",
-                    },
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      },
-    ],
-  },
-};
-
-export const EmailTemplate = () => {
   return (
-    <Html lang="en" dir="ltr">
-      <Preview>{template.preview}</Preview>
+    <Html>
       <Head>
         <title>{template.title}</title>
-        <Font fontFamily="Inter" fallbackFontFamily={["Arial"]} />
-      </Head>
-
-      <Body>
-        <Container
-          style={{
-            backgroundColor: "red",
-            maxWidth: "680px",
-            paddingTop: "20px",
-            paddingRight: "20px",
-            paddingBottom: "20px",
-            paddingLeft: "20px",
-            borderRadius: "10px",
-            borderColor: "#000000",
-            borderWidth: "2px",
-            borderStyle: "solid",
+        <Font
+          fontFamily={template.font.family}
+          fallbackFontFamily={[]}
+          webFont={{
+            url: "https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2",
+            format: "woff2",
           }}
-        >
-          <Row
-            type="33/33/33"
-            gap="10px"
-            style={{
-              backgroundColor: "#ffffff",
-              paddingTop: "20px",
-              paddingRight: "20px",
-              paddingBottom: "20px",
-              paddingLeft: "20px",
-            }}
-          >
-            <Column
-              style={{
-                backgroundColor: "#f1f1f1",
-                paddingTop: "10px",
-                paddingRight: "10px",
-                paddingBottom: "10px",
-                paddingLeft: "10px",
-                borderWidth: "2px",
-                borderColor: "#000000",
-                borderRadius: "10px",
-                align: "left",
-                textAlign: "left",
-                borderStyle: "dotted",
-                verticalAlign: "top",
-              }}
-            >
-              <p>
-                lorem ipsum dolor sit amet consectetur adipiscing elit lorem
-                ipsum dolor sit amet consectetur adipiscing elit lorem ipsum
-                dolor sit amet consectetur adipiscing elit
-              </p>
-            </Column>
-            <Column
-              style={{
-                backgroundColor: "#ffffff",
-                paddingTop: "10px",
-                paddingRight: "10px",
-                paddingBottom: "10px",
-                paddingLeft: "10px",
-                borderWidth: "2px",
-                borderColor: "#000000",
-                borderRadius: "0",
-                align: "center",
-                textAlign: "left",
-                borderStyle: "dashed",
-                verticalAlign: "middle",
-              }}
-            >
-              <Button
-                text="Click me"
-                align="center"
-                full={true}
-                href="https://www.example.com"
-                style={{
-                  backgroundColor: "#14f195",
-                  color: "#000000",
-                  paddingTop: "8px",
-                  paddingRight: "15px",
-                  paddingBottom: "8px",
-                  paddingLeft: "15px",
-                  borderRadius: "25px",
-                  fontSize: "16px",
-                  textAlign: "center",
-                }}
-              />
-            </Column>
-            <Column
-              style={{
-                backgroundColor: "#ffffff",
-                paddingTop: "10px",
-                paddingRight: "10px",
-                paddingBottom: "10px",
-                paddingLeft: "10px",
-                borderWidth: "2px",
-                borderColor: "#000000",
-                borderRadius: "0",
-                align: "left",
-                textAlign: "center",
-                borderStyle: "dashed",
-                verticalAlign: "middle",
-                width: "100%",
-              }}
-            >
-              <Img
-                src="https://picsum.photos/600/300"
-                alt="Placeholder"
-                height={120}
-              />
-            </Column>
-          </Row>
-          <Row
-            type="70/30"
-            gap="10px"
-            style={{
-              backgroundColor: "#ffffff",
-              paddingTop: "20px",
-              paddingRight: "20px",
-              paddingBottom: "20px",
-              paddingLeft: "20px",
-            }}
-          >
-            <Img src="https://picsum.photos/600/300" alt="Placeholder" />
-            <Img src="https://picsum.photos/600/300" alt="Placeholder" />
-          </Row>
+          fontWeight={template.font.weight.join(", ")}
+        />
+      </Head>
+      <Preview>{template.preview}</Preview>
+      <Body style={{ margin: "0", padding: "0" }}>
+        <Container {...template.container}>
+          {template.container.children.map((row) => (
+            <Row key={row.id} {...row}>
+              {row.children.map((column) => (
+                <Column key={column.id} {...column}>
+                  {column.children.map((element, index) => (
+                    <React.Fragment key={index}>
+                      {renderElement(element)}
+                    </React.Fragment>
+                  ))}
+                </Column>
+              ))}
+            </Row>
+          ))}
         </Container>
       </Body>
     </Html>

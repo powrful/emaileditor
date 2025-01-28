@@ -2,7 +2,9 @@ import { Heading as Component } from "@react-email/heading";
 import { z } from "zod";
 
 export const HeadingSchema = z.object({
+  id: z.string(),
   as: z.enum(["h1", "h2", "h3", "h4", "h5", "h6"]).optional().default("h1"),
+  text: z.string().optional().default("Heading"),
   style: z.object({
     color: z.string().optional().default("#000000"),
     paddingTop: z.string().optional().default("0px"),
@@ -17,12 +19,17 @@ export const HeadingSchema = z.object({
 });
 
 export type HeadingSchemaType = z.infer<typeof HeadingSchema>;
-type HeadingProps = HeadingSchemaType & { children: React.ReactNode };
+type HeadingProps = HeadingSchemaType;
 
-export const Heading = ({ as, style, children }: HeadingProps) => {
+export const Heading = ({ id, as, style, text }: HeadingProps) => {
   return (
-    <Component as={as} style={style}>
-      {children}
+    <Component
+      data-element-type="heading"
+      data-element-id={id}
+      as={as}
+      style={style}
+    >
+      {text}
     </Component>
   );
 };
@@ -39,7 +46,9 @@ export const HeadingEditor = ({ ...props }: HeadingSchemaType) => {
 };
 
 Heading.defaultProps = HeadingSchema.parse({
+  id: "heading-1",
   as: "h1",
+  text: "Heading",
   style: {
     color: "#000000",
     paddingTop: "0px",

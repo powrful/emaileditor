@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { z } from "zod";
 
 export const ColumnSchema = z.object({
+  id: z.string(),
   style: z.object({
     width: z.string().default("100%").optional(),
     backgroundColor: z.string().default("transparent"),
@@ -25,10 +26,15 @@ export const ColumnSchema = z.object({
 export type ColumnSchemaType = z.infer<typeof ColumnSchema>;
 
 export const Column = ({
+  id,
   style,
   children,
 }: ColumnSchemaType & { children: ReactNode }) => {
-  return <Component style={style}>{children}</Component>;
+  return (
+    <Component data-element-type="column" data-element-id={id} style={style}>
+      {children}
+    </Component>
+  );
 };
 
 export const ColumnEditor = ({ style }: ColumnSchemaType) => {
@@ -43,6 +49,7 @@ export const ColumnEditor = ({ style }: ColumnSchemaType) => {
 };
 
 Column.defaultProps = ColumnSchema.parse({
+  id: "column-1",
   style: {
     width: "100%",
     backgroundColor: "transparent",

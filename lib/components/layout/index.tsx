@@ -1,4 +1,3 @@
-import { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
 import { Frame } from "@/components/email/frame";
 import { SectionManager } from "@/components/email/section-manager";
@@ -7,11 +6,14 @@ import { FullscreenButton } from "@/components/layout/fullscreen-button";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { TemplateSchemaType } from "@/schemas/template";
 import { nanoid } from "@/utils";
 import { cn } from "@/utils";
 import localforage from "localforage";
 import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import { defaultTemplate } from "@/schemas/template";
 
 type ScreenSize = "mobile" | "desktop" | "full";
 
@@ -101,7 +103,7 @@ const SCREEN_SIZE_KEY = "email-editor-screen-size";
 
 export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
   const [selected, setSelected] = useState<ScreenSize>("desktop");
-  const [template, setTemplate] = useState<TemplateType>({
+  const [template, setTemplate] = useState<TemplateSchemaType>({
     // container: {
     //   style: {
     //     padding: {
@@ -382,11 +384,11 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
               selected === "desktop" && "w-full",
             )}
           >
-            <EmailTemplate />
+            <EmailTemplate template={defaultTemplate} />
           </Frame>
         </div>
 
-        <SectionManager
+        {/* <SectionManager
           sections={template.container.sections || []}
           onAddSection={(id) => {
             console.log("add section", id);
@@ -432,7 +434,7 @@ export default function EditorLayout({ onSave, onBack }: EmailCanvasProps) {
               window.dispatchEvent(new Event("resize"));
             }, 0);
           }}
-        />
+        /> */}
       </SidebarInset>
     </SidebarProvider>
   );

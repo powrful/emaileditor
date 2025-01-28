@@ -3,7 +3,10 @@ import React from "react";
 import { z } from "zod";
 
 export const RowSchema = z.object({
-  type: z.enum(["100", "50/50", "33/33/33", "70/30", "30/70"]).default("100"),
+  id: z.string(),
+  columns: z
+    .enum(["100", "50/50", "33/33/33", "70/30", "30/70"])
+    .default("100"),
   gap: z.string().default("10px"),
   style: z.object({
     backgroundColor: z.string().default("#ffffff"),
@@ -19,12 +22,13 @@ export type { RowProps };
 export type RowType = z.infer<typeof RowSchema>;
 
 export const Row = ({
+  id,
   children,
-  type = "100",
+  columns = "100",
   ...props
 }: RowType & RowProps) => {
   const getColumnWidths = () => {
-    switch (type) {
+    switch (columns) {
       case "50/50":
         return ["50%", "50%"];
       case "33/33/33":
@@ -45,6 +49,8 @@ export const Row = ({
 
   return (
     <Component
+      data-element-type="row"
+      data-element-id={id}
       style={{
         ...props.style,
         width: "100%",
@@ -122,11 +128,12 @@ export const RowEditor = ({ props }: { props: RowType }) => {
 };
 
 Row.defaultProps = RowSchema.parse({
-  type: "100",
+  id: "row-1",
+  columns: "100",
   gap: "10px",
   style: {
     backgroundColor: "#ffffff",
-    align: "center",
+    // align: "center",
     paddingTop: "5px",
     paddingRight: "5px",
     paddingBottom: "5px",

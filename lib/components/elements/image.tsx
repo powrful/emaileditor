@@ -2,6 +2,7 @@ import { Img as Component } from "@react-email/img";
 import { z } from "zod";
 
 export const ImgSchema = z.object({
+  id: z.string(),
   src: z.string(),
   alt: z.string(),
   height: z.number(),
@@ -10,8 +11,17 @@ export const ImgSchema = z.object({
 
 export type ImgSchemaType = z.infer<typeof ImgSchema>;
 
-export const Img = ({ src, alt, height, width }: ImgSchemaType) => {
-  return <Component src={src} alt={alt} height={height} width="100%" />;
+export const Img = ({ id, src, alt, height, width }: ImgSchemaType) => {
+  return (
+    <Component
+      data-element-type="image"
+      data-element-id={id}
+      src={src}
+      alt={alt}
+      height={height}
+      width="100%"
+    />
+  );
 };
 
 export const ImgEditor = ({ ...props }: ImgSchemaType) => {
@@ -26,6 +36,7 @@ export const ImgEditor = ({ ...props }: ImgSchemaType) => {
 };
 
 Img.defaultProps = ImgSchema.parse({
+  id: "image-1",
   src: "https://picsum.photos/600/300",
   alt: "Placeholder image",
   height: 300,

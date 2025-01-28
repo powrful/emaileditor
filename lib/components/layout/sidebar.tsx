@@ -1,7 +1,7 @@
-import type { TemplateType } from "@/components/blocks/elements";
 import { Tooltip } from "@/components/custom/tooltip";
 import { DesignEditor } from "@/components/editor/design";
 import { Button } from "@/components/ui/button";
+import type { TemplateSchemaType } from "@/schemas/template";
 import {
   ArrowLeft,
   Globe,
@@ -64,8 +64,8 @@ const Placeholder = ({ text }: { text: string }) => {
 };
 
 type AppSidebarProps = {
-  template: TemplateType;
-  setTemplate: (template: TemplateType) => void;
+  template: TemplateSchemaType;
+  setTemplate: (template: TemplateSchemaType) => void;
 };
 
 const ACTIVE_SIDEBAR_KEY = "email-editor-active-sidebar";

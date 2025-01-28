@@ -2,7 +2,9 @@ import { Link as Component } from "@react-email/link";
 import { z } from "zod";
 
 export const LinkSchema = z.object({
+  id: z.string(),
   href: z.string(),
+  text: z.string().optional().default("Link"),
   style: z.object({
     textDecoration: z.enum(["none", "underline"]).optional().default("none"),
     fontWeight: z.enum(["normal", "bold"]).optional().default("normal"),
@@ -12,8 +14,17 @@ export const LinkSchema = z.object({
 
 export type LinkSchemaType = z.infer<typeof LinkSchema>;
 
-export const Link = ({ href, style }: LinkSchemaType) => {
-  return <Component href={href} style={style} />;
+export const Link = ({ id, href, text, style }: LinkSchemaType) => {
+  return (
+    <Component
+      data-element-type="link"
+      data-element-id={id}
+      href={href}
+      style={style}
+    >
+      {text}
+    </Component>
+  );
 };
 
 export const LinkEditor = ({ ...props }: LinkSchemaType) => {
@@ -28,7 +39,9 @@ export const LinkEditor = ({ ...props }: LinkSchemaType) => {
 };
 
 Link.defaultProps = LinkSchema.parse({
+  id: "link-1",
   href: "https://www.example.com",
+  text: "Link",
   style: {
     textDecoration: "underline",
     fontWeight: "bold",

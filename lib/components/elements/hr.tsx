@@ -2,6 +2,7 @@ import { Hr as Component } from "@react-email/hr";
 import { z } from "zod";
 
 export const HrSchema = z.object({
+  id: z.string(),
   style: z.object({
     border: z.string().optional().default("1px solid #000000"),
     align: z.enum(["left", "center", "right"]).optional().default("center"),
@@ -11,8 +12,10 @@ export const HrSchema = z.object({
 
 export type HrSchemaType = z.infer<typeof HrSchema>;
 
-export const Hr = ({ style }: HrSchemaType) => {
-  return <Component style={style} />;
+export const Hr = ({ id, style }: HrSchemaType) => {
+  return (
+    <Component data-element-type="hr" data-element-id={id} style={style} />
+  );
 };
 
 export const HrEditor = ({ ...props }: HrSchemaType) => {
@@ -27,6 +30,7 @@ export const HrEditor = ({ ...props }: HrSchemaType) => {
 };
 
 Hr.defaultProps = HrSchema.parse({
+  id: "hr-1",
   style: {
     border: "1px solid #000000",
     align: "center",

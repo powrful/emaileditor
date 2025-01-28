@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { z } from "zod";
 
 export const ContainerSchema = z.object({
+  id: z.string(),
   style: z.object({
     backgroundColor: z.string().default("#ffffff"),
     maxWidth: z.string().default("600px"),
@@ -22,12 +23,17 @@ export const ContainerSchema = z.object({
 export type ContainerSchemaType = z.infer<typeof ContainerSchema>;
 
 export const Container = ({
+  id,
   style,
   children,
 }: ContainerSchemaType & {
   children: ReactNode;
 }) => {
-  return <Component style={style}>{children}</Component>;
+  return (
+    <Component data-element-type="container" data-element-id={id} style={style}>
+      {children}
+    </Component>
+  );
 };
 
 export const ContainerEditor = ({ ...props }: ContainerSchemaType) => {
@@ -42,6 +48,7 @@ export const ContainerEditor = ({ ...props }: ContainerSchemaType) => {
 };
 
 Container.defaultProps = ContainerSchema.parse({
+  id: "container-1",
   style: {
     backgroundColor: "#ffffff",
     maxWidth: "600px",

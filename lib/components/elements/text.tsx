@@ -1,8 +1,9 @@
 import { Text as Component } from "@react-email/text";
-import { ReactNode } from "react";
 import { z } from "zod";
 
 export const TextSchema = z.object({
+  id: z.string(),
+  text: z.string().optional().default("Text"),
   style: z.object({
     color: z.string().optional().default("#155dfc"),
     fontWeight: z.enum(["normal", "bold"]).optional().default("normal"),
@@ -15,11 +16,12 @@ export const TextSchema = z.object({
 
 export type TextSchemaType = z.infer<typeof TextSchema>;
 
-export const Text = ({
-  children,
-  style,
-}: TextSchemaType & { children: ReactNode }) => {
-  return <Component style={style}>{children}</Component>;
+export const Text = ({ id, text, style }: TextSchemaType) => {
+  return (
+    <Component data-element-type="text" data-element-id={id} style={style}>
+      {text}
+    </Component>
+  );
 };
 
 export const TextEditor = ({ ...props }: TextSchemaType) => {
@@ -34,9 +36,11 @@ export const TextEditor = ({ ...props }: TextSchemaType) => {
 };
 
 Text.defaultProps = TextSchema.parse({
+  id: "text-1",
+  text: "Text",
   style: {
-    fontWeight: "bold",
-    color: "#155dfc",
+    fontWeight: "normal",
+    color: "#000000",
     fontSize: "16px",
     lineHeight: "1.5",
     letterSpacing: "0",
