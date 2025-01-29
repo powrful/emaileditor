@@ -21,8 +21,6 @@ const RowDropDown = ({ row }: { row: RowWithChildrenType }) => {
 };
 
 export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
-  console.log({ template });
-
   return (
     <>
       {template.container?.children?.length === 0 ? (
@@ -52,7 +50,7 @@ export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
           {/* {template.container.children.map((child) => {
             return <CollapsibleRows key={child.id} />;
           })} */}
-          <CollapsibleRows />
+          <CollapsibleRows template={template} setTemplate={setTemplate} />
         </div>
       )}
     </>
