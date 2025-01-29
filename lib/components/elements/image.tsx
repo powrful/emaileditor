@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const ImgSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled image"),
   src: z.string(),
   alt: z.string(),
   width: z.number().default(600),

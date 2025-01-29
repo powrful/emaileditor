@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const ButtonSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled button"),
   text: z.string(),
   href: z.string().optional(),
   align: z.enum(["left", "center", "right"]).default("left"),

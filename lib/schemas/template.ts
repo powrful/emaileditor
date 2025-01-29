@@ -109,6 +109,7 @@ export const defaultTemplate: TemplateSchemaType = {
       // Logo Row
       {
         id: "row-logo",
+        title: "Logo Row",
         type: "row",
         columns: "100",
         gap: "0",
@@ -122,6 +123,7 @@ export const defaultTemplate: TemplateSchemaType = {
         children: [
           {
             id: "col-logo",
+            title: "Logo Column",
             type: "column",
             style: {
               width: "100%",
@@ -141,11 +143,12 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "logo",
+                title: "Logo",
                 type: "image",
-                src: "https://picsum.photos/seed/logo/120/40",
+                src: "https://cdn.prod.website-files.com/6365d860c7b7a7191055eb8a/66eeb045df9d4c640308457d_Layers.svg",
                 alt: "Company Logo",
-                width: 120,
-                height: 40,
+                width: 50,
+                height: 20,
               },
             ],
           },
@@ -154,6 +157,7 @@ export const defaultTemplate: TemplateSchemaType = {
       // Hero Image Section
       {
         id: "row-hero-image",
+        title: "Hero Image Row",
         type: "row",
         columns: "100",
         gap: "0",
@@ -167,6 +171,7 @@ export const defaultTemplate: TemplateSchemaType = {
         children: [
           {
             id: "col-hero-image",
+            title: "Hero Image Column",
             type: "column",
             style: {
               width: "100%",
@@ -186,6 +191,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "hero-image",
+                title: "Hero Image",
                 type: "image",
                 src: "https://picsum.photos/seed/hero/600/300",
                 alt: "Welcome Hero Image",
@@ -199,6 +205,7 @@ export const defaultTemplate: TemplateSchemaType = {
       // Content Section
       {
         id: "row-content",
+        title: "Content Row",
         type: "row",
         columns: "100",
         gap: "0",
@@ -212,6 +219,7 @@ export const defaultTemplate: TemplateSchemaType = {
         children: [
           {
             id: "col-content",
+            title: "Content Column",
             type: "column",
             style: {
               width: "100%",
@@ -231,6 +239,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "heading-welcome",
+                title: "Welcome Heading",
                 type: "heading",
                 as: "h1",
                 text: "Welcome to Our Platform!",
@@ -248,6 +257,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "text-intro",
+                title: "Intro Text",
                 type: "text",
                 text: "We're excited to have you on board. Here's everything you need to know to get started.",
                 style: {
@@ -261,6 +271,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "button-getting-started",
+                title: "Get Started Button",
                 type: "button",
                 href: "#",
                 full: false,
@@ -286,6 +297,7 @@ export const defaultTemplate: TemplateSchemaType = {
       {
         id: "row-features",
         type: "row",
+        title: "Feature Grid Row",
         columns: "33/33/33",
         gap: "16px",
         style: {
@@ -298,6 +310,7 @@ export const defaultTemplate: TemplateSchemaType = {
         children: [
           {
             id: "col-feature-1",
+            title: "Feature 1 Column",
             type: "column",
             style: {
               width: "100%",
@@ -317,6 +330,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "image-feature-1",
+                title: "Feature 1 Image",
                 type: "image",
                 src: "https://picsum.photos/seed/sample1/200/200",
                 alt: "Feature 1",
@@ -325,6 +339,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "heading-feature-1",
+                title: "Feature 1 Heading",
                 type: "heading",
                 as: "h2",
                 text: "Feature One",
@@ -342,6 +357,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "text-feature-1",
+                title: "Feature 1 Text",
                 type: "text",
                 text: "Discover amazing possibilities.",
                 style: {
@@ -357,6 +373,7 @@ export const defaultTemplate: TemplateSchemaType = {
           },
           {
             id: "col-feature-2",
+            title: "Feature 2 Column",
             type: "column",
             style: {
               width: "100%",
@@ -376,6 +393,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "image-feature-2",
+                title: "Feature 2 Image",
                 type: "image",
                 src: "https://picsum.photos/seed/sample2/200/200",
                 alt: "Feature 2",
@@ -384,6 +402,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "heading-feature-2",
+                title: "Feature 2 Heading",
                 type: "heading",
                 as: "h2",
                 text: "Feature Two",
@@ -401,6 +420,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "text-feature-2",
+                title: "Feature 2 Text",
                 type: "text",
                 text: "Build something great.",
                 style: {
@@ -416,6 +436,7 @@ export const defaultTemplate: TemplateSchemaType = {
           },
           {
             id: "col-feature-3",
+            title: "Feature 3 Column",
             type: "column",
             style: {
               width: "100%",
@@ -435,6 +456,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "image-feature-3",
+                title: "Feature 3 Image",
                 type: "image",
                 src: "https://picsum.photos/seed/sample3/200/200",
                 alt: "Feature 3",
@@ -443,6 +465,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "heading-feature-3",
+                title: "Feature 3 Heading",
                 type: "heading",
                 as: "h2",
                 text: "Feature Three",
@@ -460,6 +483,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "text-feature-3",
+                title: "Feature 3 Text",
                 type: "text",
                 text: "Achieve your goals.",
                 style: {
@@ -479,6 +503,7 @@ export const defaultTemplate: TemplateSchemaType = {
       {
         id: "row-footer",
         type: "row",
+        title: "Footer Row",
         columns: "100",
         gap: "0",
         style: {
@@ -491,6 +516,7 @@ export const defaultTemplate: TemplateSchemaType = {
         children: [
           {
             id: "col-footer",
+            title: "Footer Column",
             type: "column",
             style: {
               width: "100%",
@@ -510,6 +536,7 @@ export const defaultTemplate: TemplateSchemaType = {
             children: [
               {
                 id: "text-footer",
+                title: "Footer Text",
                 type: "text",
                 text: "© 2024 Your Company. All rights reserved.",
                 style: {
@@ -523,6 +550,7 @@ export const defaultTemplate: TemplateSchemaType = {
               },
               {
                 id: "link-unsubscribe",
+                title: "Unsubscribe Link",
                 type: "link",
                 href: "#",
                 text: "Unsubscribe",

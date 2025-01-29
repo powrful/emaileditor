@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const TextSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled text"),
   text: z.string().optional().default("Text"),
   style: z.object({
     color: z.string().optional().default("#155dfc"),

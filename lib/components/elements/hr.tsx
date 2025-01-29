@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const HrSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled divider"),
   style: z.object({
     border: z.string().optional().default("1px solid #000000"),
     align: z.enum(["left", "center", "right"]).optional().default("center"),

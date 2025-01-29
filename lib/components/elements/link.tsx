@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const LinkSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled link"),
   href: z.string(),
   text: z.string().optional().default("Link"),
   style: z.object({

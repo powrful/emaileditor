@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const HeadingSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled heading"),
   as: z.enum(["h1", "h2", "h3", "h4", "h5", "h6"]).optional().default("h1"),
   text: z.string().optional().default("Heading"),
   style: z.object({

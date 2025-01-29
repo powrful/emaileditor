@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const ColumnSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled column"),
   style: z.object({
     width: z.string().default("100%").optional(),
     backgroundColor: z.string().default("transparent"),

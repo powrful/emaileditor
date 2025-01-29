@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const RowSchema = z.object({
   id: z.string(),
+  title: z.string().optional().default("Untitled row"),
   columns: z
     .enum(["100", "50/50", "33/33/33", "70/30", "30/70"])
     .default("100"),

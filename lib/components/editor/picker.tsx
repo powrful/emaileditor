@@ -21,11 +21,9 @@ type PickerProps = {
 
 import {
   BetweenHorizonalStart,
-  Columns2,
   Heading,
   Image,
   LetterText,
-  Rows2,
   SquareMousePointer,
   SquareSplitVertical,
 } from "lucide-react";

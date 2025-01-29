@@ -11,9 +11,35 @@ import type { TemplateSchemaType } from "@/schemas/template";
 
 import { BetweenHorizontalStart, BetweenVerticalEnd, Plus } from "lucide-react";
 
+import {
+  Heading,
+  Image,
+  LetterText,
+  Link2,
+  SquareMousePointer,
+  SquareSplitVertical,
+} from "lucide-react";
+
 type CollapsibleRowsProps = {
   template: TemplateSchemaType;
   setTemplate: (template: TemplateSchemaType) => void;
+};
+
+const ColumnChildIcon = ({ type }: { type: string }) => {
+  switch (type) {
+    case "text":
+      return <LetterText size={16} className="shrink-0 opacity-80" />;
+    case "heading":
+      return <Heading size={16} className="shrink-0 opacity-80" />;
+    case "button":
+      return <SquareMousePointer size={16} className="shrink-0 opacity-80" />;
+    case "image":
+      return <Image size={16} className="shrink-0 opacity-80" />;
+    case "hr":
+      return <SquareSplitVertical size={16} className="shrink-0 opacity-80" />;
+    case "link":
+      return <Link2 size={16} className="shrink-0 opacity-80" />;
+  }
 };
 
 export const CollapsibleRows = ({
@@ -37,9 +63,7 @@ export const CollapsibleRows = ({
                   size={16}
                   className="shrink-0 opacity-80"
                 />
-                <span>
-                  {row.type} - {row.columns}
-                </span>
+                <span>{row.title}</span>
               </span>
             </AccordionTrigger>
 
@@ -47,21 +71,21 @@ export const CollapsibleRows = ({
               <div className="relative h-2">
                 <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/row:scale-x-100 transition-transform duration-300 mx-1" />
                 <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <Tooltip text="Add row">
-                    <Picker
-                      template={template}
-                      setTemplate={setTemplate}
-                      trigger={
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
-                        >
-                          <Plus className="h-2 w-2 text-white" />
-                        </Button>
-                      }
-                    />
-                  </Tooltip>
+                  <Picker
+                    template={template}
+                    setTemplate={setTemplate}
+                    trigger={
+                      // <Tooltip text="Add row">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
+                      >
+                        <Plus className="h-2 w-2 text-white" />
+                      </Button>
+                      // </Tooltip>
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -82,13 +106,19 @@ export const CollapsibleRows = ({
                           size={16}
                           className="shrink-0 opacity-80"
                         />
-                        <span>{column.type}</span>
+                        <span>{column.title}</span>
                       </span>
                     </AccordionTrigger>
 
-                    <AccordionContent className="p-0 ml-12 mb-4 text-xs">
+                    <AccordionContent className="p-0 ml-10 mb-1 text-xs">
                       {column.children.map((element) => (
-                        <div key={element.id}>{element.type}</div>
+                        <div
+                          className="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-md cursor-pointer"
+                          key={element.id}
+                        >
+                          <ColumnChildIcon type={element.type} />
+                          <span>{element.title}</span>
+                        </div>
                       ))}
                     </AccordionContent>
                   </AccordionItem>
