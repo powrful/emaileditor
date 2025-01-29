@@ -13,7 +13,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-type BlockPickerProps = {
+type PickerProps = {
   trigger: React.ReactNode;
   template: TemplateSchemaType;
   setTemplate: (template: TemplateSchemaType) => void;
@@ -36,11 +36,7 @@ type AddBlockType = {
   positionId?: string;
 };
 
-export const BlockPicker = ({
-  trigger,
-  template,
-  setTemplate,
-}: BlockPickerProps) => {
+export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
   const addBlock = ({ type, position = "after", positionId }: AddBlockType) => {
     console.log(
       "Adding block",

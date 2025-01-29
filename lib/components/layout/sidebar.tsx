@@ -141,10 +141,7 @@ export function AppSidebar({
                       }}
                       onClick={() => handleItemClick(item)}
                       isActive={activeItem.title === item.title}
-                      className={cn(
-                        "px-2.5 md:px-2",
-                        activeItem.title === item.title ? "text-blue-500" : "",
-                      )}
+                      className={cn("px-2.5 md:px-2")}
                     >
                       <item.icon />
                       <span>{item.title}</span>

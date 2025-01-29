@@ -41,18 +41,22 @@ const ElementSchema = z.discriminatedUnion("type", [
 ]);
 
 // Column with children
-const ColumnWithChildrenSchema = ColumnSchema.extend({
+export const ColumnWithChildrenSchema = ColumnSchema.extend({
   id: z.string(),
   type: z.literal("column"),
   children: z.array(ElementSchema),
 });
 
+export type ColumnWithChildrenType = z.infer<typeof ColumnWithChildrenSchema>;
+
 // Row with children
-const RowWithChildrenSchema = RowSchema.extend({
+export const RowWithChildrenSchema = RowSchema.extend({
   id: z.string(),
   type: z.literal("row"),
   children: z.array(ColumnWithChildrenSchema),
 });
+
+export type RowWithChildrenType = z.infer<typeof RowWithChildrenSchema>;
 
 // Container with children
 const ContainerWithChildrenSchema = ContainerSchema.extend({
