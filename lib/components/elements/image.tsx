@@ -1,3 +1,6 @@
+import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/input-number";
+import { Label } from "@/components/ui/label";
 import { Img as Component } from "@react-email/img";
 import { z } from "zod";
 
@@ -47,11 +50,62 @@ export const Img = ({ id, src, alt, width, height }: ImgSchemaType) => {
 
 export const ImgEditor = ({ ...props }: ImgSchemaType) => {
   return (
-    <div>
-      <p>Image Editor</p>
-      <p>
-        <pre>{JSON.stringify(props, null, 2)}</pre>
-      </p>
+    <div className="space-y-5">
+      <div className="space-y-1 gap-2">
+        <Label htmlFor={`${props.id}-title`} className="text-xs">
+          Title
+        </Label>
+        <Input
+          id={`${props.id}-title`}
+          placeholder="Image title"
+          type="text"
+          className="h-7 text-sm"
+          defaultValue={props.title}
+          onChange={(e) => {
+            console.log("title changed", e.target.value);
+          }}
+        />
+        <p
+          className="mt-2 text-[11px] text-muted-foreground"
+          role="region"
+          aria-live="polite"
+        >
+          This is for reference, will not show up on emails.
+        </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor={`${props.id}-src`} className="text-xs">
+          Image URL
+        </Label>
+        <Input
+          id={`${props.id}-src`}
+          placeholder="Email"
+          type="email"
+          className="h-7 text-sm"
+          defaultValue={props.src}
+        />
+      </div>
+
+      <NumberInput
+        label="Width"
+        defaultValue={props.width}
+        minValue={0}
+        maxValue={600}
+        onChange={(value) => {
+          console.log("width changed", value);
+        }}
+      />
+
+      <NumberInput
+        label="Height"
+        defaultValue={props.height}
+        minValue={0}
+        maxValue={600}
+        onChange={(value) => {
+          console.log("height changed", value);
+        }}
+      />
     </div>
   );
 };
