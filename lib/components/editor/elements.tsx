@@ -3,6 +3,15 @@ import type { TemplateSchemaType } from "@/schemas/template";
 import { ChevronLeft } from "lucide-react";
 import { Fragment } from "react";
 
+import {
+  ButtonEditor,
+  HeadingEditor,
+  HrEditor,
+  ImgEditor,
+  LinkEditor,
+  TextEditor,
+} from "@/components/elements";
+
 export type ActiveElementType = {
   id: string;
   type: string;
@@ -34,6 +43,27 @@ export const ElementsEditor = ({
     return findInChildren(template.container.children);
   };
 
+  const element = getElement(activeElement?.id || "");
+
+  const ElementEditor = () => {
+    switch (activeElement?.type) {
+      case "button":
+        return <ButtonEditor {...element} />;
+      case "text":
+        return <TextEditor {...element} />;
+      case "image":
+        return <ImgEditor {...element} />;
+      case "link":
+        return <LinkEditor {...element} />;
+      case "heading":
+        return <HeadingEditor {...element} />;
+      case "hr":
+        return <HrEditor {...element} />;
+      default:
+        return <div>Element not found</div>;
+    }
+  };
+
   return (
     <Fragment>
       <div className="flex items-center gap-1 border-b pt-0 pb-2 px-2">
@@ -46,13 +76,12 @@ export const ElementsEditor = ({
         </Button>
 
         <h2 className="font-semibold text-[14px]">
-          {activeElement ? getElement(activeElement.id)?.title : "Element"}
+          {activeElement ? element?.title : "Element"}
         </h2>
       </div>
 
       <div className="flex flex-col gap-2 px-5">
-        <p className="text-[14px]">Editor</p>
-        <p className="text-[14px]">Content</p>
+        <ElementEditor />
       </div>
     </Fragment>
   );
