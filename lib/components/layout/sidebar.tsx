@@ -175,7 +175,7 @@ export function AppSidebar({
 
         <SidebarContent>
           <SidebarGroup className="px-0">
-            <SidebarGroupContent className="p-4">
+            <SidebarGroupContent className="py-0 px-0">
               {activeItem.slug === "templates" && <Templates />}
               {activeItem.slug === "components" && (
                 <Placeholder text="Components" />

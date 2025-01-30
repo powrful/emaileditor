@@ -40,6 +40,8 @@ const ElementSchema = z.discriminatedUnion("type", [
   }),
 ]);
 
+export type ElementType = z.infer<typeof ElementSchema>;
+
 // Column with children
 export const ColumnWithChildrenSchema = ColumnSchema.extend({
   id: z.string(),
