@@ -1,21 +1,39 @@
+import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
-import { NumberInput } from "@/components/ui/input-number";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { Img as Component } from "@react-email/img";
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  Circle,
+  RotateCwSquare,
+  Square,
+} from "lucide-react";
 import { z } from "zod";
 
 export const ImgSchema = z.object({
   id: z.string(),
-  title: z.string().optional().default("Untitled image"),
   src: z.string(),
-  alt: z.string(),
-  width: z.number().default(600),
-  height: z.number().default(300),
+  title: z.string().default("Untitled image"),
+  align: z.enum(["left", "center", "right"]).default("left"),
+  width: z.string().default("20%"),
+  height: z.string().default("20%"),
+  shape: z.enum(["square", "rounded", "circle"]).default("square"),
 });
 
 export type ImgSchemaType = z.infer<typeof ImgSchema>;
 
-export const Img = ({ id, src, alt, width, height }: ImgSchemaType) => {
+export const Img = ({
+  id,
+  src,
+  title,
+  width,
+  align,
+  height,
+  shape,
+}: ImgSchemaType) => {
   return (
     <table
       border={0}
@@ -26,86 +44,162 @@ export const Img = ({ id, src, alt, width, height }: ImgSchemaType) => {
       style={{ maxWidth: "100%" }}
     >
       <tr>
-        <td align="center">
-          <Component
-            data-element-type="image"
-            data-element-id={id}
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            style={{
-              display: "block",
-              width: "100%",
-              maxWidth: `100%`,
-              height: "auto",
-              margin: "0 auto",
-            }}
-          />
+        <td align={align}>
+          <div style={{ width: width, height: height }}>
+            <Component
+              data-element-type="image"
+              data-element-id={id}
+              src={src}
+              alt={title}
+              width={width}
+              height={height}
+              style={{
+                display: "block",
+                width: "100%",
+                height: "100%",
+                ...(shape === "circle" && {
+                  aspectRatio: "1 / 1",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                }),
+
+                ...(shape === "rounded" && {
+                  borderRadius: "10px",
+                }),
+
+                ...(shape === "square" && {
+                  borderRadius: "0px",
+                }),
+              }}
+            />
+          </div>
         </td>
       </tr>
     </table>
   );
 };
 
-export const ImgEditor = ({ ...props }: ImgSchemaType) => {
+interface ImgEditorProps extends ImgSchemaType {
+  onChange?: (values: Partial<ImgSchemaType>) => void;
+}
+
+export const ImgEditor = ({ onChange, ...props }: ImgEditorProps) => {
+  const handleChange = (field: keyof ImgSchemaType, value: string | number) => {
+    onChange?.({
+      ...props,
+      [field]: value,
+    });
+  };
+
   return (
     <div className="space-y-5">
-      <div className="space-y-1 gap-2">
-        <Label htmlFor={`${props.id}-title`} className="text-xs">
-          Title
-        </Label>
-        <Input
-          id={`${props.id}-title`}
-          placeholder="Image title"
-          type="text"
-          className="h-7 text-sm"
-          defaultValue={props.title}
-          onChange={(e) => {
-            console.log("title changed", e.target.value);
-          }}
-        />
-        <p
-          className="mt-2 text-[11px] text-muted-foreground"
-          role="region"
-          aria-live="polite"
-        >
-          This is for reference, will not show up on emails.
-        </p>
-      </div>
-
       <div className="space-y-2">
         <Label htmlFor={`${props.id}-src`} className="text-xs">
           Image URL
         </Label>
         <Input
           id={`${props.id}-src`}
-          placeholder="Email"
-          type="email"
+          placeholder="Image URL"
+          type="text"
           className="h-7 text-sm"
           defaultValue={props.src}
+          onChange={(e) => handleChange("src", e.target.value)}
         />
       </div>
 
-      <NumberInput
-        label="Width"
-        defaultValue={props.width}
-        minValue={0}
-        maxValue={600}
-        onChange={(value) => {
-          console.log("width changed", value);
-        }}
-      />
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-alt`} className="text-xs">
+          Title
+        </Label>
+        <Input
+          id={`${props.id}-alt`}
+          placeholder="Image alt"
+          type="text"
+          className="h-7 text-sm"
+          defaultValue={props.title}
+          onChange={(e) => handleChange("title", e.target.value)}
+        />
+        <p
+          className="mt-2 text-[11px] text-muted-foreground"
+          role="region"
+          aria-live="polite"
+        >
+          Title is used for the image's alt text, for accessibility and screen
+          readers.
+        </p>
+      </div>
 
-      <NumberInput
-        label="Height"
-        defaultValue={props.height}
-        minValue={0}
-        maxValue={600}
-        onChange={(value) => {
-          console.log("height changed", value);
-        }}
-      />
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-width`} className="text-xs">
+          Size
+        </Label>
+        <Slider
+          id={`${props.id}-width`}
+          max={100}
+          min={0}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}%`}
+          defaultValue={[parseInt(props.width)]}
+          onValueCommit={(value) => handleChange("width", `${value[0]}%`)}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-shape`} className="text-xs">
+          Shape
+        </Label>
+        <ToggleButton
+          id={`${props.id}-shape`}
+          selected={props.shape}
+          onChange={(value) => handleChange("shape", value)}
+          items={[
+            {
+              id: "square",
+              label: "Square",
+              icon: <Square className="w-[10px] h-[10px]" />,
+            },
+            {
+              id: "rounded",
+              label: "Rounded",
+              icon: <RotateCwSquare className="w-[10px] h-[10px]" />,
+            },
+            {
+              id: "circle",
+              label: "Circle",
+              icon: <Circle className="w-[10px] h-[10px]" />,
+            },
+          ]}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-align`} className="text-xs">
+          Align
+        </Label>
+        <ToggleButton
+          id={`${props.id}-align`}
+          selected={props.align}
+          onChange={(value) => handleChange("align", value)}
+          items={[
+            {
+              id: "left",
+              label: "Left",
+              icon: <AlignLeft className="w-[10px] h-[10px]" />,
+            },
+            {
+              id: "center",
+              label: "Center",
+              icon: <AlignCenter className="w-[10px] h-[10px]" />,
+            },
+            {
+              id: "right",
+              label: "Right",
+              icon: <AlignRight className="w-[10px] h-[10px]" />,
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 };
@@ -113,7 +207,8 @@ export const ImgEditor = ({ ...props }: ImgSchemaType) => {
 Img.defaultProps = ImgSchema.parse({
   id: "image-1",
   src: "https://picsum.photos/600/300",
-  alt: "Placeholder image",
-  width: 600,
-  height: 300,
+  title: "Placeholder image",
+  width: "100%",
+  align: "center",
+  shape: "square",
 });

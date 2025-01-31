@@ -8,6 +8,7 @@ import {
   HeadingEditor,
   HrEditor,
   ImgEditor,
+  type ImgSchemaType,
   LinkEditor,
   TextEditor,
 } from "@/components/elements";
@@ -45,6 +46,31 @@ export const ElementsEditor = ({
 
   const element = getElement(activeElement?.id || "");
 
+  const handleChange = (values: Partial<ImgSchemaType>) => {
+    const updateChildren = (children: any[]): any[] => {
+      return children.map((child) => {
+        if (child.id === activeElement?.id) {
+          return { ...child, ...values };
+        }
+        if (child.children) {
+          return {
+            ...child,
+            children: updateChildren(child.children),
+          };
+        }
+        return child;
+      });
+    };
+
+    setTemplate({
+      ...template,
+      container: {
+        ...template.container,
+        children: updateChildren(template.container.children),
+      },
+    });
+  };
+
   const ElementEditor = () => {
     switch (activeElement?.type) {
       case "button":
@@ -52,7 +78,7 @@ export const ElementsEditor = ({
       case "text":
         return <TextEditor {...element} />;
       case "image":
-        return <ImgEditor {...element} />;
+        return <ImgEditor {...element} onChange={handleChange} />;
       case "link":
         return <LinkEditor {...element} />;
       case "heading":

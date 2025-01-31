@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/custom/code";
 import { Tooltip } from "@/components/custom/tooltip";
 import { Frame } from "@/components/email/frame";
 import { EmailTemplate } from "@/components/email/template";
@@ -7,12 +8,25 @@ import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
 import localforage from "localforage";
-import { Monitor, Redo2, Smartphone, Undo2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import pretty from "pretty";
+import ReactDOMServer from "react-dom/server";
 
-type ScreenSize = "mobile" | "desktop" | "full";
+import {
+  Braces,
+  Code,
+  Monitor,
+  Redo2,
+  ScanEye,
+  Smartphone,
+  Undo2,
+} from "lucide-react";
+
 import { EmailCanvasProps } from "@/components/canvas";
 import { TemplateSchemaType } from "@/schemas/template";
+import { useEffect, useState } from "react";
+
+type TemplateType = "html" | "json" | "preview";
+type ScreenSize = "mobile" | "desktop" | "full";
 
 interface ScreenSizeToggleProps {
   selected: ScreenSize;
@@ -47,6 +61,48 @@ const ScreenSizeToggle = ({ selected, onChange }: ScreenSizeToggleProps) => {
           variant={selected === "full" ? "outline" : "ghost"}
           onClick={() => onChange("full")}
         />
+      </Tooltip>
+    </div>
+  );
+};
+
+const TemplateTypeToggle = ({
+  selectedTemplateType,
+  onChange,
+}: {
+  selectedTemplateType: TemplateType;
+  onChange: (value: TemplateType) => void;
+}) => {
+  return (
+    <div className="flex gap-2 bg-gray-100 rounded-lg p-[2px] max-w-fit">
+      <Tooltip text="HTML">
+        <Button
+          size="iconSm"
+          variant={selectedTemplateType === "html" ? "outline" : "ghost"}
+          onClick={() => onChange("html")}
+        >
+          <Code className="w-[10px] h-[10px]" />
+        </Button>
+      </Tooltip>
+
+      <Tooltip text="Json">
+        <Button
+          size="iconSm"
+          variant={selectedTemplateType === "json" ? "outline" : "ghost"}
+          onClick={() => onChange("json")}
+        >
+          <Braces className="w-[10px] h-[10px]" />
+        </Button>
+      </Tooltip>
+
+      <Tooltip text="Preview">
+        <Button
+          size="iconSm"
+          variant={selectedTemplateType === "preview" ? "outline" : "ghost"}
+          onClick={() => onChange("preview")}
+        >
+          <ScanEye className="w-[10px] h-[10px]" />
+        </Button>
       </Tooltip>
     </div>
   );
@@ -96,8 +152,10 @@ export default function EditorLayout({
   template: TemplateSchemaType;
   setTemplate: React.Dispatch<React.SetStateAction<TemplateSchemaType>>;
 }) {
+  const [html, setHtml] = useState<string>("");
   const [selected, setSelected] = useState<ScreenSize>("desktop");
-
+  const [selectedTemplateType, setSelectedTemplateType] =
+    useState<TemplateType>("preview");
   // Load saved screen size preference on mount
   useEffect(() => {
     async function loadScreenSize() {
@@ -114,6 +172,13 @@ export default function EditorLayout({
 
     loadScreenSize();
   }, []);
+
+  useEffect(() => {
+    const html = ReactDOMServer.renderToString(
+      <EmailTemplate template={template} />,
+    );
+    setHtml(pretty(html));
+  }, [template]);
 
   // Save screen size preference when it changes
   const handleScreenSizeChange = async (size: ScreenSize) => {
@@ -150,8 +215,13 @@ export default function EditorLayout({
         setTemplate={setTemplate}
       />
       <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4">
-          <div className="flex-1" />
+        <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4 z-50">
+          <div className="flex-1">
+            <TemplateTypeToggle
+              selectedTemplateType={selectedTemplateType}
+              onChange={setSelectedTemplateType}
+            />
+          </div>
           <div className="flex items-center gap-2">
             <ScreenSizeToggle
               selected={selected}
@@ -164,16 +234,22 @@ export default function EditorLayout({
           </div>
         </header>
         <div className="flex flex-1 flex-col items-center gap-4 p-4 bg-[#F1F1F1]">
-          <Frame
-            className={cn(
-              "bg-transparent h-full rounded",
-              "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
-              selected === "mobile" && "w-[400px]",
-              selected === "desktop" && "w-full",
-            )}
-          >
-            <EmailTemplate template={template} />
-          </Frame>
+          {selectedTemplateType === "json" ? (
+            <CodeBlock code={JSON.stringify(template, null, 2)} lang="json" />
+          ) : selectedTemplateType === "html" ? (
+            <CodeBlock code={html} lang="html" />
+          ) : (
+            <Frame
+              className={cn(
+                "bg-transparent h-full rounded",
+                "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
+                selected === "mobile" && "w-[400px]",
+                selected === "desktop" && "w-full",
+              )}
+            >
+              <EmailTemplate template={template} />
+            </Frame>
+          )}
         </div>
       </SidebarInset>
     </SidebarProvider>
