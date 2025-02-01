@@ -1,5 +1,6 @@
 import EditorLayout from "@/components/layout";
 import { TemplateSchemaType } from "@/schemas/template";
+import { useHistoryState } from "@uidotdev/usehooks";
 import { useState } from "react";
 
 export type EmailCanvasProps = {
@@ -17,14 +18,31 @@ export const EmailCanvas = ({
   onBack,
   defaultTemplate,
 }: EmailCanvasProps) => {
-  const [template, setTemplate] = useState<TemplateSchemaType>(defaultTemplate);
+  const {
+    state: template,
+    set: setTemplate,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useHistoryState<TemplateSchemaType>(defaultTemplate);
 
   return (
     <EditorLayout
       onSave={onSave}
       onBack={onBack}
       template={template}
-      setTemplate={setTemplate}
+      setTemplate={(newPresent) => {
+        if (typeof newPresent === "function") {
+          setTemplate(newPresent(template));
+        } else {
+          setTemplate(newPresent);
+        }
+      }}
+      undo={undo}
+      redo={redo}
+      canUndo={canUndo}
+      canRedo={canRedo}
     />
   );
 };

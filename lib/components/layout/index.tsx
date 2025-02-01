@@ -107,17 +107,37 @@ const TemplateTypeToggle = ({
   );
 };
 
-const UndoRedo = () => {
+const UndoRedo = ({
+  undo,
+  redo,
+  canUndo,
+  canRedo,
+}: {
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}) => {
   return (
     <>
       <Tooltip text="Undo">
-        <Button size="iconSm" variant="ghost">
+        <Button
+          size="iconSm"
+          variant="ghost"
+          onClick={undo}
+          disabled={!canUndo}
+        >
           <Undo2 className="w-[10px] h-[10px]" />
         </Button>
       </Tooltip>
 
       <Tooltip text="Redo">
-        <Button size="iconSm" variant="ghost">
+        <Button
+          size="iconSm"
+          variant="ghost"
+          onClick={redo}
+          disabled={!canRedo}
+        >
           <Redo2 className="w-[10px] h-[10px]" />
         </Button>
       </Tooltip>
@@ -145,11 +165,19 @@ export default function EditorLayout({
   onBack,
   template,
   setTemplate,
+  undo,
+  redo,
+  canUndo,
+  canRedo,
 }: {
   onSave: EmailCanvasProps["onSave"];
   onBack: EmailCanvasProps["onBack"];
   template: TemplateSchemaType;
   setTemplate: React.Dispatch<React.SetStateAction<TemplateSchemaType>>;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
 }) {
   const [html, setHtml] = useState<string>("");
   const [selected, setSelected] = useState<ScreenSize>("desktop");
@@ -236,7 +264,12 @@ export default function EditorLayout({
               selected={selected}
               onChange={handleScreenSizeChange}
             />
-            <UndoRedo />
+            <UndoRedo
+              undo={undo}
+              redo={redo}
+              canUndo={canUndo}
+              canRedo={canRedo}
+            />
             <Button size="sm" onClick={handleSave}>
               Save
             </Button>

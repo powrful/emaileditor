@@ -53,33 +53,33 @@ export const ElementsEditor = ({
   );
 
   const handleChange = useCallback(
-    (values: Partial<ImgSchemaType>) => {
-      setTemplate((prev) => {
-        const updateChildren = (children: any[]): any[] => {
-          return children.map((child) => {
-            if (child.id === activeElement?.id) {
-              return { ...child, ...values };
-            }
-            if (child.children) {
-              return {
-                ...child,
-                children: updateChildren(child.children),
-              };
-            }
-            return child;
-          });
-        };
+    (values: Partial<any>) => {
+      const updateChildren = (children: any[]): any[] => {
+        return children.map((child) => {
+          if (child.id === activeElement?.id) {
+            return { ...child, ...values };
+          }
+          if (child.children) {
+            return {
+              ...child,
+              children: updateChildren(child.children),
+            };
+          }
+          return child;
+        });
+      };
 
-        return {
-          ...prev,
-          container: {
-            ...prev.container,
-            children: updateChildren(prev.container.children),
-          },
-        };
-      });
+      const newTemplate = {
+        ...template,
+        container: {
+          ...template.container,
+          children: updateChildren(template.container.children),
+        },
+      };
+
+      setTemplate(newTemplate);
     },
-    [activeElement?.id, setTemplate],
+    [activeElement?.id, template, setTemplate],
   );
 
   const ElementEditor = useMemo(() => {
