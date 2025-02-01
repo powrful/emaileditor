@@ -11,6 +11,7 @@ import {
   RotateCwSquare,
   Square,
 } from "lucide-react";
+import { memo, useCallback } from "react";
 import { z } from "zod";
 
 export const ImgSchema = z.object({
@@ -83,13 +84,15 @@ interface ImgEditorProps extends ImgSchemaType {
   onChange?: (values: Partial<ImgSchemaType>) => void;
 }
 
-export const ImgEditor = ({ onChange, ...props }: ImgEditorProps) => {
-  const handleChange = (field: keyof ImgSchemaType, value: string | number) => {
-    onChange?.({
-      ...props,
-      [field]: value,
-    });
-  };
+export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
+  const handleChange = useCallback(
+    (field: keyof ImgSchemaType, value: string | number) => {
+      onChange?.({
+        [field]: value,
+      });
+    },
+    [onChange],
+  );
 
   return (
     <div className="space-y-5">
@@ -102,7 +105,7 @@ export const ImgEditor = ({ onChange, ...props }: ImgEditorProps) => {
           placeholder="Image URL"
           type="text"
           className="h-7 text-sm"
-          defaultValue={props.src}
+          value={props.src}
           onChange={(e) => handleChange("src", e.target.value)}
         />
       </div>
@@ -116,7 +119,7 @@ export const ImgEditor = ({ onChange, ...props }: ImgEditorProps) => {
           placeholder="Image alt"
           type="text"
           className="h-7 text-sm"
-          defaultValue={props.title}
+          value={props.title}
           onChange={(e) => handleChange("title", e.target.value)}
         />
         <p
@@ -202,7 +205,9 @@ export const ImgEditor = ({ onChange, ...props }: ImgEditorProps) => {
       </div>
     </div>
   );
-};
+});
+
+ImgEditor.displayName = "ImgEditor";
 
 Img.defaultProps = ImgSchema.parse({
   id: "image-1",

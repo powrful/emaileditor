@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
 import { ChevronLeft } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 
 import {
   ButtonEditor,
@@ -29,50 +29,63 @@ export const ElementsEditor = ({
   activeElement: ActiveElementType;
   setActiveElement: (activeElement: ActiveElementType) => void;
 }) => {
-  const getElement = (id: string) => {
-    const findInChildren = (children: any[]): any => {
-      for (const child of children) {
-        if (child.id === id) return child;
-        if (child.children) {
-          const found = findInChildren(child.children);
-          if (found) return found;
+  const getElement = useCallback(
+    (id: string) => {
+      const findInChildren = (children: any[]): any => {
+        for (const child of children) {
+          if (child.id === id) return child;
+          if (child.children) {
+            const found = findInChildren(child.children);
+            if (found) return found;
+          }
         }
-      }
-      return null;
-    };
+        return null;
+      };
 
-    return findInChildren(template.container.children);
-  };
+      return findInChildren(template.container.children);
+    },
+    [template.container.children],
+  );
 
-  const element = getElement(activeElement?.id || "");
+  const element = useMemo(
+    () => (activeElement ? getElement(activeElement.id) : null),
+    [activeElement, getElement],
+  );
 
-  const handleChange = (values: Partial<ImgSchemaType>) => {
-    const updateChildren = (children: any[]): any[] => {
-      return children.map((child) => {
-        if (child.id === activeElement?.id) {
-          return { ...child, ...values };
-        }
-        if (child.children) {
-          return {
-            ...child,
-            children: updateChildren(child.children),
-          };
-        }
-        return child;
+  const handleChange = useCallback(
+    (values: Partial<ImgSchemaType>) => {
+      setTemplate((prev) => {
+        const updateChildren = (children: any[]): any[] => {
+          return children.map((child) => {
+            if (child.id === activeElement?.id) {
+              return { ...child, ...values };
+            }
+            if (child.children) {
+              return {
+                ...child,
+                children: updateChildren(child.children),
+              };
+            }
+            return child;
+          });
+        };
+
+        return {
+          ...prev,
+          container: {
+            ...prev.container,
+            children: updateChildren(prev.container.children),
+          },
+        };
       });
-    };
+    },
+    [activeElement?.id, setTemplate],
+  );
 
-    setTemplate({
-      ...template,
-      container: {
-        ...template.container,
-        children: updateChildren(template.container.children),
-      },
-    });
-  };
+  const ElementEditor = useMemo(() => {
+    if (!activeElement || !element) return null;
 
-  const ElementEditor = () => {
-    switch (activeElement?.type) {
+    switch (activeElement.type) {
       case "button":
         return <ButtonEditor {...element} />;
       case "text":
@@ -88,7 +101,7 @@ export const ElementsEditor = ({
       default:
         return <div>Element not found</div>;
     }
-  };
+  }, [activeElement, element, handleChange]);
 
   return (
     <Fragment>
@@ -106,9 +119,7 @@ export const ElementsEditor = ({
         </h2>
       </div>
 
-      <div className="flex flex-col gap-2 px-5">
-        <ElementEditor />
-      </div>
+      <div className="flex flex-col gap-2 px-5">{ElementEditor}</div>
     </Fragment>
   );
 };
