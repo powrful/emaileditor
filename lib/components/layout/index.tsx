@@ -9,6 +9,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
 import { render } from "@react-email/components";
 import localforage from "localforage";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import {
   Braces,
@@ -118,6 +119,18 @@ const UndoRedo = ({
   canUndo: boolean;
   canRedo: boolean;
 }) => {
+  // Support both Windows (Ctrl) and macOS (Command) shortcuts
+  useHotkeys(["meta+z", "ctrl+z"], (e) => {
+    e.preventDefault();
+    undo();
+  });
+
+  // Support Windows Ctrl+Y and macOS Command+Y for redo
+  useHotkeys(["meta+y", "ctrl+y"], (e) => {
+    e.preventDefault();
+    redo();
+  });
+
   return (
     <>
       <Tooltip text="Undo">
