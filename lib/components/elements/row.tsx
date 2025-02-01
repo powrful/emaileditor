@@ -1,4 +1,4 @@
-import { Row as Component, type RowProps } from "@react-email/row";
+import { type RowProps } from "@react-email/row";
 import React from "react";
 import { z } from "zod";
 
@@ -11,7 +11,6 @@ export const RowSchema = z.object({
   gap: z.string().default("10px"),
   style: z.object({
     backgroundColor: z.string().default("#ffffff"),
-    // align: z.enum(["left", "center", "right"]).default("center"),
     paddingTop: z.string().default("5px"),
     paddingRight: z.string().default("5px"),
     paddingBottom: z.string().default("5px"),
@@ -49,71 +48,80 @@ export const Row = ({
   const halfGap = `${Math.floor(gapSize / 2)}px`;
 
   return (
-    <Component
-      data-element-type="row"
-      data-element-id={id}
-      style={{
-        ...props.style,
-        width: "100%",
-        textAlign: props.style?.textAlign || "center",
-      }}
-      align={"center"}
-      bgcolor={props.style?.backgroundColor}
-      cellPadding={halfGap}
-      cellSpacing={halfGap}
-    >
-      {childrenArray.map((child, index) => {
-        if (!React.isValidElement(child)) return null;
-        const typedChild = child as React.ReactElement<{
-          style?: React.CSSProperties;
-          width?: string;
-          align?: string;
-        }>;
+    <React.Fragment>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--[if mso]>
+<table role="presentation" width="100%">
+<tr>
+<td>
+<![endif]-->`,
+        }}
+      />
+      <table
+        width="100%"
+        align="center"
+        bgcolor={props.style?.backgroundColor}
+        cellPadding={halfGap}
+        cellSpacing={halfGap}
+        border={0}
+        style={{
+          paddingTop: props.style?.paddingTop,
+          paddingRight: props.style?.paddingRight,
+          paddingBottom: props.style?.paddingBottom,
+          paddingLeft: props.style?.paddingLeft,
+        }}
+      >
+        <tbody>
+          <tr>
+            {childrenArray.map((child, index) => {
+              if (!React.isValidElement(child)) return null;
+              const typedChild = child as React.ReactElement<{
+                style?: React.CSSProperties;
+                width?: string;
+                align?: string;
+              }>;
 
-        const width = columnWidths[index] || "100%";
+              const width = columnWidths[index] || "100%";
 
-        const el = React.cloneElement(typedChild, {
-          key: index,
-          align: typedChild.props.align || "center",
-          style: {
-            ...typedChild.props.style,
-            width,
-          },
-        });
-
-        return (
-          <td
-            className="column"
-            align="center"
-            width={width}
-            style={
-              {
-                ...typedChild.props.style,
-                width,
-              } as React.CSSProperties
-            }
-          >
-            <style>
-              {`
-                @media only screen and (max-width: 600px) {
-                  .column {
-                    width: 97% !important;
-                    margin-bottom: ${halfGap};
-                    display: block;
-                    text-size-adjust: 100%;
-                    webkit-text-size-adjust: 100%;
-                    ms-text-size-adjust: 100%;
-                    mso-table-lspace: 0pt;
-                    mso-table-rspace: 0pt;
-                  }
-                }
-              `}
-            </style>
-            {el}
-          </td>
-        );
-      })}
-    </Component>
+              return (
+                <td
+                  key={index}
+                  align="center"
+                  width={width}
+                  valign="top"
+                  style={{
+                    width,
+                  }}
+                >
+                  {React.cloneElement(typedChild, {
+                    style: {
+                      width: "100%",
+                      ...(typedChild.props.style && {
+                        color: typedChild.props.style.color,
+                        backgroundColor: typedChild.props.style.backgroundColor,
+                        fontSize: typedChild.props.style.fontSize,
+                        fontFamily: typedChild.props.style.fontFamily,
+                        textAlign: typedChild.props.style.textAlign,
+                      }),
+                    },
+                  })}
+                </td>
+              );
+            })}
+          </tr>
+        </tbody>
+      </table>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--[if mso]>
+</td>
+</tr>
+</table>
+<![endif]-->`,
+        }}
+      />
+    </React.Fragment>
   );
 };
 
@@ -134,7 +142,6 @@ Row.defaultProps = RowSchema.parse({
   gap: "10px",
   style: {
     backgroundColor: "#ffffff",
-    // align: "center",
     paddingTop: "5px",
     paddingRight: "5px",
     paddingBottom: "5px",

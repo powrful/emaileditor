@@ -46,10 +46,6 @@ export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
         />
       ) : (
         <div>
-          {/* <h2 className="font-bold mb-4">Template</h2> */}
-          {/* {template.container.children.map((child) => {
-            return <CollapsibleRows key={child.id} />;
-          })} */}
           <CollapsibleRows template={template} setTemplate={setTemplate} />
         </div>
       )}

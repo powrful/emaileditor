@@ -7,9 +7,8 @@ import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
+import { render } from "@react-email/components";
 import localforage from "localforage";
-import pretty from "pretty";
-import ReactDOMServer from "react-dom/server";
 
 import {
   Braces,
@@ -174,10 +173,20 @@ export default function EditorLayout({
   }, []);
 
   useEffect(() => {
-    const html = ReactDOMServer.renderToString(
-      <EmailTemplate template={template} />,
-    );
-    setHtml(pretty(html));
+    async function renderEmail() {
+      try {
+        const html = await render(<EmailTemplate template={template} />, {
+          pretty: true,
+        });
+        setHtml(html);
+      } catch (error) {
+        console.error("Error rendering email template:", error);
+        // Optionally set an error state or fallback HTML
+        setHtml(`<!-- Error rendering template -->`);
+      }
+    }
+
+    renderEmail();
   }, [template]);
 
   // Save screen size preference when it changes

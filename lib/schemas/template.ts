@@ -575,7 +575,7 @@ export const defaultTemplate: TemplateSchemaType = {
   },
 };
 
-export const bfcmTemplate: TemplateSchemaType = {
+export const bfcm: TemplateSchemaType = {
   title: "Black Friday Mega Sale",
   preview:
     "🔥 Don't Miss Out! Up to 70% OFF - Black Friday Exclusive Deals Inside",

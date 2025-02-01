@@ -141,6 +141,7 @@ export const CollapsibleRows = ({
                         <AccordionContent className="p-0 ml-10 mb-1 text-xs">
                           {column.children.map((element) => (
                             <Button
+                              key={element.id}
                               asChild
                               variant="ghost"
                               className="w-full text-xs justify-start cursor-pointer"

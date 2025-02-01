@@ -1,4 +1,4 @@
-import { Column as Component } from "@react-email/column";
+// import { Column as Component } from "@react-email/column";
 import type { ReactNode } from "react";
 import { z } from "zod";
 
@@ -32,9 +32,64 @@ export const Column = ({
   children,
 }: ColumnSchemaType & { children: ReactNode }) => {
   return (
-    <Component data-element-type="column" data-element-id={id} style={style}>
-      {children}
-    </Component>
+    <>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--[if mso]>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr><td style="width: ${style.width}">
+    <![endif]-->`,
+        }}
+      />
+
+      <table
+        cellPadding="0"
+        cellSpacing="0"
+        border={0}
+        role="presentation"
+        width={style.width}
+        style={{
+          borderCollapse: "collapse",
+          ["mso-table-lspace" as any]: "0pt",
+          ["mso-table-rspace" as any]: "0pt",
+          width: `${style.width} !important`,
+          fontSize: "0px",
+          lineHeight: "0px",
+        }}
+      >
+        <tr>
+          <td
+            data-element-type="column"
+            data-element-id={id}
+            align={style.align}
+            valign={style.verticalAlign}
+            style={{
+              paddingTop: style.paddingTop,
+              paddingRight: style.paddingRight,
+              paddingBottom: style.paddingBottom,
+              paddingLeft: style.paddingLeft,
+              backgroundColor: style.backgroundColor,
+              borderRadius: style.borderRadius,
+              borderColor: style.borderColor,
+              borderWidth: style.borderWidth,
+              borderStyle: style.borderStyle,
+              textAlign: style.textAlign,
+              ["mso-line-height-rule" as any]: "exactly",
+            }}
+          >
+            {children}
+          </td>
+        </tr>
+      </table>
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--[if mso]>
+      </td></tr></table>
+    <![endif]-->`,
+        }}
+      />
+    </>
   );
 };
 
