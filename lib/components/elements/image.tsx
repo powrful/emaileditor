@@ -96,20 +96,6 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
 
   return (
     <div className="space-y-5">
-      <div className="space-y-2">
-        <Label htmlFor={`${props.id}-src`} className="text-xs">
-          Image URL
-        </Label>
-        <Input
-          id={`${props.id}-src`}
-          placeholder="Image URL"
-          type="text"
-          className="h-7 text-sm"
-          value={props.src}
-          onChange={(e) => handleChange("src", e.target.value)}
-        />
-      </div>
-
       <div className="space-y-2 gap-2">
         <Label htmlFor={`${props.id}-alt`} className="text-xs">
           Title
@@ -130,6 +116,20 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
           Title is used for the image's alt text, for accessibility and screen
           readers.
         </p>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor={`${props.id}-src`} className="text-xs">
+          Image URL
+        </Label>
+        <Input
+          id={`${props.id}-src`}
+          placeholder="Image URL"
+          type="text"
+          className="h-7 text-sm"
+          value={props.src}
+          onChange={(e) => handleChange("src", e.target.value)}
+        />
       </div>
 
       <div className="space-y-2 gap-2">

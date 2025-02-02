@@ -89,7 +89,7 @@ export const ElementsEditor = ({
       case "button":
         return <ButtonEditor {...element} />;
       case "text":
-        return <TextEditor {...element} />;
+        return <TextEditor {...element} onChange={handleChange} />;
       case "image":
         return <ImgEditor {...element} onChange={handleChange} />;
       case "link":
