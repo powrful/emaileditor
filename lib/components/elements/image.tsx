@@ -143,8 +143,10 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
           step={1}
           showTooltip={true}
           tooltipContent={(value) => `${value}%`}
-          defaultValue={[parseInt(props.width)]}
-          onValueCommit={(value) => handleChange("width", `${value[0]}%`)}
+          value={[parseInt(props.width)]}
+          onValueChange={(value: number[]) =>
+            handleChange("width", `${value[0]}%`)
+          }
         />
       </div>
 
@@ -160,17 +162,17 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
             {
               id: "square",
               label: "Square",
-              icon: <Square className="w-[10px] h-[10px]" />,
+              icon: <Square />,
             },
             {
               id: "rounded",
               label: "Rounded",
-              icon: <RotateCwSquare className="w-[10px] h-[10px]" />,
+              icon: <RotateCwSquare />,
             },
             {
               id: "circle",
               label: "Circle",
-              icon: <Circle className="w-[10px] h-[10px]" />,
+              icon: <Circle />,
             },
           ]}
         />
@@ -188,17 +190,17 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
             {
               id: "left",
               label: "Left",
-              icon: <AlignLeft className="w-[10px] h-[10px]" />,
+              icon: <AlignLeft />,
             },
             {
               id: "center",
               label: "Center",
-              icon: <AlignCenter className="w-[10px] h-[10px]" />,
+              icon: <AlignCenter />,
             },
             {
               id: "right",
               label: "Right",
-              icon: <AlignRight className="w-[10px] h-[10px]" />,
+              icon: <AlignRight />,
             },
           ]}
         />

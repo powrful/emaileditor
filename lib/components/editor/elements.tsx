@@ -95,7 +95,7 @@ export const ElementsEditor = ({
       case "link":
         return <LinkEditor {...element} />;
       case "heading":
-        return <HeadingEditor {...element} />;
+        return <HeadingEditor {...element} onChange={handleChange} />;
       case "hr":
         return <HrEditor {...element} />;
       default:

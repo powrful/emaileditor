@@ -13,20 +13,26 @@ export const ToggleButton = ({
   items: { id: string; label: string; icon: React.ReactNode }[];
 }) => {
   return (
-    <div className="flex gap-2 bg-gray-100 rounded-lg p-[2px] w-full">
-      {items.map((item) => (
-        <Tooltip text={item.label} key={item.id}>
-          <Button
-            id={`${id}-${item.id}`}
-            size="iconSm"
-            variant={selected === item.id ? "outline" : "ghost"}
-            onClick={() => onChange(item.id)}
-            className="w-full"
-          >
-            {item.icon}
-          </Button>
-        </Tooltip>
-      ))}
+    <div className="flex gap-0 bg-secondary rounded-md p-0.5 w-full">
+      <div className="flex w-full justify-between">
+        {items.map((item) => (
+          <Tooltip text={item.label} key={item.id}>
+            <Button
+              id={`${id}-${item.id}`}
+              size="icon"
+              variant="ghost"
+              className={`h-8 w-8 ${
+                selected === item.id
+                  ? "bg-background shadow-sm hover:bg-background"
+                  : "hover:bg-secondary-hover"
+              }`}
+              onClick={() => onChange(item.id)}
+            >
+              {item.icon}
+            </Button>
+          </Tooltip>
+        ))}
+      </div>
     </div>
   );
 };
