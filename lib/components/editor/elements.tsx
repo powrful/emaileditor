@@ -8,7 +8,6 @@ import {
   HeadingEditor,
   HrEditor,
   ImgEditor,
-  type ImgSchemaType,
   LinkEditor,
   TextEditor,
 } from "@/components/elements";
@@ -87,7 +86,7 @@ export const ElementsEditor = ({
 
     switch (activeElement.type) {
       case "button":
-        return <ButtonEditor {...element} />;
+        return <ButtonEditor {...element} onChange={handleChange} />;
       case "text":
         return <TextEditor {...element} onChange={handleChange} />;
       case "image":

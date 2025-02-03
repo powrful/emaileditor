@@ -26,6 +26,8 @@ export const HeadingSchema = z.object({
   text: z.string().default("Heading"),
   horizontalPadding: z.number().min(0).max(300).default(0),
   verticalPadding: z.number().min(0).max(500).default(0),
+  horizontalMargin: z.number().min(0).max(100).default(0),
+  verticalMargin: z.number().min(0).max(100).default(0),
   color: z.string().optional().default("#000000"),
   lineHeight: z.number().optional().default(1.5),
   fontFamily: z.string().optional(),
@@ -45,14 +47,19 @@ export const Heading = ({
   text,
   horizontalPadding,
   verticalPadding,
+  horizontalMargin,
+  verticalMargin,
   color,
   lineHeight,
   fontFamily,
   fontWeight,
   textAlign,
 }: HeadingProps) => {
-  const vertical = verticalPadding / 2; // half vertical spacing
-  const horizondal = horizontalPadding / 2; // half horizontal spacing
+  const halfVerticalPadding = verticalPadding / 2; // half vertical spacing
+  const halfHorizontalPadding = horizontalPadding / 2; // half horizontal spacing
+  const halfVerticalMargin = verticalMargin / 2; // half vertical spacing
+  const halfHorizontalMargin = horizontalMargin / 2; // half horizontal spacing
+
   return (
     <Component
       data-element-type="heading"
@@ -60,19 +67,54 @@ export const Heading = ({
       as={as}
       style={{
         margin: "0",
-        paddingTop: `${vertical}px`,
-        paddingBottom: `${vertical}px`,
-        paddingLeft: `${horizondal}px`,
-        paddingRight: `${horizondal}px`,
-        fontSize: getDefaultFontSize(as),
-        fontFamily: fontFamily || "Inter, sans-serif",
-        lineHeight: lineHeight || "1.5",
-        color: color || "#000000",
-        fontWeight: fontWeight || "400",
-        textAlign: textAlign || "left",
+        padding: "0",
+        // Using MSO conditional comments for Outlook
+        // @ts-ignore
+        "mso-line-height-alt": `${lineHeight * 100}%`,
+        // @ts-ignore
+        "mso-margin-top-alt": `${halfVerticalMargin}px`,
+        // @ts-ignore
+        "mso-margin-bottom-alt": `${halfVerticalMargin}px`,
       }}
     >
-      {text}
+      <table
+        width="100%"
+        border={0}
+        cellPadding="0"
+        cellSpacing="0"
+        style={{
+          marginTop: `${halfVerticalMargin}px`,
+          marginBottom: `${halfVerticalMargin}px`,
+          marginLeft: `${halfHorizontalMargin}px`,
+          marginRight: `${halfHorizontalMargin}px`,
+          paddingTop: `${halfVerticalPadding}px`,
+          paddingBottom: `${halfVerticalPadding}px`,
+          paddingLeft: `${halfHorizontalPadding}px`,
+          paddingRight: `${halfHorizontalPadding}px`,
+        }}
+      >
+        <tr>
+          <td
+            align={textAlign || "left"}
+            style={{
+              fontSize: getDefaultFontSize(as),
+              fontFamily: `${fontFamily || "Arial"}, sans-serif`,
+              lineHeight: lineHeight || "1.5",
+              color: color || "#000000",
+              fontWeight: fontWeight || "400",
+              margin: "0",
+              // Add specific heading styles
+              display: "block",
+              // @ts-ignore
+              "mso-line-height-rule": "exactly",
+              // @ts-ignore
+              "mso-text-raise": "0",
+            }}
+          >
+            {text}
+          </td>
+        </tr>
+      </table>
     </Component>
   );
 };
@@ -224,6 +266,7 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
           max={900}
           step={100}
           showTooltip={true}
+          tooltipContent={(value) => `${value}`}
           value={[parseInt(props.fontWeight)]}
           onValueChange={(value: number[]) =>
             handleChange("fontWeight", value[0].toString())
@@ -241,6 +284,7 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
           max={5}
           step={0.5}
           showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
           value={[props.lineHeight]}
           onValueChange={(value: number[]) =>
             handleChange("lineHeight", value[0].toString())
@@ -258,6 +302,7 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
           max={100}
           step={1}
           showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
           value={[props.verticalPadding / 2]}
           onValueChange={(value: number[]) =>
             handleChange("verticalPadding", value[0] * 2)
@@ -275,9 +320,46 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
           max={100}
           step={1}
           showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
           value={[props.horizontalPadding / 2]}
           onValueChange={(value: number[]) =>
             handleChange("horizontalPadding", value[0] * 2)
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-vertical-margin`} className="text-xs">
+          Vertical margin
+        </Label>
+        <Slider
+          id={`${props.id}-vertical-margin`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.verticalMargin / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("verticalMargin", value[0] * 2)
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-horizontal-margin`} className="text-xs">
+          Horizontal margin
+        </Label>
+        <Slider
+          id={`${props.id}-horizontal-margin`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.horizontalMargin / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("horizontalMargin", value[0] * 2)
           }
         />
       </div>
@@ -292,6 +374,8 @@ Heading.defaultProps = HeadingSchema.parse({
   text: "Heading 1",
   horizontalPadding: 0,
   verticalPadding: 0,
+  horizontalMargin: 0,
+  verticalMargin: 0,
   color: "#000000",
   lineHeight: 1.5,
   fontFamily: "Inter, sans-serif",
