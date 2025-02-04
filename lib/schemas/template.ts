@@ -293,7 +293,7 @@ export const defaultTemplate: TemplateSchemaType = {
                 title: "Welcome Heading",
                 type: "heading",
                 as: "h1",
-                text: "Welcome to Our Platform!",
+                text: "Welcome to Our Platform! 👋",
                 color: "#000000",
                 horizontalPadding: 0,
                 verticalPadding: 0,

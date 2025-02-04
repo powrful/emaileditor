@@ -13,13 +13,14 @@ import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
 import { Fragment, useState } from "react";
 
-import { BetweenHorizontalStart, BetweenVerticalEnd, Plus } from "lucide-react";
-
 import {
+  GalleryHorizontalEnd,
   Heading,
   Image,
+  LayoutList,
   LetterText,
   Link2,
+  Plus,
   SquareMousePointer,
   SquareSplitVertical,
 } from "lucide-react";
@@ -85,10 +86,7 @@ export const CollapsibleRows = ({
               >
                 <AccordionTrigger className="justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1">
                   <span className="flex items-center gap-2">
-                    <BetweenHorizontalStart
-                      size={16}
-                      className="shrink-0 opacity-80"
-                    />
+                    <LayoutList size={16} className="shrink-0 opacity-80" />
                     <span>{row.title}</span>
                   </span>
                 </AccordionTrigger>
@@ -130,7 +128,7 @@ export const CollapsibleRows = ({
                       >
                         <AccordionTrigger className=" ml-6 justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1">
                           <span className="flex items-center gap-2">
-                            <BetweenVerticalEnd
+                            <GalleryHorizontalEnd
                               size={16}
                               className="shrink-0 opacity-80"
                             />

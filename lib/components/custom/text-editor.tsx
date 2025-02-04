@@ -250,7 +250,7 @@ export const TextEditor = ({ value, onChange, className }: TextEditorProps) => {
     <div className={cn("flex flex-col gap-0", className)}>
       <div className="flex items-center gap-1 border rounded-t">
         <Toggle
-          size="xs"
+          size="sm"
           pressed={formatState.isBold}
           onPressedChange={() => toggleFormat("bold")}
         >
@@ -258,7 +258,7 @@ export const TextEditor = ({ value, onChange, className }: TextEditorProps) => {
         </Toggle>
 
         <Toggle
-          size="xs"
+          size="sm"
           pressed={formatState.isItalic}
           onPressedChange={() => toggleFormat("italic")}
         >
@@ -266,7 +266,7 @@ export const TextEditor = ({ value, onChange, className }: TextEditorProps) => {
         </Toggle>
 
         <Toggle
-          size="xs"
+          size="sm"
           pressed={formatState.isUnderline}
           onPressedChange={() => toggleFormat("underline")}
         >
