@@ -7,8 +7,9 @@ import { AppSidebar } from "@/components/layout/sidebar";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
-import { render } from "@react-email/components";
 import localforage from "localforage";
+import pretty from "pretty";
+import { renderToString } from "react-dom/server";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import {
@@ -216,13 +217,12 @@ export default function EditorLayout({
   useEffect(() => {
     async function renderEmail() {
       try {
-        const html = await render(<EmailTemplate template={template} />, {
-          pretty: true,
-        });
-        setHtml(html);
+        const emailHtml = renderToString(<EmailTemplate template={template} />);
+        const prettifiedHtml = pretty(emailHtml);
+
+        setHtml(prettifiedHtml);
       } catch (error) {
         console.error("Error rendering email template:", error);
-        // Optionally set an error state or fallback HTML
         setHtml(`<!-- Error rendering template -->`);
       }
     }
