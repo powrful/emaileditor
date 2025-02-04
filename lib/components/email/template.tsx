@@ -5,7 +5,6 @@ import {
   Heading,
   Hr,
   Img,
-  Link,
   Row,
   Text,
 } from "@/components/elements";
@@ -28,8 +27,6 @@ export const EmailTemplate = ({ template }: EmailTemplateProps) => {
         return <Hr {...element} />;
       case "image":
         return <Img {...element} />;
-      case "link":
-        return <Link {...element} />;
       case "text":
         return <Text {...element} />;
       default:

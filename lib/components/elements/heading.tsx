@@ -1,4 +1,5 @@
 import { ColorPicker } from "@/components/custom/color-picker";
+import { FontPicker } from "@/components/custom/font-picker";
 import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -175,6 +176,19 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
           onChange={(e) => handleChange("text", e.target.value)}
         />
       </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-font-family`} className="text-xs">
+          Font
+        </Label>
+
+        <FontPicker
+          id={`${props.id}-font-family`}
+          value={props.fontFamily || ""}
+          onChange={(value) => handleChange("fontFamily", value)}
+        />
+      </div>
+
       <div className="space-y-2 gap-2">
         <Label htmlFor={`${props.id}-color`} className="text-xs">
           Color

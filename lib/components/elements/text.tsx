@@ -1,4 +1,5 @@
 import { ColorPicker } from "@/components/custom/color-picker";
+import { TextEditor as TextEditorInput } from "@/components/custom/text-editor";
 import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,15 +8,15 @@ import { Text as Component } from "@react-email/text";
 import { useCallback } from "react";
 import { z } from "zod";
 
+import { FontPicker } from "@/components/custom/font-picker";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 
 export const TextSchema = z.object({
   id: z.string(),
   title: z.string().default("Untitled text"),
-  text: z.string().default("Text"),
+  html: z.string().default("Text"),
   horizontalPadding: z.number().min(0).max(300).default(0),
   verticalPadding: z.number().min(0).max(500).default(0),
-  color: z.string().optional().default("#000000"),
   lineHeight: z.number().optional().default(1.5),
   fontFamily: z.string().optional(),
   fontSize: z.string().optional().default("16px"),
@@ -31,10 +32,9 @@ type TextProps = TextSchemaType;
 
 export const Text = ({
   id,
-  text,
+  html,
   horizontalPadding,
   verticalPadding,
-  color,
   lineHeight,
   fontFamily,
   fontWeight,
@@ -56,13 +56,11 @@ export const Text = ({
         fontSize: fontSize || "16px",
         fontFamily: fontFamily || "Inter, sans-serif",
         lineHeight: lineHeight || "1.5",
-        color: color || "#000000",
         fontWeight: fontWeight || "400",
         textAlign: textAlign || "left",
       }}
-    >
-      {text}
-    </Component>
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 };
 
@@ -100,22 +98,22 @@ export const TextEditor = ({ onChange, ...props }: TextEditorProps) => {
         <Label htmlFor={`${props.id}-text`} className="text-xs">
           Text
         </Label>
-        <Input
-          id={`${props.id}-text`}
-          placeholder="Text text"
-          type="text"
-          className="h-7 text-sm"
-          value={props.text}
-          onChange={(e) => handleChange("text", e.target.value)}
+
+        <TextEditorInput
+          value={props.html}
+          onChange={(value) => handleChange("html", value)}
         />
       </div>
+
       <div className="space-y-2 gap-2">
-        <Label htmlFor={`${props.id}-color`} className="text-xs">
-          Color
+        <Label htmlFor={`${props.id}-font-family`} className="text-xs">
+          Font
         </Label>
-        <ColorPicker
-          color={props.color}
-          onChange={(color) => handleChange("color", color.hex)}
+
+        <FontPicker
+          id={`${props.id}-font-family`}
+          value={props.fontFamily || ""}
+          onChange={(value) => handleChange("fontFamily", value)}
         />
       </div>
 
@@ -231,6 +229,10 @@ export const TextEditor = ({ onChange, ...props }: TextEditorProps) => {
           }
         />
       </div>
+
+      {/* <div className="space-y-2 gap-2">
+        <pre>{JSON.stringify(props, null, 2)}</pre>
+      </div> */}
     </div>
   );
 };
@@ -238,10 +240,9 @@ export const TextEditor = ({ onChange, ...props }: TextEditorProps) => {
 Text.defaultProps = TextSchema.parse({
   id: "text-1",
   title: "Text 1",
-  text: "Text 1",
+  html: "Text 1",
   horizontalPadding: 0,
   verticalPadding: 0,
-  color: "#000000",
   lineHeight: 1.5,
   fontFamily: "Inter, sans-serif",
   fontWeight: "400",

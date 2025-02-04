@@ -20,7 +20,6 @@ type PickerProps = {
 };
 
 import {
-  BetweenHorizonalStart,
   Heading,
   Image,
   LetterText,
@@ -114,33 +113,6 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
 
           <TabsContent value="elements">
             <div className="grid grid-cols-4 gap-4 p-2">
-              {/* <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "row" });
-                  }}
-                >
-                  <Rows2 />
-                </Button>
-                <p className="text-xs mt-1">Row</p>
-              </div>
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "column" });
-                  }}
-                >
-                  <Columns2 />
-                </Button>
-                <p className="text-xs mt-1">Column</p>
-              </div> */}
-
               <div className="flex flex-col items-center justify-center">
                 <Button
                   variant="outline"
@@ -209,20 +181,6 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
                   <SquareSplitVertical />
                 </Button>
                 <p className="text-xs mt-1">Divider</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "spacer" });
-                  }}
-                >
-                  <BetweenHorizonalStart />
-                </Button>
-                <p className="text-xs mt-1">Spacer</p>
               </div>
             </div>
           </TabsContent>

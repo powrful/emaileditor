@@ -22,6 +22,10 @@ export const ImgSchema = z.object({
   width: z.string().default("20%"),
   height: z.string().default("20%"),
   shape: z.enum(["square", "rounded", "circle"]).default("square"),
+  horizontalPadding: z.number().min(0).max(300).default(20),
+  verticalPadding: z.number().min(0).max(500).default(10),
+  horizontalMargin: z.number().min(0).max(100).default(0),
+  verticalMargin: z.number().min(0).max(100).default(0),
 });
 
 export type ImgSchemaType = z.infer<typeof ImgSchema>;
@@ -34,7 +38,16 @@ export const Img = ({
   align,
   height,
   shape,
+  horizontalPadding,
+  verticalPadding,
+  horizontalMargin,
+  verticalMargin,
 }: ImgSchemaType) => {
+  const halfVerticalPadding = verticalPadding / 2;
+  const halfHorizontalPadding = horizontalPadding / 2;
+  const halfVerticalMargin = verticalMargin / 2;
+  const halfHorizontalMargin = horizontalMargin / 2;
+
   return (
     <table
       border={0}
@@ -58,6 +71,15 @@ export const Img = ({
                 display: "block",
                 width: "100%",
                 height: "100%",
+                marginTop: `${halfVerticalMargin}px`,
+                marginBottom: `${halfVerticalMargin}px`,
+                marginLeft: `${halfHorizontalMargin}px`,
+                marginRight: `${halfHorizontalMargin}px`,
+                paddingTop: `${halfVerticalPadding}px`,
+                paddingBottom: `${halfVerticalPadding}px`,
+                paddingLeft: `${halfHorizontalPadding}px`,
+                paddingRight: `${halfHorizontalPadding}px`,
+
                 ...(shape === "circle" && {
                   aspectRatio: "1 / 1",
                   objectFit: "cover",
@@ -205,6 +227,78 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
           ]}
         />
       </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-vertical-padding`} className="text-xs">
+          Vertical padding
+        </Label>
+        <Slider
+          id={`${props.id}-vertical-padding`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.verticalPadding / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("verticalPadding", value[0] * 2)
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-horizontal-padding`} className="text-xs">
+          Horizontal padding
+        </Label>
+        <Slider
+          id={`${props.id}-horizontal-padding`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.horizontalPadding / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("horizontalPadding", value[0] * 2)
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-vertical-margin`} className="text-xs">
+          Vertical margin
+        </Label>
+        <Slider
+          id={`${props.id}-vertical-margin`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.verticalMargin / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("verticalMargin", value[0] * 2)
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-horizontal-margin`} className="text-xs">
+          Horizontal margin
+        </Label>
+        <Slider
+          id={`${props.id}-horizontal-margin`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.horizontalMargin / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("horizontalMargin", value[0] * 2)
+          }
+        />
+      </div>
     </div>
   );
 });
@@ -218,4 +312,8 @@ Img.defaultProps = ImgSchema.parse({
   width: "100%",
   align: "center",
   shape: "square",
+  horizontalPadding: 0,
+  verticalPadding: 0,
+  horizontalMargin: 0,
+  verticalMargin: 0,
 });

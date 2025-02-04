@@ -7,11 +7,13 @@ import { Button as Component } from "@react-email/button";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useCallback } from "react";
 import { z } from "zod";
+import { FontPicker } from "../custom/font-picker";
 
 export const ButtonSchema = z.object({
   id: z.string(),
   title: z.string().optional().default("Untitled button"),
   text: z.string().default("Click me"),
+  fontFamily: z.string().optional().default("Arial, Helvetica, sans-serif"),
   href: z.string().optional().default("#"),
   align: z.enum(["left", "center", "right"]).default("left"),
   width: z.string().default("50%"),
@@ -30,6 +32,7 @@ export type ButtonSchemaType = z.infer<typeof ButtonSchema>;
 export const Button = ({
   id,
   text,
+  fontFamily,
   href,
   align,
   width,
@@ -76,13 +79,15 @@ export const Button = ({
         margin: getMarginAlignment(),
         marginTop: `${halfVerticalMargin}px`,
         marginBottom: `${halfVerticalMargin}px`,
+        marginLeft: `${halfHorizontalMargin}px`,
+        marginRight: `${halfHorizontalMargin}px`,
         display: "block",
         textDecoration: "none",
         textAlign: "center",
         maxWidth: "100%",
         lineHeight: "120%",
         border: "0",
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        fontFamily: fontFamily,
         // @ts-ignore
         "mso-line-height-rule": "exactly",
         WebkitTextSizeAdjust: "none",
@@ -135,6 +140,18 @@ export const ButtonEditor = ({ onChange, ...props }: ButtonEditorProps) => {
           className="h-7 text-sm"
           value={props.text}
           onChange={(e) => handleChange("text", e.target.value)}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-font-family`} className="text-xs">
+          Font
+        </Label>
+
+        <FontPicker
+          id={`${props.id}-font-family`}
+          value={props.fontFamily || ""}
+          onChange={(value) => handleChange("fontFamily", value)}
         />
       </div>
 
@@ -338,6 +355,7 @@ Button.defaultProps = ButtonSchema.parse({
   id: "button-1",
   title: "Button 1",
   text: "Click me",
+  fontFamily: "Arial, Helvetica, sans-serif",
   href: "#",
   align: "left",
   width: "50%",

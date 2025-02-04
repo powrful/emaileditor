@@ -8,7 +8,6 @@ import {
   HeadingEditor,
   HrEditor,
   ImgEditor,
-  LinkEditor,
   TextEditor,
 } from "@/components/elements";
 
@@ -91,12 +90,10 @@ export const ElementsEditor = ({
         return <TextEditor {...element} onChange={handleChange} />;
       case "image":
         return <ImgEditor {...element} onChange={handleChange} />;
-      case "link":
-        return <LinkEditor {...element} />;
       case "heading":
         return <HeadingEditor {...element} onChange={handleChange} />;
       case "hr":
-        return <HrEditor {...element} />;
+        return <HrEditor {...element} onChange={handleChange} />;
       default:
         return <div>Element not found</div>;
     }
