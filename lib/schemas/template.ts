@@ -190,7 +190,7 @@ export const defaultTemplate: TemplateSchemaType = {
             },
             children: [
               {
-                id: "hr",
+                id: "hr-1",
                 type: "hr",
                 title: "HR",
                 width: "100%",
