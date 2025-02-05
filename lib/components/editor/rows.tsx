@@ -1,3 +1,4 @@
+import { Tooltip } from "@/components/custom/tooltip";
 import {
   type ActiveElementType,
   ElementsEditor,
@@ -29,6 +30,7 @@ import { Fragment, useState } from "react";
 
 import {
   SquareMousePointer as ButtonIcon,
+  CirclePlus,
   GalleryHorizontalEnd as ColumnIcon,
   Grip,
   Heading,
@@ -199,36 +201,42 @@ export const CollapsibleRows = ({
               </span>
               <span>{row.title}</span>
             </span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteElement(row.id);
-              }}
-            >
-              <Trash
-                size={14}
-                className="text-gray-400 opacity-0 group-hover/row-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-              />
-            </button>
+            <Tooltip text="Delete row">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteElement(row.id);
+                }}
+              >
+                <Trash
+                  size={14}
+                  className="text-gray-400 opacity-0 group-hover/row-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+                />
+              </button>
+            </Tooltip>
           </AccordionTrigger>
           {children}
 
           {/* Add a new row */}
-          <div className="absolute w-full opacity-0 transition-opacity -bottom-[4px] z-10 group/row">
+          <div className="absolute w-full opacity-0 transition-opacity -bottom-[4px] z-10 group/add-row">
             <div className="relative h-2">
-              <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/row:scale-x-100 transition-transform duration-300 mx-1" />
+              <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/add-row:scale-x-100 transition-transform duration-300 mx-1" />
               <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Picker
                   template={template}
                   setTemplate={setTemplate}
                   trigger={
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
-                    >
-                      <Plus className="h-2 w-2 text-white" />
-                    </Button>
+                    <div>
+                      <Tooltip text="Add row">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
+                        >
+                          <Plus className="h-2 w-2 text-white" />
+                        </Button>
+                      </Tooltip>
+                    </div>
                   }
                 />
               </div>
@@ -269,7 +277,7 @@ export const CollapsibleRows = ({
         <AccordionItem
           value={column.id}
           key={column.id}
-          className="border-none"
+          className="border-none relative hover:[&>div]:opacity-100 group/column"
         >
           <AccordionTrigger className="ml-6 justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/column-trigger">
             <span className="flex items-center gap-2 flex-1">
@@ -285,17 +293,19 @@ export const CollapsibleRows = ({
               </span>
               <span>{column.title}</span>
             </span>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteElement(column.id);
-              }}
-            >
-              <Trash
-                size={14}
-                className="text-gray-400 opacity-0 group-hover/column-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-              />
-            </button>
+            <Tooltip text="Delete column">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteElement(column.id);
+                }}
+              >
+                <Trash
+                  size={14}
+                  className="text-gray-400 opacity-0 group-hover/column-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+                />
+              </button>
+            </Tooltip>
           </AccordionTrigger>
           {children}
         </AccordionItem>
@@ -415,25 +425,52 @@ export const CollapsibleRows = ({
                                             {element.title}
                                           </span>
                                         </div>
-                                        <button>
-                                          <Trash
-                                            size={14}
-                                            className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              deleteElement(element.id);
-                                            }}
-                                          />
-                                        </button>
+
+                                        <Tooltip text="Delete element">
+                                          <button>
+                                            <Trash
+                                              size={14}
+                                              className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                deleteElement(element.id);
+                                              }}
+                                            />
+                                          </button>
+                                        </Tooltip>
                                       </div>
                                     </div>
                                   ))}
+
+                                  {/* Add an element */}
+                                  <div className="-ml-1 flex items-center gap-2 text-xs hover:bg-gray-100 rounded-md">
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="text-blue-600 hover:text-blue-700"
+                                    >
+                                      <CirclePlus className="h-4 w-4" />
+                                      Add an element
+                                    </Button>
+                                  </div>
                                 </AccordionContent>
                               </SortableColumn>
                             ))}
                           </Accordion>
                         </SortableContext>
                       </DndContext>
+
+                      {/* Add a new column */}
+                      <div className="ml-3 flex items-center gap-2 text-xs hover:bg-gray-100 rounded-md">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-blue-600 hover:text-blue-700"
+                        >
+                          <CirclePlus className="h-4 w-4" />
+                          Add a column
+                        </Button>
+                      </div>
                     </AccordionContent>
                   </SortableRow>
                 ))}
