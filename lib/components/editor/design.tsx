@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
-import type {
-  ColumnWithChildrenType,
-  RowWithChildrenType,
-} from "@/schemas/template";
+import type { RowWithChildrenType } from "@/schemas/template";
 import { ImagePlus, LetterText, SquareMousePointer } from "lucide-react";
 import { useState } from "react";
 import { EmptyState } from "./empty";

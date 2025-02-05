@@ -1,7 +1,6 @@
 import EditorLayout from "@/components/layout";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useHistoryState } from "@uidotdev/usehooks";
-import { useState } from "react";
 
 export type EmailCanvasProps = {
   onSave: (
