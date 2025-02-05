@@ -16,6 +16,7 @@ import { Fragment, useState } from "react";
 import {
   SquareMousePointer as ButtonIcon,
   GalleryHorizontalEnd as ColumnIcon,
+  GripVertical,
   Heading,
   SquareSplitVertical as HrIcon,
   Image,
@@ -57,7 +58,54 @@ export const CollapsibleRows = ({
   const [activeColumn, setActiveColumn] = useState<string | null>(null);
 
   const deleteElement = (id: string) => {
-    console.log("deleteElement", id);
+    setTemplate((prev) => {
+      // Helper function to remove element by ID from children array
+      function removeElementById<T extends { id: string; children?: any[] }>(
+        items: T[],
+        parentType?: "container" | "row" | "column",
+      ): T[] {
+        return items
+          .map((item) => {
+            // Check if this is the item to delete
+            if (item.id === id) return null;
+
+            // If item has children, recursively check them
+            if ("children" in item && item.children) {
+              const newChildren = removeElementById(
+                item.children,
+                parentType === "container"
+                  ? "row"
+                  : parentType === "row"
+                    ? "column"
+                    : undefined,
+              );
+
+              // Return item with filtered children
+              return {
+                ...item,
+                children: newChildren,
+              };
+            }
+
+            return item;
+          })
+          .filter(Boolean) as T[];
+      }
+
+      // Start from container children
+      return {
+        ...prev,
+        container: {
+          ...prev.container,
+          children: removeElementById(prev.container.children, "container"),
+        },
+      };
+    });
+
+    // Reset active states if deleted element was selected
+    if (activeElement?.id === id) setActiveElement(null);
+    if (activeRow === id) setActiveRow(null);
+    if (activeColumn === id) setActiveColumn(null);
   };
 
   return (
@@ -75,7 +123,7 @@ export const CollapsibleRows = ({
             Template
           </h2>
           <Accordion
-            defaultValue={[activeRow || template.container.children[0].id]}
+            defaultValue={[activeRow || template.container.children[0]?.id]}
             type="multiple"
             className="w-full px-3"
           >
@@ -89,7 +137,16 @@ export const CollapsibleRows = ({
               >
                 <AccordionTrigger className="justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/row-trigger">
                   <span className="flex items-center gap-2 flex-1">
-                    <RowIcon size={16} className="shrink-0 opacity-80" />
+                    <span className="group/icon">
+                      <RowIcon
+                        size={16}
+                        className="shrink-0 opacity-80 group-hover/icon:hidden"
+                      />
+                      <GripVertical
+                        size={16}
+                        className="shrink-0 opacity-80 hidden group-hover/icon:block cursor-grab"
+                      />
+                    </span>
                     <span>{row.title}</span>
                   </span>
                   <button
@@ -129,7 +186,7 @@ export const CollapsibleRows = ({
                 {/* Column accordian */}
                 <AccordionContent className="p-0">
                   <Accordion
-                    defaultValue={[activeColumn || row.children[0].id]}
+                    defaultValue={[activeColumn || row.children[0]?.id]}
                     type="multiple"
                     className="w-full"
                   >
