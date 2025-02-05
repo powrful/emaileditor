@@ -11,12 +11,26 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Fragment, useState } from "react";
 
 import {
   SquareMousePointer as ButtonIcon,
   GalleryHorizontalEnd as ColumnIcon,
-  GripVertical,
+  Grip,
   Heading,
   SquareSplitVertical as HrIcon,
   Image,
@@ -108,6 +122,187 @@ export const CollapsibleRows = ({
     if (activeColumn === id) setActiveColumn(null);
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setTemplate((prev) => {
+        const oldIndex = prev.container.children.findIndex(
+          (row: any) => row.id === active.id,
+        );
+        const newIndex = prev.container.children.findIndex(
+          (row) => row.id === over.id,
+        );
+
+        const newChildren = [...prev.container.children];
+        const [removed] = newChildren.splice(oldIndex, 1);
+        newChildren.splice(newIndex, 0, removed);
+
+        return {
+          ...prev,
+          container: {
+            ...prev.container,
+            children: newChildren,
+          },
+        };
+      });
+    }
+  }
+
+  function SortableRow({
+    row,
+    children,
+  }: { row: any; children: React.ReactNode }) {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({ id: row.id });
+
+    const style = {
+      transform: transform
+        ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+        : undefined,
+      transition,
+      zIndex: isDragging ? 1 : 0,
+    };
+
+    return (
+      <div ref={setNodeRef} style={style} {...attributes}>
+        <AccordionItem
+          value={row.id}
+          key={row.id}
+          className="border-none relative hover:[&>div]:opacity-100 group"
+          data-row-id={row.id}
+        >
+          <AccordionTrigger className="justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/row-trigger">
+            <span className="flex items-center gap-2 flex-1">
+              <span className="group/icon" {...listeners}>
+                <RowIcon
+                  size={16}
+                  className="shrink-0 opacity-80 group-hover/icon:hidden"
+                />
+                <Grip
+                  size={16}
+                  className="shrink-0 opacity-80 hidden group-hover/icon:block cursor-grab"
+                />
+              </span>
+              <span>{row.title}</span>
+            </span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteElement(row.id);
+              }}
+            >
+              <Trash
+                size={14}
+                className="text-gray-400 opacity-0 group-hover/row-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+              />
+            </button>
+          </AccordionTrigger>
+          {children}
+
+          {/* Add a new row */}
+          <div className="absolute w-full opacity-0 transition-opacity -bottom-[4px] z-10 group/row">
+            <div className="relative h-2">
+              <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/row:scale-x-100 transition-transform duration-300 mx-1" />
+              <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Picker
+                  template={template}
+                  setTemplate={setTemplate}
+                  trigger={
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
+                    >
+                      <Plus className="h-2 w-2 text-white" />
+                    </Button>
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </AccordionItem>
+      </div>
+    );
+  }
+
+  // Create a sortable column component (add after SortableRow)
+  function SortableColumn({
+    column,
+    children,
+  }: {
+    column: any;
+    children: React.ReactNode;
+  }) {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({ id: column.id });
+
+    const style = {
+      transform: transform
+        ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+        : undefined,
+      transition,
+      zIndex: isDragging ? 1 : 0,
+    };
+
+    return (
+      <div ref={setNodeRef} style={style} {...attributes}>
+        <AccordionItem
+          value={column.id}
+          key={column.id}
+          className="border-none"
+        >
+          <AccordionTrigger className="ml-6 justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/column-trigger">
+            <span className="flex items-center gap-2 flex-1">
+              <span className="group/column-icon" {...listeners}>
+                <ColumnIcon
+                  size={16}
+                  className="shrink-0 opacity-80 group-hover/column-icon:hidden"
+                />
+                <Grip
+                  size={16}
+                  className="shrink-0 opacity-80 hidden group-hover/column-icon:block cursor-grab"
+                />
+              </span>
+              <span>{column.title}</span>
+            </span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteElement(column.id);
+              }}
+            >
+              <Trash
+                size={14}
+                className="text-gray-400 opacity-0 group-hover/column-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+              />
+            </button>
+          </AccordionTrigger>
+          {children}
+        </AccordionItem>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {activeElement ? (
@@ -122,149 +317,129 @@ export const CollapsibleRows = ({
           <h2 className="font-semibold text-[16px] border-b pt-1 pb-3 px-3">
             Template
           </h2>
-          <Accordion
-            defaultValue={[activeRow || template.container.children[0]?.id]}
-            type="multiple"
-            className="w-full px-3"
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            {template.container.children.map((row) => (
-              // Row accordian
-              <AccordionItem
-                value={row.id}
-                key={row.id}
-                className="border-none relative hover:[&>div]:opacity-100 group"
-                data-row-id={row.id}
+            <SortableContext
+              items={template.container.children.map((row) => row.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <Accordion
+                defaultValue={[activeRow || template.container.children[0]?.id]}
+                type="multiple"
+                className="w-full px-3"
               >
-                <AccordionTrigger className="justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/row-trigger">
-                  <span className="flex items-center gap-2 flex-1">
-                    <span className="group/icon">
-                      <RowIcon
-                        size={16}
-                        className="shrink-0 opacity-80 group-hover/icon:hidden"
-                      />
-                      <GripVertical
-                        size={16}
-                        className="shrink-0 opacity-80 hidden group-hover/icon:block cursor-grab"
-                      />
-                    </span>
-                    <span>{row.title}</span>
-                  </span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteElement(row.id);
-                    }}
-                  >
-                    <Trash
-                      size={14}
-                      className="text-gray-400 opacity-0 group-hover/row-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-                    />
-                  </button>
-                </AccordionTrigger>
+                {template.container.children.map((row) => (
+                  <SortableRow key={row.id} row={row}>
+                    <AccordionContent className="p-0">
+                      <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={(event) => {
+                          const { active, over } = event;
+                          if (active.id !== over?.id) {
+                            setTemplate((prev) => {
+                              const rowIndex =
+                                prev.container.children.findIndex(
+                                  (r) => r.id === row.id,
+                                );
+                              const oldIndex = prev.container.children[
+                                rowIndex
+                              ].children.findIndex(
+                                (col) => col.id === active.id,
+                              );
+                              const newIndex = prev.container.children[
+                                rowIndex
+                              ].children.findIndex((col) => col.id === over.id);
 
-                <div className="absolute w-full opacity-0 transition-opacity -bottom-[4px] z-10 group/row">
-                  <div className="relative h-2">
-                    <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/row:scale-x-100 transition-transform duration-300 mx-1" />
-                    <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <Picker
-                        template={template}
-                        setTemplate={setTemplate}
-                        trigger={
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="h-6 w-6 rounded-full bg-blue-500 hover:bg-blue-600"
-                          >
-                            <Plus className="h-2 w-2 text-white" />
-                          </Button>
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
+                              const newChildren = [...prev.container.children];
+                              const newColumns = [
+                                ...newChildren[rowIndex].children,
+                              ];
+                              const [removed] = newColumns.splice(oldIndex, 1);
+                              newColumns.splice(newIndex, 0, removed);
+                              newChildren[rowIndex] = {
+                                ...newChildren[rowIndex],
+                                children: newColumns,
+                              };
 
-                {/* Column accordian */}
-                <AccordionContent className="p-0">
-                  <Accordion
-                    defaultValue={[activeColumn || row.children[0]?.id]}
-                    type="multiple"
-                    className="w-full"
-                  >
-                    {row.children.map((column) => (
-                      // Column accordian
-                      <AccordionItem
-                        value={column.id}
-                        key={column.id}
-                        className="border-none"
+                              return {
+                                ...prev,
+                                container: {
+                                  ...prev.container,
+                                  children: newChildren,
+                                },
+                              };
+                            });
+                          }
+                        }}
                       >
-                        <AccordionTrigger className="ml-6 justify-start gap-2 text-xs py-1 leading-6 hover:no-underline [&>svg]:-order-1 group/column-trigger">
-                          <span className="flex items-center gap-2 flex-1">
-                            <ColumnIcon
-                              size={16}
-                              className="shrink-0 opacity-80"
-                            />
-                            <span>{column.title}</span>
-                          </span>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteElement(column.id);
-                            }}
+                        <SortableContext
+                          items={row.children.map((column) => column.id)}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          <Accordion
+                            defaultValue={[activeColumn || row.children[0]?.id]}
+                            type="multiple"
+                            className="w-full"
                           >
-                            <Trash
-                              size={14}
-                              className="text-gray-400 opacity-0 group-hover/column-trigger:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-                            />
-                          </button>
-                        </AccordionTrigger>
-
-                        <AccordionContent className="p-0 ml-10 mb-1 text-xs">
-                          {column.children.map((element) => (
-                            <div
-                              key={element.id}
-                              className="w-full text-xs justify-start"
-                            >
-                              <div
-                                className="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-md group/element"
-                                key={element.id}
-                              >
-                                <div
-                                  className="flex items-start gap-2 w-full cursor-pointer"
-                                  onClick={() => {
-                                    setActiveElement({
-                                      id: element.id,
-                                      type: element.type,
-                                    });
-                                    setActiveRow(row.id);
-                                    setActiveColumn(column.id);
-                                  }}
-                                >
-                                  <ColumnChildIcon type={element.type} />
-                                  <span className="flex-1">
-                                    {element.title}
-                                  </span>
-                                </div>
-                                <button>
-                                  <Trash
-                                    size={14}
-                                    className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      deleteElement(element.id);
-                                    }}
-                                  />
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                            {row.children.map((column) => (
+                              <SortableColumn key={column.id} column={column}>
+                                <AccordionContent className="p-0 ml-10 mb-1 text-xs">
+                                  {column.children.map((element) => (
+                                    <div
+                                      key={element.id}
+                                      className="w-full text-xs justify-start"
+                                    >
+                                      <div
+                                        className="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-md group/element"
+                                        key={element.id}
+                                      >
+                                        <div
+                                          className="flex items-start gap-2 w-full cursor-pointer"
+                                          onClick={() => {
+                                            setActiveElement({
+                                              id: element.id,
+                                              type: element.type,
+                                            });
+                                            setActiveRow(row.id);
+                                            setActiveColumn(column.id);
+                                          }}
+                                        >
+                                          <ColumnChildIcon
+                                            type={element.type}
+                                          />
+                                          <span className="flex-1">
+                                            {element.title}
+                                          </span>
+                                        </div>
+                                        <button>
+                                          <Trash
+                                            size={14}
+                                            className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              deleteElement(element.id);
+                                            }}
+                                          />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </AccordionContent>
+                              </SortableColumn>
+                            ))}
+                          </Accordion>
+                        </SortableContext>
+                      </DndContext>
+                    </AccordionContent>
+                  </SortableRow>
+                ))}
+              </Accordion>
+            </SortableContext>
+          </DndContext>
         </Fragment>
       )}
     </div>
