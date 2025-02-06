@@ -57,98 +57,69 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[300px]">
-        {/* Elements */}
+      <DropdownMenuContent className="w-[300px] bg-background dark:bg-sidebar border dark:border-sidebar-border">
         <Tabs defaultValue="rows" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="rows" className="text-xs">
+          <TabsList className="grid w-full grid-cols-2 bg-muted/40 dark:bg-sidebar-accent">
+            <TabsTrigger
+              value="rows"
+              className="text-xs data-[state=active]:bg-background dark:data-[state=active]:bg-sidebar dark:text-sidebar-foreground"
+            >
               Rows
             </TabsTrigger>
-            <TabsTrigger value="elements" className="text-xs">
+            <TabsTrigger
+              value="elements"
+              className="text-xs data-[state=active]:bg-background dark:data-[state=active]:bg-sidebar dark:text-sidebar-foreground"
+            >
               Elements
             </TabsTrigger>
           </TabsList>
+
           <TabsContent value="rows">
             <div className="flex flex-col gap-2 p-2">
-              <Row1 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
-              <Row2 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
-              <Row3 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
-              <Row4 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
-              <Row5 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
+              <Row1 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
+              <Row2 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
+              <Row3 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
+              <Row4 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
+              <Row5 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
             </div>
           </TabsContent>
 
           <TabsContent value="elements">
             <div className="grid grid-cols-4 gap-4 p-2">
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "text" });
-                  }}
+              {[
+                { icon: <LetterText />, label: "Text", type: "text" },
+                { icon: <Heading />, label: "Heading", type: "heading" },
+                {
+                  icon: <SquareMousePointer />,
+                  label: "Button",
+                  type: "button",
+                },
+                { icon: <Image />, label: "Image", type: "image" },
+                {
+                  icon: <SquareSplitVertical />,
+                  label: "Divider",
+                  type: "divider",
+                },
+              ].map((item) => (
+                <div
+                  key={item.type}
+                  className="flex flex-col items-center justify-center"
                 >
-                  <LetterText />
-                </Button>
-                <p className="text-xs mt-1">Text</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "heading" });
-                  }}
-                >
-                  <Heading />
-                </Button>
-                <p className="text-xs mt-1">Heading</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "button" });
-                  }}
-                >
-                  <SquareMousePointer />
-                </Button>
-                <p className="text-xs mt-1">Button</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "image" });
-                  }}
-                >
-                  <Image />
-                </Button>
-                <p className="text-xs mt-1">Image</p>
-              </div>
-
-              <div className="flex flex-col items-center justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="w-12 h-12"
-                  onClick={() => {
-                    addBlock({ type: "divider" });
-                  }}
-                >
-                  <SquareSplitVertical />
-                </Button>
-                <p className="text-xs mt-1">Divider</p>
-              </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="w-12 h-12 dark:bg-sidebar dark:hover:bg-sidebar-accent dark:border-sidebar-border"
+                    onClick={() => {
+                      addBlock({ type: item.type });
+                    }}
+                  >
+                    {item.icon}
+                  </Button>
+                  <p className="text-xs mt-1 dark:text-sidebar-foreground">
+                    {item.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </TabsContent>
         </Tabs>

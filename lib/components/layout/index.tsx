@@ -306,7 +306,7 @@ export default function EditorLayout({
         setTemplate={setTemplate}
       />
       <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-background p-4 z-50">
+        <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b shadow bg-sidebar p-4 z-50">
           <div className="flex-1">
             <TemplateTypeToggle
               selectedTemplateType={selectedTemplateType}

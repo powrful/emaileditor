@@ -57,7 +57,7 @@ const navs = [
 import { EmailCanvasProps } from "@/components/canvas";
 
 const Placeholder = ({ text }: { text: string }) => {
-  return <div>{text}</div>;
+  return <div className="p-4">{text}</div>;
 };
 
 type AppSidebarProps = {
