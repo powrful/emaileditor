@@ -16,6 +16,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:prod": "vite build",
     "build:lib": "tsc --p ./tsconfig-build.json && vite build",
     "lint": "biome check .",
     "preview": "vite preview",
