@@ -404,7 +404,7 @@ export const CollapsibleRows = ({
                                       className="w-full text-xs justify-start"
                                     >
                                       <div
-                                        className="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-md group/element"
+                                        className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-md group/element"
                                         key={element.id}
                                       >
                                         <div
@@ -421,7 +421,7 @@ export const CollapsibleRows = ({
                                           <ColumnChildIcon
                                             type={element.type}
                                           />
-                                          <span className="flex-1">
+                                          <span className="flex-1 dark:text-gray-200">
                                             {element.title}
                                           </span>
                                         </div>
@@ -430,7 +430,7 @@ export const CollapsibleRows = ({
                                           <button>
                                             <Trash
                                               size={14}
-                                              className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 transition-opacity cursor-pointer"
+                                              className="text-gray-400 opacity-0 group-hover/element:opacity-100 hover:text-red-500 dark:hover:text-red-400 transition-opacity cursor-pointer"
                                               onClick={(e) => {
                                                 e.stopPropagation();
                                                 deleteElement(element.id);
@@ -443,11 +443,11 @@ export const CollapsibleRows = ({
                                   ))}
 
                                   {/* Add an element */}
-                                  <div className="-ml-1 flex items-center gap-2 text-xs hover:bg-gray-100 rounded-md">
+                                  <div className="-ml-1 flex items-center gap-2 text-xs hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
                                     <Button
                                       size="sm"
                                       variant="ghost"
-                                      className="text-blue-600 hover:text-blue-700"
+                                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                     >
                                       <CirclePlus className="h-4 w-4" />
                                       Add an element
@@ -461,11 +461,11 @@ export const CollapsibleRows = ({
                       </DndContext>
 
                       {/* Add a new column */}
-                      <div className="ml-3 flex items-center gap-2 text-xs hover:bg-gray-100 rounded-md">
+                      <div className="ml-3 flex items-center gap-2 text-xs hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="text-blue-600 hover:text-blue-700"
+                          className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                         >
                           <CirclePlus className="h-4 w-4" />
                           Add a column

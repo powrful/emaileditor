@@ -154,7 +154,7 @@ export function AppSidebar({
       {/* This is the second sidebar */}
       {/* We disable collapsible and let it fill remaining space */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-        <SidebarHeader className="gap-3.5 border-b p-4 py-[20px] shadow">
+        <SidebarHeader className="gap-3.5 border-b p-4 py-[22px] shadow">
           <div className="flex w-full items-center justify-between">
             <div className="text-base font-medium text-foreground">
               {activeItem.title}

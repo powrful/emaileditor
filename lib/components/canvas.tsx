@@ -1,6 +1,7 @@
 import EditorLayout from "@/components/layout";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useHistoryState } from "@uidotdev/usehooks";
+import { ThemeProvider } from "./providers/theme-provider";
 
 export type EmailCanvasProps = {
   onSave: (
@@ -27,21 +28,23 @@ export const EmailCanvas = ({
   } = useHistoryState<TemplateSchemaType>(defaultTemplate);
 
   return (
-    <EditorLayout
-      onSave={onSave}
-      onBack={onBack}
-      template={template}
-      setTemplate={(newPresent) => {
-        if (typeof newPresent === "function") {
-          setTemplate(newPresent(template));
-        } else {
-          setTemplate(newPresent);
-        }
-      }}
-      undo={undo}
-      redo={redo}
-      canUndo={canUndo}
-      canRedo={canRedo}
-    />
+    <ThemeProvider defaultTheme="system" storageKey="email-editor-theme">
+      <EditorLayout
+        onSave={onSave}
+        onBack={onBack}
+        template={template}
+        setTemplate={(newPresent) => {
+          if (typeof newPresent === "function") {
+            setTemplate(newPresent(template));
+          } else {
+            setTemplate(newPresent);
+          }
+        }}
+        undo={undo}
+        redo={redo}
+        canUndo={canUndo}
+        canRedo={canRedo}
+      />
+    </ThemeProvider>
   );
 };

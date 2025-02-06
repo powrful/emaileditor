@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import { EmailCanvasProps } from "@/components/canvas";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useEffect, useState } from "react";
 
@@ -36,33 +37,53 @@ interface ScreenSizeToggleProps {
 
 const ScreenSizeToggle = ({ selected, onChange }: ScreenSizeToggleProps) => {
   return (
-    <div className="flex gap-2 bg-gray-100 rounded-lg p-[2px]">
-      <Tooltip text="Mobile">
-        <Button
-          size="iconSm"
-          variant={selected === "mobile" ? "outline" : "ghost"}
-          onClick={() => onChange("mobile")}
-        >
-          <Smartphone className="w-[10px] h-[10px]" />
-        </Button>
-      </Tooltip>
+    <div className="flex gap-0 bg-accent/20 dark:bg-muted/40 rounded-md p-0.5">
+      <div className="flex gap-0">
+        <Tooltip text="Mobile">
+          <Button
+            size="iconSm"
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selected === "mobile"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("mobile")}
+          >
+            <Smartphone className="w-4 h-4" />
+          </Button>
+        </Tooltip>
 
-      <Tooltip text="Desktop">
-        <Button
-          size="iconSm"
-          variant={selected === "desktop" ? "outline" : "ghost"}
-          onClick={() => onChange("desktop")}
-        >
-          <Monitor className="w-[10px] h-[10px]" />
-        </Button>
-      </Tooltip>
+        <Tooltip text="Desktop">
+          <Button
+            size="iconSm"
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selected === "desktop"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("desktop")}
+          >
+            <Monitor className="w-4 h-4" />
+          </Button>
+        </Tooltip>
 
-      <Tooltip text="Fullscreen">
-        <FullscreenButton
-          variant={selected === "full" ? "outline" : "ghost"}
-          onClick={() => onChange("full")}
-        />
-      </Tooltip>
+        <Tooltip text="Fullscreen">
+          <FullscreenButton
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selected === "full"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("full")}
+          />
+        </Tooltip>
+      </div>
     </div>
   );
 };
@@ -75,36 +96,56 @@ const TemplateTypeToggle = ({
   onChange: (value: TemplateType) => void;
 }) => {
   return (
-    <div className="flex gap-2 bg-gray-100 rounded-lg p-[2px] max-w-fit">
-      <Tooltip text="HTML">
-        <Button
-          size="iconSm"
-          variant={selectedTemplateType === "html" ? "outline" : "ghost"}
-          onClick={() => onChange("html")}
-        >
-          <Code className="w-[10px] h-[10px]" />
-        </Button>
-      </Tooltip>
+    <div className="flex gap-0 bg-accent/20 dark:bg-muted/40 rounded-md p-0.5 max-w-fit">
+      <div className="flex gap-0">
+        <Tooltip text="HTML">
+          <Button
+            size="iconSm"
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selectedTemplateType === "html"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("html")}
+          >
+            <Code className="w-4 h-4" />
+          </Button>
+        </Tooltip>
 
-      <Tooltip text="Json">
-        <Button
-          size="iconSm"
-          variant={selectedTemplateType === "json" ? "outline" : "ghost"}
-          onClick={() => onChange("json")}
-        >
-          <Braces className="w-[10px] h-[10px]" />
-        </Button>
-      </Tooltip>
+        <Tooltip text="Json">
+          <Button
+            size="iconSm"
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selectedTemplateType === "json"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("json")}
+          >
+            <Braces className="w-4 h-4" />
+          </Button>
+        </Tooltip>
 
-      <Tooltip text="Preview">
-        <Button
-          size="iconSm"
-          variant={selectedTemplateType === "preview" ? "outline" : "ghost"}
-          onClick={() => onChange("preview")}
-        >
-          <ScanEye className="w-[10px] h-[10px]" />
-        </Button>
-      </Tooltip>
+        <Tooltip text="Preview">
+          <Button
+            size="iconSm"
+            variant="ghost"
+            className={cn(
+              "h-8 w-8",
+              selectedTemplateType === "preview"
+                ? "bg-background dark:bg-muted-foreground/10 text-foreground shadow-sm hover:bg-background/90 dark:hover:bg-muted-foreground/20"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground dark:hover:bg-muted-foreground/10 dark:text-muted-foreground/70",
+            )}
+            onClick={() => onChange("preview")}
+          >
+            <ScanEye className="w-4 h-4" />
+          </Button>
+        </Tooltip>
+      </div>
     </div>
   );
 };
@@ -273,6 +314,7 @@ export default function EditorLayout({
             />
           </div>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <ScreenSizeToggle
               selected={selected}
               onChange={handleScreenSizeChange}
@@ -288,7 +330,7 @@ export default function EditorLayout({
             </Button>
           </div>
         </header>
-        <div className="flex flex-1 flex-col items-center gap-4 p-4 bg-[#F1F1F1]">
+        <div className="flex flex-1 flex-col items-center gap-4 p-4 bg-[#f1f1f1] dark:bg-[#1f1f1f]">
           {selectedTemplateType === "json" ? (
             <CodeBlock code={JSON.stringify(template, null, 2)} lang="json" />
           ) : selectedTemplateType === "html" ? (

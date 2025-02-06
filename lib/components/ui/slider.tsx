@@ -58,7 +58,7 @@ const Slider = React.forwardRef<
   const renderThumb = (value: number) => {
     const thumb = (
       <SliderPrimitive.Thumb
-        className="block h-4 w-4 rounded-full border-2 border-black bg-primary transition-colors focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-ring/40 data-[disabled]:cursor-not-allowed cursor-grab hover:scale-105"
+        className="block h-4 w-4 rounded-full border-2 border-black dark:border-white bg-primary transition-colors focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-ring/40 data-[disabled]:cursor-not-allowed cursor-grab hover:scale-105"
         onPointerDown={handlePointerDown}
       />
     );
@@ -70,7 +70,7 @@ const Slider = React.forwardRef<
         <Tooltip open={showTooltipState}>
           <TooltipTrigger asChild>{thumb}</TooltipTrigger>
           <TooltipContent
-            className="px-2 py-1 text-xs"
+            className="px-2 py-1 text-xs dark:bg-gray-800 dark:text-gray-200"
             sideOffset={8}
             side={props.orientation === "vertical" ? "right" : "top"}
           >
@@ -91,8 +91,8 @@ const Slider = React.forwardRef<
       onValueChange={handleValueChange}
       {...props}
     >
-      <SliderPrimitive.Track className="relative grow overflow-hidden rounded-full bg-transparent data-[orientation=horizontal]:h-[3px] data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-1 [background-image:linear-gradient(90deg,transparent_50%,#E4E4E7_50%)] bg-[length:6px_3px] bg-repeat-x bg-center">
-        <SliderPrimitive.Range className="absolute bg-black data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
+      <SliderPrimitive.Track className="relative grow overflow-hidden rounded-full bg-transparent data-[orientation=horizontal]:h-[3px] data-[orientation=vertical]:h-full data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-1 [background-image:linear-gradient(90deg,transparent_50%,#E4E4E7_50%)] dark:[background-image:linear-gradient(90deg,transparent_50%,#27272A_50%)] bg-[length:6px_3px] bg-repeat-x bg-center">
+        <SliderPrimitive.Range className="absolute bg-black dark:bg-white data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full" />
       </SliderPrimitive.Track>
       {internalValue?.map((value, index) => (
         <React.Fragment key={index}>{renderThumb(value)}</React.Fragment>
