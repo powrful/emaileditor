@@ -34,8 +34,8 @@ export const Hr = ({
 
   return (
     <table
-      data-element-type="hr"
-      data-element-id={id}
+      data-el-type="hr"
+      data-el-id={id}
       style={{
         width: "100%",
         borderSpacing: "0",

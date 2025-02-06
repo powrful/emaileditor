@@ -45,8 +45,8 @@ export const Text = ({
   const horizondal = horizontalPadding / 2; // half horizontal spacing
   return (
     <Component
-      data-element-type="text"
-      data-element-id={id}
+      data-el-type="text"
+      data-el-id={id}
       style={{
         margin: "0",
         paddingTop: `${vertical}px`,

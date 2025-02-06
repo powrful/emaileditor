@@ -57,8 +57,8 @@ export const Button = ({
 
   return (
     <Component
-      data-element-type="button"
-      data-element-id={id}
+      data-el-type="button"
+      data-el-id={id}
       href={href}
       style={{
         backgroundColor,

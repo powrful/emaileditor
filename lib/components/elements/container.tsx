@@ -30,7 +30,7 @@ export const Container = ({
   children: ReactNode;
 }) => {
   return (
-    <Component data-element-type="container" data-element-id={id} style={style}>
+    <Component data-el-type="container" data-el-id={id} style={style}>
       {children}
     </Component>
   );

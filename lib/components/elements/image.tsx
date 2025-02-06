@@ -52,8 +52,8 @@ export const Img = ({
         <td align={align}>
           <div style={{ width: width, height: height }}>
             <Component
-              data-element-type="image"
-              data-element-id={id}
+              data-el-type="image"
+              data-el-id={id}
               src={src}
               alt={title}
               width={width}

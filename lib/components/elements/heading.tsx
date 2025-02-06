@@ -63,8 +63,8 @@ export const Heading = ({
 
   return (
     <Component
-      data-element-type="heading"
-      data-element-id={id}
+      data-el-type="heading"
+      data-el-id={id}
       as={as}
       style={{
         margin: "0",

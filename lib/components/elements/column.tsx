@@ -59,8 +59,8 @@ export const Column = ({
       >
         <tr>
           <td
-            data-element-type="column"
-            data-element-id={id}
+            data-el-type="column"
+            data-el-id={id}
             align={style.align}
             valign={style.verticalAlign}
             style={{
