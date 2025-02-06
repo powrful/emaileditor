@@ -1,7 +1,7 @@
 import EditorLayout from "@/components/layout";
+import { ThemeProvider } from "@/components/theme/provider";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useHistoryState } from "@uidotdev/usehooks";
-import { ThemeProvider } from "./providers/theme-provider";
 
 export type EmailCanvasProps = {
   onSave: (

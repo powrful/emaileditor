@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 import { EmailCanvasProps } from "@/components/canvas";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { ThemeToggle } from "@/components/theme/toggle";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useEffect, useState } from "react";
 
