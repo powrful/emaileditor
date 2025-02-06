@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { TemplateSchemaType } from "@/schemas/template";
 
-import rows1 from "@/images/rows/1.webp";
-import rows2 from "@/images/rows/2.webp";
-import rows3 from "@/images/rows/3.webp";
-import rows4 from "@/images/rows/4.webp";
-import rows5 from "@/images/rows/5.webp";
+import {
+  Row1,
+  Row2,
+  Row3,
+  Row4,
+  Row5,
+} from "@/components/editor/placeholders/rows";
 
 import {
   DropdownMenu,
@@ -67,47 +69,12 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="rows">
-            <div className="flex flex-col gap-4 p-2">
-              <img
-                className="hover:cursor-pointer hover:shadow-md"
-                src={rows1}
-                alt="100 % row"
-                onClick={() => {
-                  addRow({ type: "100" });
-                }}
-              />
-              <img
-                className="hover:cursor-pointer hover:shadow-md"
-                src={rows2}
-                alt="50/50 % row"
-                onClick={() => {
-                  addRow({ type: "50/50" });
-                }}
-              />
-              <img
-                className="hover:cursor-pointer hover:shadow-md"
-                src={rows3}
-                alt="33/33/33 % row"
-                onClick={() => {
-                  addRow({ type: "33/33/33" });
-                }}
-              />
-              <img
-                className="hover:cursor-pointer hover:shadow-md"
-                src={rows4}
-                alt="70/30 % row"
-                onClick={() => {
-                  addRow({ type: "70/30" });
-                }}
-              />
-              <img
-                className="hover:cursor-pointer hover:shadow-md"
-                src={rows5}
-                alt="30/70 % row"
-                onClick={() => {
-                  addRow({ type: "30/70" });
-                }}
-              />
+            <div className="flex flex-col gap-2 p-2">
+              <Row1 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
+              <Row2 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
+              <Row3 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
+              <Row4 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
+              <Row5 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-gray-600 rounded-md w-full" />
             </div>
           </TabsContent>
 
