@@ -1,4 +1,3 @@
-import { ColorPicker } from "@/components/custom/color-picker";
 import { TextEditor as TextEditorInput } from "@/components/custom/text-editor";
 import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";

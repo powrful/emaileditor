@@ -5,9 +5,11 @@ import { Fragment, useCallback, useMemo } from "react";
 
 import {
   ButtonEditor,
+  ColumnEditor,
   HeadingEditor,
   HrEditor,
   ImgEditor,
+  RowEditor,
   TextEditor,
 } from "@/components/elements";
 
@@ -94,6 +96,10 @@ export const ElementsEditor = ({
         return <HeadingEditor {...element} onChange={handleChange} />;
       case "hr":
         return <HrEditor {...element} onChange={handleChange} />;
+      case "row":
+        return <RowEditor {...element} onChange={handleChange} />;
+      case "column":
+        return <ColumnEditor {...element} onChange={handleChange} />;
       default:
         return <div>Element not found</div>;
     }

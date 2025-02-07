@@ -1,5 +1,9 @@
+import { ColorPicker } from "@/components/custom/color-picker";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { type RowProps } from "@react-email/row";
-import React from "react";
+import React, { useCallback } from "react";
 import { z } from "zod";
 
 export const RowSchema = z.object({
@@ -8,14 +12,10 @@ export const RowSchema = z.object({
   columns: z
     .enum(["100", "50/50", "33/33/33", "70/30", "30/70"])
     .default("100"),
-  gap: z.string().default("10px"),
-  style: z.object({
-    backgroundColor: z.string().default("#ffffff"),
-    paddingTop: z.string().default("5px"),
-    paddingRight: z.string().default("5px"),
-    paddingBottom: z.string().default("5px"),
-    paddingLeft: z.string().default("5px"),
-  }),
+  gap: z.number().default(10),
+  backgroundColor: z.string().default("#ffffff"),
+  horizontalPadding: z.number().default(5),
+  verticalPadding: z.number().default(5),
 });
 
 export type { RowProps };
@@ -44,8 +44,12 @@ export const Row = ({
 
   const columnWidths = getColumnWidths();
   const childrenArray = React.Children.toArray(children);
-  const gapSize = parseInt(props.gap || "0px");
+  const gapSize = props.gap || 0;
   const halfGap = `${Math.floor(gapSize / 2)}px`;
+  const paddingTop = props.verticalPadding / 2;
+  const paddingRight = props.horizontalPadding / 2;
+  const paddingBottom = props.verticalPadding / 2;
+  const paddingLeft = props.horizontalPadding / 2;
 
   return (
     <React.Fragment>
@@ -61,15 +65,15 @@ export const Row = ({
       <table
         width="100%"
         align="center"
-        bgcolor={props.style?.backgroundColor}
+        bgcolor={props.backgroundColor}
         cellPadding={halfGap}
         cellSpacing={halfGap}
         border={0}
         style={{
-          paddingTop: props.style?.paddingTop,
-          paddingRight: props.style?.paddingRight,
-          paddingBottom: props.style?.paddingBottom,
-          paddingLeft: props.style?.paddingLeft,
+          paddingTop: `${paddingTop}px`,
+          paddingRight: `${paddingRight}px`,
+          paddingBottom: `${paddingBottom}px`,
+          paddingLeft: `${paddingLeft}px`,
         }}
       >
         <tbody>
@@ -125,13 +129,96 @@ export const Row = ({
   );
 };
 
-export const RowEditor = ({ props }: { props: RowType }) => {
+export const RowEditor = ({
+  onChange,
+  ...props
+}: RowType & { onChange?: (values: Partial<RowType>) => void }) => {
+  const handleChange = useCallback(
+    (field: keyof RowType, value: string | number) => {
+      onChange?.({
+        [field]: value,
+      });
+    },
+    [onChange],
+  );
+
   return (
-    <div>
-      <p>Row Editor</p>
-      <p>
-        <pre>{JSON.stringify(props, null, 2)}</pre>
-      </p>
+    <div className="space-y-5">
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-title`} className="text-xs">
+          Title
+        </Label>
+        <Input
+          id={`${props.id}-title`}
+          placeholder="Heading title"
+          type="text"
+          className="h-7 text-sm"
+          value={props.title}
+          onChange={(e) => handleChange("title", e.target.value)}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-background-color`} className="text-xs">
+          Background color
+        </Label>
+        <ColorPicker
+          color={props.backgroundColor}
+          onChange={(color) => handleChange("backgroundColor", color.hex)}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-gap`} className="text-xs">
+          Gap
+        </Label>
+        <Slider
+          id={`${props.id}-gap`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}`}
+          value={[props.gap]}
+          onValueChange={(value: number[]) => handleChange("gap", value[0])}
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-horizontal-padding`} className="text-xs">
+          Horizontal padding
+        </Label>
+        <Slider
+          id={`${props.id}-horizontal-padding`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.horizontalPadding]}
+          onValueChange={(value: number[]) =>
+            handleChange("horizontalPadding", value[0])
+          }
+        />
+      </div>
+
+      <div className="space-y-2 gap-2">
+        <Label htmlFor={`${props.id}-vertical-padding`} className="text-xs">
+          Vertical padding
+        </Label>
+        <Slider
+          id={`${props.id}-vertical-padding`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.verticalPadding / 2]}
+          onValueChange={(value: number[]) =>
+            handleChange("verticalPadding", value[0] * 2)
+          }
+        />
+      </div>
     </div>
   );
 };
@@ -139,12 +226,9 @@ export const RowEditor = ({ props }: { props: RowType }) => {
 Row.defaultProps = RowSchema.parse({
   id: "row-1",
   columns: "100",
-  gap: "10px",
-  style: {
-    backgroundColor: "#ffffff",
-    paddingTop: "5px",
-    paddingRight: "5px",
-    paddingBottom: "5px",
-    paddingLeft: "5px",
-  },
+  title: "Untitled row",
+  gap: 10,
+  backgroundColor: "#ffffff",
+  verticalPadding: 5,
+  horizontalPadding: 5,
 });

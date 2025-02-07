@@ -36,6 +36,7 @@ import {
   Heading,
   SquareSplitVertical as HrIcon,
   Image,
+  Pencil,
   Plus,
   LayoutList as RowIcon,
   LetterText as TextIcon,
@@ -201,6 +202,23 @@ export const CollapsibleRows = ({
               </span>
               <span>{row.title}</span>
             </span>
+            <Tooltip text="Edit row">
+              <button
+                onClick={() => {
+                  setActiveElement({
+                    id: row.id,
+                    type: "row",
+                  });
+                  setActiveRow(row.id);
+                  setActiveColumn(null);
+                }}
+              >
+                <Pencil
+                  size={14}
+                  className="text-gray-400 opacity-0 group-hover/row-trigger:opacity-100 hover:text-blue-500 transition-opacity cursor-pointer"
+                />
+              </button>
+            </Tooltip>
             <Tooltip text="Delete row">
               <button
                 onClick={(e) => {
@@ -250,9 +268,11 @@ export const CollapsibleRows = ({
   // Create a sortable column component (add after SortableRow)
   function SortableColumn({
     column,
+    rowId,
     children,
   }: {
     column: any;
+    rowId: string;
     children: React.ReactNode;
   }) {
     const {
@@ -293,6 +313,25 @@ export const CollapsibleRows = ({
               </span>
               <span>{column.title}</span>
             </span>
+
+            <Tooltip text="Edit column">
+              <button
+                onClick={() => {
+                  setActiveElement({
+                    id: column.id,
+                    type: "column",
+                  });
+                  setActiveRow(rowId);
+                  setActiveColumn(column.id);
+                }}
+              >
+                <Pencil
+                  size={14}
+                  className="text-gray-400 opacity-0 group-hover/column-trigger:opacity-100 hover:text-blue-500 transition-opacity cursor-pointer"
+                />
+              </button>
+            </Tooltip>
+
             <Tooltip text="Delete column">
               <button
                 onClick={(e) => {
@@ -396,7 +435,11 @@ export const CollapsibleRows = ({
                             className="w-full"
                           >
                             {row.children.map((column) => (
-                              <SortableColumn key={column.id} column={column}>
+                              <SortableColumn
+                                key={column.id}
+                                column={column}
+                                rowId={row.id}
+                              >
                                 <AccordionContent className="p-0 ml-10 mb-1 text-xs">
                                   {column.children.map((element) => (
                                     <div
