@@ -335,18 +335,19 @@ export default function EditorLayout({
             <CodeBlock code={JSON.stringify(template, null, 2)} lang="json" />
           ) : selectedTemplateType === "html" ? (
             <CodeBlock code={html} lang="html" />
-          ) : (
-            <Frame
-              className={cn(
-                "bg-transparent h-full rounded",
-                "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
-                selected === "mobile" && "w-[400px]",
-                selected === "desktop" && "w-full",
-              )}
-            >
-              <EmailTemplate template={template} />
-            </Frame>
-          )}
+          ) : null}
+
+          <Frame
+            className={cn(
+              "bg-transparent h-full rounded",
+              "transition-[width] duration-500 ease-in-out m-0 p-0 overflow-hidden",
+              selected === "mobile" && "w-[400px]",
+              selected === "desktop" && "w-full",
+              selectedTemplateType !== "preview" && "hidden",
+            )}
+          >
+            <EmailTemplate template={template} />
+          </Frame>
         </div>
       </SidebarInset>
     </SidebarProvider>
