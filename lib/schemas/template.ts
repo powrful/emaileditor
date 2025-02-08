@@ -8,6 +8,7 @@ import {
   RowSchema,
   TextSchema,
 } from "@/components/elements";
+import { PLACEHOLDER_IMAGE, PLACEHOLDER_LOGO } from "@/const";
 import { z } from "zod";
 
 // Define element schemas
@@ -130,7 +131,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "logo",
                 type: "image",
-                src: "https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/type/ideaa.png",
+                src: PLACEHOLDER_LOGO,
                 title: "Company Logo",
                 width: "20%",
                 height: "20%",
@@ -208,7 +209,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "hero-image",
                 type: "image",
-                src: "https://picsum.photos/seed/hero/600/300",
+                src: PLACEHOLDER_IMAGE,
                 title: "Welcome Hero Image",
                 width: "100%",
                 height: "100%",
@@ -320,7 +321,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-1",
                 type: "image",
-                src: "https://picsum.photos/seed/sample1/200/200",
+                src: PLACEHOLDER_IMAGE,
                 title: "Feature 1",
                 width: "100%",
                 height: "100%",
@@ -375,7 +376,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-2",
                 type: "image",
-                src: "https://picsum.photos/seed/sample2/200/200",
+                src: PLACEHOLDER_IMAGE,
                 title: "Feature 2",
                 width: "100%",
                 height: "100%",
@@ -430,7 +431,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "image-feature-3",
                 type: "image",
-                src: "https://picsum.photos/seed/sample3/200/200",
+                src: PLACEHOLDER_IMAGE,
                 title: "Feature 3",
                 width: "100%",
                 height: "100%",
