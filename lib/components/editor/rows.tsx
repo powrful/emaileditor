@@ -241,11 +241,12 @@ export const CollapsibleRows = ({
               <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/add-row:scale-x-100 transition-transform duration-300 mx-1" />
               <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Picker
+                  parentRowId={row.id}
                   template={template}
                   setTemplate={setTemplate}
                   trigger={
                     <div>
-                      <Tooltip text="Add row">
+                      <Tooltip text="Add a row">
                         <Button
                           variant="outline"
                           size="icon"

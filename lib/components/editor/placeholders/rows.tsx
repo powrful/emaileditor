@@ -1,8 +1,9 @@
 interface RowPlaceholderProps {
   className?: string;
+  onClick?: () => void;
 }
 
-export function Row1({ className }: RowPlaceholderProps) {
+export function Row1({ className, onClick }: RowPlaceholderProps) {
   return (
     <svg
       width="300"
@@ -11,6 +12,7 @@ export function Row1({ className }: RowPlaceholderProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      onClick={onClick}
     >
       <rect
         width="300"
@@ -30,7 +32,7 @@ export function Row1({ className }: RowPlaceholderProps) {
   );
 }
 
-export function Row2({ className }: RowPlaceholderProps) {
+export function Row2({ className, onClick }: RowPlaceholderProps) {
   return (
     <svg
       width="300"
@@ -39,6 +41,7 @@ export function Row2({ className }: RowPlaceholderProps) {
       fill="none"
       className={className}
       xmlns="http://www.w3.org/2000/svg"
+      onClick={onClick}
     >
       <rect
         width="300"
@@ -66,7 +69,7 @@ export function Row2({ className }: RowPlaceholderProps) {
   );
 }
 
-export function Row3({ className }: RowPlaceholderProps) {
+export function Row3({ className, onClick }: RowPlaceholderProps) {
   return (
     <svg
       width="300"
@@ -75,6 +78,7 @@ export function Row3({ className }: RowPlaceholderProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      onClick={onClick}
     >
       <rect
         width="300"
@@ -110,7 +114,7 @@ export function Row3({ className }: RowPlaceholderProps) {
   );
 }
 
-export function Row4({ className }: RowPlaceholderProps) {
+export function Row4({ className, onClick }: RowPlaceholderProps) {
   return (
     <svg
       width="300"
@@ -119,6 +123,7 @@ export function Row4({ className }: RowPlaceholderProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      onClick={onClick}
     >
       <rect
         width="300"
@@ -146,7 +151,7 @@ export function Row4({ className }: RowPlaceholderProps) {
   );
 }
 
-export function Row5({ className }: RowPlaceholderProps) {
+export function Row5({ className, onClick }: RowPlaceholderProps) {
   return (
     <svg
       width="300"
@@ -155,6 +160,7 @@ export function Row5({ className }: RowPlaceholderProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      onClick={onClick}
     >
       <rect
         width="300"

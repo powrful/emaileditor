@@ -1,3 +1,4 @@
+import { newRow } from "@/components/elements/row";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { TemplateSchemaType } from "@/schemas/template";
@@ -19,6 +20,7 @@ type PickerProps = {
   trigger: React.ReactNode;
   template: TemplateSchemaType;
   setTemplate: (template: TemplateSchemaType) => void;
+  parentRowId?: string;
 };
 
 import {
@@ -35,7 +37,12 @@ type AddBlockType = {
   positionId?: string;
 };
 
-export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
+export const Picker = ({
+  trigger,
+  template,
+  setTemplate,
+  parentRowId,
+}: PickerProps) => {
   const addBlock = ({ type, position = "after", positionId }: AddBlockType) => {
     console.log(
       "Adding block",
@@ -51,7 +58,37 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
   }: {
     type: "100" | "50/50" | "33/33/33" | "70/30" | "30/70";
   }) => {
-    console.log("Adding row", { type });
+    setTemplate((prev) => {
+      const row = newRow({ columns: type });
+
+      if (!parentRowId) {
+        return {
+          ...prev,
+          container: {
+            ...prev.container,
+            children: [...prev.container.children, row],
+          },
+        };
+      }
+
+      // Insert after parentRowId
+      const newChildren = [...prev.container.children];
+      const parentIndex = newChildren.findIndex(
+        (child) => child.id === parentRowId,
+      );
+
+      if (parentIndex !== -1) {
+        newChildren.splice(parentIndex + 1, 0, row);
+      }
+
+      return {
+        ...prev,
+        container: {
+          ...prev.container,
+          children: newChildren,
+        },
+      };
+    });
   };
 
   return (
@@ -76,11 +113,36 @@ export const Picker = ({ trigger, template, setTemplate }: PickerProps) => {
 
           <TabsContent value="rows">
             <div className="flex flex-col gap-2 p-2">
-              <Row1 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
-              <Row2 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
-              <Row3 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
-              <Row4 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
-              <Row5 className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full" />
+              <Row1
+                className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
+                onClick={() => {
+                  addRow({ type: "100" });
+                }}
+              />
+              <Row2
+                className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
+                onClick={() => {
+                  addRow({ type: "50/50" });
+                }}
+              />
+              <Row3
+                className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
+                onClick={() => {
+                  addRow({ type: "33/33/33" });
+                }}
+              />
+              <Row4
+                className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
+                onClick={() => {
+                  addRow({ type: "70/30" });
+                }}
+              />
+              <Row5
+                className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
+                onClick={() => {
+                  addRow({ type: "30/70" });
+                }}
+              />
             </div>
           </TabsContent>
 

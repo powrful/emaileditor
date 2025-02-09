@@ -1,39 +1,39 @@
 import { ColorPicker } from "@/components/custom/color-picker";
-import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
 import { z } from "zod";
 
-import {
-  Maximize as DashedLine,
-  SquareDashed as DottedLine,
-  AlignCenterHorizontal as HorizontalAlignCenter,
-  AlignStartHorizontal as HorizontalAlignLeft,
-  AlignEndHorizontal as HorizontalAlignRight,
-  Square as SolidLine,
-  AlignEndVertical as VerticalAlignBottom,
-  AlignCenterVertical as VerticalAlignCenter,
-  AlignStartVertical as VerticalAlignTop,
-} from "lucide-react";
-
 export const ColumnSchema = z.object({
   id: z.string(),
+  type: z.literal("column"),
   title: z.string().optional().default("Untitled column"),
   width: z.string().default("100%").optional(),
   backgroundColor: z.string().default("transparent"),
   horizontalPadding: z.number().default(5),
   verticalPadding: z.number().default(5),
-
-  borderRadius: z.string().default("0px"),
-  borderColor: z.string().default("red"),
-  borderWidth: z.string().default("2px"),
-  borderStyle: z.enum(["solid", "dashed", "dotted", "none"]).default("solid"),
+  borderRadius: z.string().default("0px").optional(),
+  children: z.array(z.any()).default([]),
 });
 
 export type ColumnSchemaType = z.infer<typeof ColumnSchema>;
+
+export const newColumn = () => {
+  return ColumnSchema.parse({
+    id: createId(),
+    type: "column",
+    width: "100%",
+    title: "Untitled column",
+    backgroundColor: "#e9e9e9",
+    horizontalPadding: 0,
+    verticalPadding: 150,
+    borderRadius: "5px",
+    children: [],
+  });
+};
 
 export const Column = ({
   id,
@@ -82,9 +82,6 @@ export const Column = ({
               paddingLeft: `${paddingLeft}px`,
               backgroundColor: props.backgroundColor,
               borderRadius: props.borderRadius,
-              borderColor: props.borderColor,
-              borderWidth: props.borderWidth,
-              borderStyle: props.borderStyle,
               ["mso-line-height-rule" as any]: "exactly",
             }}
           >
@@ -209,80 +206,12 @@ export const ColumnEditor = ({ onChange, ...props }: ColumnEditorProps) => {
           step={1}
           showTooltip={true}
           tooltipContent={(value) => `${value}px`}
-          value={[parseInt(props.borderRadius)]}
+          value={[parseInt(props.borderRadius || "0")]}
           onValueChange={(value: number[]) =>
             handleChange("borderRadius", value[0].toString() + "px")
           }
         />
       </div>
-
-      <div className="space-y-2 gap-2">
-        <Label htmlFor={`${props.id}-border-width`} className="text-xs">
-          Border width
-        </Label>
-        <Slider
-          id={`${props.id}-border-width`}
-          min={0}
-          max={10}
-          step={1}
-          showTooltip={true}
-          tooltipContent={(value) => `${value}px`}
-          value={[parseInt(props.borderWidth)]}
-          onValueChange={(value: number[]) =>
-            handleChange("borderWidth", value[0].toString() + "px")
-          }
-        />
-      </div>
-
-      <div className="space-y-2 gap-2">
-        <Label htmlFor={`${props.id}-border-color`} className="text-xs">
-          Border color
-        </Label>
-        <ColorPicker
-          color={props.borderColor}
-          onChange={(color) => handleChange("borderColor", color.hex)}
-        />
-      </div>
-
-      <div className="space-y-2 gap-2">
-        <Label htmlFor={`${props.id}-border-style`} className="text-xs">
-          Border style
-        </Label>
-        <ToggleButton
-          id={`${props.id}-border-style`}
-          selected={props.borderStyle}
-          onChange={(value) => handleChange("borderStyle", value)}
-          items={[
-            {
-              id: "solid",
-              label: "Solid",
-              icon: <SolidLine />,
-            },
-            {
-              id: "dashed",
-              label: "Dashed",
-              icon: <DashedLine />,
-            },
-            {
-              id: "dotted",
-              label: "Dotted",
-              icon: <DottedLine />,
-            },
-          ]}
-        />
-      </div>
     </div>
   );
 };
-
-Column.defaultProps = ColumnSchema.parse({
-  id: "column-1",
-  width: "100%",
-  backgroundColor: "transparent",
-  horizontalPadding: 5,
-  verticalPadding: 5,
-  borderRadius: "0px",
-  borderColor: "red",
-  borderWidth: "2px",
-  borderStyle: "solid",
-});

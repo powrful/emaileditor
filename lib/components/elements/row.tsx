@@ -2,12 +2,15 @@ import { ColorPicker } from "@/components/custom/color-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { type RowProps } from "@react-email/row";
 import React, { useCallback } from "react";
 import { z } from "zod";
+import { ColumnSchema, type ColumnSchemaType, newColumn } from "./column";
 
 export const RowSchema = z.object({
   id: z.string(),
+  type: z.literal("row"),
   title: z.string().optional().default("Untitled row"),
   columns: z
     .enum(["100", "50/50", "33/33/33", "70/30", "30/70"])
@@ -16,7 +19,36 @@ export const RowSchema = z.object({
   backgroundColor: z.string().default("#ffffff"),
   horizontalPadding: z.number().default(5),
   verticalPadding: z.number().default(5),
+  children: z.array(ColumnSchema).default([]),
 });
+
+export const newRow = ({ columns = "100" }: { columns?: string }) => {
+  let children: ColumnSchemaType[] = [];
+
+  if (columns === "50/50") {
+    children = [newColumn(), newColumn()];
+  } else if (columns === "33/33/33") {
+    children = [newColumn(), newColumn(), newColumn()];
+  } else if (columns === "70/30") {
+    children = [newColumn(), newColumn()];
+  } else if (columns === "30/70") {
+    children = [newColumn(), newColumn()];
+  } else {
+    children = [newColumn()];
+  }
+
+  return RowSchema.parse({
+    id: createId(),
+    type: "row",
+    columns,
+    title: "Untitled row",
+    backgroundColor: "#ffffff",
+    horizontalPadding: 0,
+    verticalPadding: 0,
+    gap: 10,
+    children,
+  });
+};
 
 export type { RowProps };
 export type RowType = z.infer<typeof RowSchema>;
@@ -222,13 +254,3 @@ export const RowEditor = ({
     </div>
   );
 };
-
-Row.defaultProps = RowSchema.parse({
-  id: "row-1",
-  columns: "100",
-  title: "Untitled row",
-  gap: 10,
-  backgroundColor: "#ffffff",
-  verticalPadding: 5,
-  horizontalPadding: 5,
-});
