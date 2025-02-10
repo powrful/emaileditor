@@ -3,7 +3,9 @@ import {
   type ActiveElementType,
   ElementsEditor,
 } from "@/components/editor/elements";
-import { Picker } from "@/components/editor/picker";
+import { ElementsPicker } from "@/components/editor/elements-picker";
+import { RowsPicker } from "@/components/editor/rows-picker";
+import { newColumn } from "@/components/elements/column";
 import {
   Accordion,
   AccordionContent,
@@ -240,7 +242,7 @@ export const CollapsibleRows = ({
             <div className="relative h-2">
               <div className="absolute inset-x-0 h-[2px] bg-blue-600 opacity-50 rounded-full origin-center scale-x-0 group-hover/add-row:scale-x-100 transition-transform duration-300 mx-1" />
               <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Picker
+                <RowsPicker
                   parentRowId={row.id}
                   template={template}
                   setTemplate={setTemplate}
@@ -488,14 +490,23 @@ export const CollapsibleRows = ({
 
                                   {/* Add an element */}
                                   <div className="-ml-1 flex items-center gap-2 text-xs hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                                    >
-                                      <CirclePlus className="h-4 w-4" />
-                                      Add an element
-                                    </Button>
+                                    <ElementsPicker
+                                      key={column.id}
+                                      parentRowId={row.id}
+                                      parentColumnId={column.id}
+                                      template={template}
+                                      setTemplate={setTemplate}
+                                      trigger={
+                                        <Button
+                                          size="sm"
+                                          variant="ghost"
+                                          className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                                        >
+                                          <CirclePlus className="h-4 w-4" />
+                                          Add an element
+                                        </Button>
+                                      }
+                                    />
                                   </div>
                                 </AccordionContent>
                               </SortableColumn>
@@ -510,6 +521,41 @@ export const CollapsibleRows = ({
                           size="sm"
                           variant="ghost"
                           className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                          disabled={
+                            (row.columns === "100" &&
+                              row.children.length >= 1) ||
+                            (["50/50", "70/30", "30/70"].includes(
+                              row.columns,
+                            ) &&
+                              row.children.length >= 2) ||
+                            (row.columns === "33/33/33" &&
+                              row.children.length >= 3)
+                          }
+                          onClick={() => {
+                            const column = newColumn();
+                            setTemplate((prev) => {
+                              const rowIndex =
+                                prev.container.children.findIndex(
+                                  (r: { id: string }) => r.id === row.id,
+                                );
+                              const newChildren = [...prev.container.children];
+                              newChildren[rowIndex] = {
+                                ...newChildren[rowIndex],
+                                children: [
+                                  ...newChildren[rowIndex].children,
+                                  column,
+                                ],
+                              };
+
+                              return {
+                                ...prev,
+                                container: {
+                                  ...prev.container,
+                                  children: newChildren,
+                                },
+                              };
+                            });
+                          }}
                         >
                           <CirclePlus className="h-4 w-4" />
                           Add a column

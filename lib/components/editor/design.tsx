@@ -4,8 +4,8 @@ import type { RowWithChildrenType } from "@/schemas/template";
 import { ImagePlus, LetterText, SquareMousePointer } from "lucide-react";
 import { useState } from "react";
 import { EmptyState } from "./empty";
-import { Picker } from "./picker";
 import { CollapsibleRows } from "./rows";
+import { RowsPicker } from "./rows-picker";
 type DesignEditorProps = {
   template: TemplateSchemaType;
   setTemplate: (template: TemplateSchemaType) => void;
@@ -26,7 +26,7 @@ export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
           description="You can start by adding a block to your template."
           icons={[SquareMousePointer, ImagePlus, LetterText]}
           cta={
-            <Picker
+            <RowsPicker
               template={template}
               setTemplate={setTemplate}
               trigger={
