@@ -4,20 +4,17 @@ import { z } from "zod";
 
 export const ContainerSchema = z.object({
   id: z.string(),
-  style: z.object({
-    backgroundColor: z.string().default("#ffffff"),
-    maxWidth: z.string().default("600px"),
-    paddingTop: z.string().default("10px").optional(),
-    paddingRight: z.string().default("10px").optional(),
-    paddingBottom: z.string().default("10px").optional(),
-    paddingLeft: z.string().default("10px").optional(),
-    borderRadius: z.string().default("0px").optional(),
-    borderColor: z.string().default("#000000").optional(),
-    borderWidth: z.string().default("0px").optional(),
-    borderStyle: z
-      .enum(["solid", "dashed", "dotted", "double", "none"])
-      .default("none"),
-  }),
+  horizontalPadding: z.number().default(10),
+  verticalPadding: z.number().default(10),
+  backgroundColor: z.string().default("#ffffff"),
+  width: z.string().default("600px"),
+  height: z.string().default("auto"),
+  borderRadius: z.number().default(0),
+  borderColor: z.string().default("#000000"),
+  borderWidth: z.number().default(0),
+  borderStyle: z
+    .enum(["solid", "dashed", "dotted", "double", "none"])
+    .default("none"),
 });
 
 export type ContainerSchemaType = z.infer<typeof ContainerSchema>;

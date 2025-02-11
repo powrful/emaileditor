@@ -37,11 +37,11 @@ export const imageDefaultValues = (
     type: "image",
     src: "https://picsum.photos/600/300",
     title: "Placeholder image",
-    align: "left",
-    width: "100%",
+    align: "center",
+    width: "97%",
     height: "auto",
     shape: "rounded",
-    spacing: 0,
+    spacing: 5,
     ...props,
   };
 };

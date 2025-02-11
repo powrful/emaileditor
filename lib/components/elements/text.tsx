@@ -33,7 +33,6 @@ export const TextSchema = z.object({
 });
 
 export type TextSchemaType = z.infer<typeof TextSchema>;
-type TextProps = TextSchemaType;
 
 export function textDefaultValues(
   props: Partial<TextSchemaType> = {},
@@ -43,13 +42,13 @@ export function textDefaultValues(
     type: "text",
     title: "Untitled text",
     html: "Text",
-    horizontalPadding: 0,
+    horizontalPadding: 16,
     verticalPadding: 0,
     lineHeight: 1.5,
-    fontFamily: "Inter, sans-serif",
+    fontFamily: "Arial, Helvetica, sans-serif",
     fontWeight: "400",
     textAlign: "left",
-    fontSize: "16px",
+    fontSize: "15px",
     ...props,
   };
 }

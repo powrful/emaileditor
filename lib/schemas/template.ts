@@ -14,23 +14,18 @@ import { z } from "zod";
 // Define element schemas
 const ElementSchema = z.discriminatedUnion("type", [
   z.object({
-    type: z.literal("button"),
     ...ButtonSchema.shape,
   }),
   z.object({
-    type: z.literal("heading"),
     ...HeadingSchema.shape,
   }),
   z.object({
-    type: z.literal("hr"),
     ...HrSchema.shape,
   }),
   z.object({
-    type: z.literal("image"),
     ...ImgSchema.shape,
   }),
   z.object({
-    type: z.literal("text"),
     ...TextSchema.shape,
     children: z.array(z.string()).optional(),
   }),
@@ -272,7 +267,8 @@ export type TemplateSchemaType = z.infer<typeof TemplateSchema>;
 //                 align: "left",
 //                 width: "50%",
 //                 height: 10,
-//                 spacing: 0,
+//                 horizontalMargin: 0,
+//                 verticalMargin: 0,
 //                 backgroundColor: "#000000",
 //                 color: "#ffffff",
 //                 fontSize: "16px",
@@ -520,10 +516,10 @@ export const defaultTemplate: TemplateSchemaType = {
     style: {
       backgroundColor: "#ffffff",
       maxWidth: "600px",
-      // paddingTop: "10px",
-      // paddingRight: "10px",
-      // paddingBottom: "10px",
-      // paddingLeft: "10px",
+      paddingTop: "10px",
+      paddingRight: "10px",
+      paddingBottom: "10px",
+      paddingLeft: "10px",
       borderRadius: "0px",
       borderColor: "#000000",
       borderWidth: "0px",

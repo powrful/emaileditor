@@ -20,7 +20,8 @@ export const ButtonSchema = z.object({
   align: z.enum(["left", "center", "right"]).default("left"),
   width: z.string().default("50%"),
   height: z.number().min(0).max(500).default(10),
-  spacing: z.number().min(0).max(100).default(0),
+  horizontalMargin: z.number().min(0).max(100).default(0),
+  verticalMargin: z.number().min(0).max(100).default(0),
   backgroundColor: z.string().default("#000000"),
   color: z.string().default("#ffffff"),
   fontSize: z.string().default("16px"),
@@ -42,7 +43,8 @@ export function buttonDefaultValues(
     align: "left",
     width: "25%",
     height: 16,
-    spacing: 10,
+    horizontalMargin: 16,
+    verticalMargin: 10,
     backgroundColor: "#000000",
     color: "#ffffff",
     fontSize: "16px",
@@ -61,7 +63,8 @@ export const Button = ({
     id,
   };
 
-  const halfSpacing = mergedProps.spacing / 2;
+  const halfHorizontalMargin = mergedProps.horizontalMargin / 2;
+  const halfVerticalMargin = mergedProps.verticalMargin / 2;
   const halfHeight = mergedProps.height / 2;
 
   const getMarginAlignment = () => {
@@ -89,8 +92,10 @@ export const Button = ({
         paddingTop: `${halfHeight}px`,
         paddingBottom: `${halfHeight}px`,
         margin: getMarginAlignment(),
-        marginTop: `${halfSpacing}px`,
-        marginBottom: `${halfSpacing}px`,
+        marginTop: `${halfVerticalMargin}px`,
+        marginBottom: `${halfVerticalMargin}px`,
+        marginLeft: `${halfHorizontalMargin}px`,
+        marginRight: `${halfHorizontalMargin}px`,
         display: "block",
         textDecoration: "none",
         textAlign: "center",
@@ -281,22 +286,6 @@ export const ButtonEditor = ({ onChange, ...props }: ButtonEditorProps) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor={`${props.id}-spacing`} className="text-xs">
-          Spacing
-        </Label>
-        <Slider
-          id={`${props.id}-spacing`}
-          min={0}
-          max={200}
-          step={1}
-          showTooltip={true}
-          tooltipContent={(value) => `${value}px`}
-          value={[props.spacing]}
-          onValueChange={(value: number[]) => handleChange("spacing", value[0])}
-        />
-      </div>
-
-      <div className="space-y-2">
         <Label htmlFor={`${props.id}-border-radius`} className="text-xs">
           Border Radius
         </Label>
@@ -312,6 +301,42 @@ export const ButtonEditor = ({ onChange, ...props }: ButtonEditorProps) => {
             handleChange("borderRadius", value[0])
           }
         />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor={`${props.id}-horizontal-margin`} className="text-xs">
+          Horizontal Margin
+        </Label>
+        <Slider
+          id={`${props.id}-horizontal-margin`}
+          min={0}
+          max={100}
+          step={1}
+          showTooltip={true}
+          tooltipContent={(value) => `${value}px`}
+          value={[props.horizontalMargin]}
+          onValueChange={(value: number[]) =>
+            handleChange("horizontalMargin", value[0])
+          }
+        />
+
+        <div className="space-y-2">
+          <Label htmlFor={`${props.id}-vertical-margin`} className="text-xs">
+            Vertical Margin
+          </Label>
+          <Slider
+            id={`${props.id}-vertical-margin`}
+            min={0}
+            max={100}
+            step={1}
+            showTooltip={true}
+            tooltipContent={(value) => `${value}px`}
+            value={[props.verticalMargin]}
+            onValueChange={(value: number[]) =>
+              handleChange("verticalMargin", value[0])
+            }
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Tooltip } from "@/components/custom/tooltip";
 import { DesignEditor } from "@/components/editor/design";
+import { GlobalEditor } from "@/components/editor/global";
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
 import {
@@ -35,6 +36,12 @@ const navs = [
     isActive: true,
   },
   {
+    title: "Global settings",
+    slug: "global-settings",
+    icon: Globe,
+    isActive: false,
+  },
+  {
     title: "Design",
     slug: "design",
     icon: SwatchBook,
@@ -44,12 +51,6 @@ const navs = [
     title: "Components",
     slug: "components",
     icon: LayoutPanelTop,
-    isActive: false,
-  },
-  {
-    title: "Global settings",
-    slug: "global-settings",
-    icon: Globe,
     isActive: false,
   },
 ];
@@ -170,7 +171,7 @@ export function AppSidebar({
                 <Placeholder text="Components" />
               )}
               {activeItem.slug === "global-settings" && (
-                <Placeholder text="Global settings" />
+                <GlobalEditor template={template} setTemplate={setTemplate} />
               )}
               {activeItem.slug === "design" && (
                 <DesignEditor template={template} setTemplate={setTemplate} />

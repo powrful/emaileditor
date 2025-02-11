@@ -29,8 +29,8 @@ export const hrDefaultValues = (
     title: "Untitled divider",
     width: "100%",
     thickness: "2px",
-    color: "red",
-    horizontalMargin: 0,
+    color: "#000000",
+    horizontalMargin: 20,
     verticalMargin: 0,
     ...props,
   };

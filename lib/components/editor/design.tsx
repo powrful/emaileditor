@@ -1,20 +1,12 @@
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
-import type { RowWithChildrenType } from "@/schemas/template";
 import { ImagePlus, LetterText, SquareMousePointer } from "lucide-react";
-import { useState } from "react";
 import { EmptyState } from "./empty";
 import { CollapsibleRows } from "./rows";
 import { RowsPicker } from "./rows-picker";
 type DesignEditorProps = {
   template: TemplateSchemaType;
   setTemplate: (template: TemplateSchemaType) => void;
-};
-
-const RowDropDown = ({ row }: { row: RowWithChildrenType }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  console.log({ row });
-  return <div>{row.type}</div>;
 };
 
 export const DesignEditor = ({ template, setTemplate }: DesignEditorProps) => {
