@@ -1,5 +1,6 @@
-import { newRow } from "@/components/elements/row";
+import { rowDefaultValues } from "@/components/elements/row";
 import type { TemplateSchemaType } from "@/schemas/template";
+import { createId } from "@/utils";
 
 import {
   Row1,
@@ -27,12 +28,14 @@ export const RowsPicker = ({
   parentRowId,
 }: PickerProps) => {
   const addRow = ({
+    id,
     type,
   }: {
+    id: string;
     type: "100" | "50/50" | "33/33/33" | "70/30" | "30/70";
   }) => {
     setTemplate((prev) => {
-      const row = newRow({ columns: type });
+      const row = rowDefaultValues({ id, columns: type });
 
       if (!parentRowId) {
         return {
@@ -72,31 +75,31 @@ export const RowsPicker = ({
           <Row1
             className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
             onClick={() => {
-              addRow({ type: "100" });
+              addRow({ id: createId(), type: "100" });
             }}
           />
           <Row2
             className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
             onClick={() => {
-              addRow({ type: "50/50" });
+              addRow({ id: createId(), type: "50/50" });
             }}
           />
           <Row3
             className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
             onClick={() => {
-              addRow({ type: "33/33/33" });
+              addRow({ id: createId(), type: "33/33/33" });
             }}
           />
           <Row4
             className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
             onClick={() => {
-              addRow({ type: "70/30" });
+              addRow({ id: createId(), type: "70/30" });
             }}
           />
           <Row5
             className="hover:cursor-pointer hover:border-2 hover:border-gray-300 dark:hover:border-sidebar-border rounded-md w-full"
             onClick={() => {
-              addRow({ type: "30/70" });
+              addRow({ id: createId(), type: "30/70" });
             }}
           />
         </div>

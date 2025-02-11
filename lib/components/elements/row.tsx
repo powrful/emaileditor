@@ -6,7 +6,11 @@ import { createId } from "@/utils";
 import { type RowProps } from "@react-email/row";
 import React, { useCallback } from "react";
 import { z } from "zod";
-import { ColumnSchema, type ColumnSchemaType, newColumn } from "./column";
+import {
+  ColumnSchema,
+  type ColumnSchemaType,
+  columnDefaultValues,
+} from "./column";
 
 export const RowSchema = z.object({
   id: z.string(),
@@ -22,23 +26,63 @@ export const RowSchema = z.object({
   children: z.array(ColumnSchema).default([]),
 });
 
-export const newRow = ({ columns = "100" }: { columns?: string }) => {
+export type { RowProps };
+export type RowType = z.infer<typeof RowSchema>;
+
+export const rowDefaultValues = ({
+  id,
+  columns = "100",
+}: {
+  id: string;
+  columns?: string;
+}) => {
   let children: ColumnSchemaType[] = [];
 
   if (columns === "50/50") {
-    children = [newColumn(), newColumn()];
+    children = [
+      columnDefaultValues({
+        id: createId(),
+      }),
+      columnDefaultValues({
+        id: createId(),
+      }),
+    ];
   } else if (columns === "33/33/33") {
-    children = [newColumn(), newColumn(), newColumn()];
+    children = [
+      columnDefaultValues({
+        id: createId(),
+      }),
+      columnDefaultValues({
+        id: createId(),
+      }),
+      columnDefaultValues({
+        id: createId(),
+      }),
+    ];
   } else if (columns === "70/30") {
-    children = [newColumn(), newColumn()];
+    children = [
+      columnDefaultValues({
+        id: createId(),
+      }),
+      columnDefaultValues({
+        id: createId(),
+      }),
+    ];
   } else if (columns === "30/70") {
-    children = [newColumn(), newColumn()];
+    children = [
+      columnDefaultValues({
+        id: createId(),
+      }),
+      columnDefaultValues({
+        id: createId(),
+      }),
+    ];
   } else {
-    children = [newColumn()];
+    children = [columnDefaultValues({ id: createId() })];
   }
 
   return RowSchema.parse({
-    id: createId(),
+    id,
     type: "row",
     columns,
     title: "Untitled row",
@@ -49,9 +93,6 @@ export const newRow = ({ columns = "100" }: { columns?: string }) => {
     children,
   });
 };
-
-export type { RowProps };
-export type RowType = z.infer<typeof RowSchema>;
 
 export const Row = ({
   id,

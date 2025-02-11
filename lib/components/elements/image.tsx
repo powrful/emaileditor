@@ -2,6 +2,7 @@ import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { Img as Component } from "@react-email/img";
 import {
   AlignCenter,
@@ -16,6 +17,7 @@ import { z } from "zod";
 
 export const ImgSchema = z.object({
   id: z.string(),
+  type: z.literal("image"),
   src: z.string(),
   title: z.string().default("Untitled image"),
   align: z.enum(["left", "center", "right"]).default("left"),
@@ -27,17 +29,33 @@ export const ImgSchema = z.object({
 
 export type ImgSchemaType = z.infer<typeof ImgSchema>;
 
+export const imageDefaultValues = (
+  props: Partial<ImgSchemaType> = {},
+): ImgSchemaType => {
+  return {
+    id: createId(),
+    type: "image",
+    src: "https://picsum.photos/600/300",
+    title: "Placeholder image",
+    align: "left",
+    width: "100%",
+    height: "auto",
+    shape: "rounded",
+    spacing: 0,
+    ...props,
+  };
+};
+
 export const Img = ({
-  id,
-  src,
-  title,
-  width,
-  align,
-  height,
-  shape,
-  spacing,
+  id = imageDefaultValues().id,
+  ...props
 }: ImgSchemaType) => {
-  const halfSpacing = spacing / 2;
+  const mergedProps = {
+    ...imageDefaultValues(props),
+    id,
+  };
+
+  const halfSpacing = mergedProps.spacing / 2;
 
   return (
     <table
@@ -49,15 +67,15 @@ export const Img = ({
       style={{ maxWidth: "100%" }}
     >
       <tr>
-        <td align={align}>
-          <div style={{ width: width, height: height }}>
+        <td align={mergedProps.align}>
+          <div style={{ width: mergedProps.width, height: mergedProps.height }}>
             <Component
               data-el-type="image"
               data-el-id={id}
-              src={src}
-              alt={title}
-              width={width}
-              height={height}
+              src={mergedProps.src}
+              alt={mergedProps.title}
+              width={mergedProps.width}
+              height={mergedProps.height}
               style={{
                 display: "block",
                 width: "100%",
@@ -65,17 +83,17 @@ export const Img = ({
                 marginTop: `${halfSpacing}px`,
                 marginBottom: `${halfSpacing}px`,
 
-                ...(shape === "circle" && {
+                ...(mergedProps.shape === "circle" && {
                   aspectRatio: "1 / 1",
                   objectFit: "cover",
                   borderRadius: "50%",
                 }),
 
-                ...(shape === "rounded" && {
+                ...(mergedProps.shape === "rounded" && {
                   borderRadius: "10px",
                 }),
 
-                ...(shape === "square" && {
+                ...(mergedProps.shape === "square" && {
                   borderRadius: "0px",
                 }),
               }}
@@ -235,13 +253,3 @@ export const ImgEditor = memo(({ onChange, ...props }: ImgEditorProps) => {
 });
 
 ImgEditor.displayName = "ImgEditor";
-
-Img.defaultProps = ImgSchema.parse({
-  id: "image-1",
-  src: "https://picsum.photos/600/300",
-  title: "Placeholder image",
-  width: "100%",
-  align: "center",
-  shape: "square",
-  spacing: 0,
-});

@@ -2,12 +2,14 @@ import { ColorPicker } from "@/components/custom/color-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { Hr as Component } from "@react-email/hr";
 import { useCallback } from "react";
 import { z } from "zod";
 
 export const HrSchema = z.object({
   id: z.string(),
+  type: z.literal("hr"),
   title: z.string().optional().default("Untitled divider"),
   width: z.string().optional().default("100%"),
   thickness: z.string().optional().default("2px"),
@@ -18,19 +20,33 @@ export const HrSchema = z.object({
 
 export type HrSchemaType = z.infer<typeof HrSchema>;
 
-export const Hr = ({
-  id,
-  width,
-  thickness,
-  color,
-  horizontalMargin,
-  verticalMargin,
-}: HrSchemaType) => {
-  const halfVerticalMargin = verticalMargin / 2;
+export const hrDefaultValues = (
+  props: Partial<HrSchemaType> = {},
+): HrSchemaType => {
+  return {
+    id: createId(),
+    type: "hr",
+    title: "Untitled divider",
+    width: "100%",
+    thickness: "2px",
+    color: "red",
+    horizontalMargin: 0,
+    verticalMargin: 0,
+    ...props,
+  };
+};
+
+export const Hr = ({ id = hrDefaultValues().id, ...props }: HrSchemaType) => {
+  const mergedProps = {
+    ...hrDefaultValues(props),
+    id,
+  };
+
+  const halfVerticalMargin = mergedProps.verticalMargin / 2;
   const innerWidth =
-    typeof width === "string" && width.endsWith("%")
-      ? `${parseInt(width) - horizontalMargin / 6}%` // Scale down percentage by margin
-      : `${parseInt(width) - horizontalMargin}px`; // Direct pixel subtraction
+    typeof mergedProps.width === "string" && mergedProps.width.endsWith("%")
+      ? `${parseInt(mergedProps.width) - mergedProps.horizontalMargin / 6}%` // Scale down percentage by margin
+      : `${parseInt(mergedProps.width) - mergedProps.horizontalMargin}px`; // Direct pixel subtraction
 
   return (
     <table
@@ -49,8 +65,8 @@ export const Hr = ({
           <Component
             style={{
               width: innerWidth,
-              height: thickness,
-              backgroundColor: color,
+              height: mergedProps.thickness,
+              backgroundColor: mergedProps.color,
               borderRadius: "50px",
             }}
           />
@@ -173,12 +189,3 @@ export const HrEditor = ({ onChange, ...props }: HrEditorProps) => {
     </div>
   );
 };
-
-Hr.defaultProps = HrSchema.parse({
-  id: "hr-1",
-  width: "100%",
-  thickness: "2px",
-  color: "#000000",
-  horizontalMargin: 0,
-  verticalMargin: 0,
-});

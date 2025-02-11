@@ -1,3 +1,8 @@
+import { buttonDefaultValues } from "@/components/elements/button";
+import { headingDefaultValues } from "@/components/elements/heading";
+import { hrDefaultValues } from "@/components/elements/hr";
+import { imageDefaultValues } from "@/components/elements/image";
+import { textDefaultValues } from "@/components/elements/text";
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
 
@@ -12,9 +17,10 @@ type PickerProps = {
   setTemplate: (template: TemplateSchemaType) => void;
   parentRowId?: string;
   parentColumnId?: string;
-  parentElementId?: string;
+  afterElementId?: string | null;
 };
 
+import { createId } from "@/utils";
 import {
   Heading,
   Image,
@@ -29,14 +35,75 @@ export const ElementsPicker = ({
   setTemplate,
   parentRowId,
   parentColumnId,
-  parentElementId,
+  afterElementId,
 }: PickerProps) => {
   const addElement = ({ type }: { type: string }) => {
-    console.log(
-      "Adding block",
-      { type, parentRowId, parentColumnId, parentElementId },
-      { template },
-    );
+    const newTemplate = { ...template };
+
+    let el;
+
+    switch (type) {
+      case "text":
+        el = textDefaultValues({
+          id: createId(),
+          type: "text",
+          html: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        });
+        break;
+      case "heading":
+        el = headingDefaultValues({
+          id: createId(),
+          type: "heading",
+        });
+        break;
+      case "button":
+        el = buttonDefaultValues({
+          id: createId(),
+          type: "button",
+        });
+        break;
+      case "image":
+        el = imageDefaultValues({
+          id: createId(),
+          type: "image",
+        });
+        break;
+      case "divider":
+        el = hrDefaultValues({
+          id: createId(),
+          type: "hr",
+        });
+        break;
+      default:
+        return;
+    }
+
+    if (parentRowId && parentColumnId) {
+      // Find the parent row
+      const row = newTemplate.container.children.find(
+        (r) => r.id === parentRowId,
+      );
+      if (!row) return;
+
+      // Find the parent column
+      const column = row.children.find((c) => c.id === parentColumnId);
+      if (!column) return;
+
+      // If afterElementId is provided, insert after that element
+      if (afterElementId) {
+        const elementIndex = column.children.findIndex(
+          (e) => e.id === afterElementId,
+        );
+        if (elementIndex !== -1) {
+          column.children.splice(elementIndex + 1, 0, el);
+        }
+      } else {
+        // If no afterElementId, append to end of column
+        column.children.push(el);
+      }
+
+      setTemplate(newTemplate);
+    }
   };
 
   return (

@@ -21,8 +21,10 @@ export const ColumnSchema = z.object({
 
 export type ColumnSchemaType = z.infer<typeof ColumnSchema>;
 
-export const newColumn = () => {
-  return ColumnSchema.parse({
+export const columnDefaultValues = (
+  props: Partial<ColumnSchemaType> = {},
+): ColumnSchemaType => {
+  return {
     id: createId(),
     type: "column",
     width: "100%",
@@ -32,18 +34,27 @@ export const newColumn = () => {
     verticalPadding: 150,
     borderRadius: "5px",
     children: [],
-  });
+    ...props,
+  };
 };
 
 export const Column = ({
-  id,
+  id = columnDefaultValues().id,
   children,
   ...props
 }: ColumnSchemaType & { children: ReactNode }) => {
-  const paddingTop = props.verticalPadding / 2;
-  const paddingRight = props.horizontalPadding / 2;
-  const paddingBottom = props.verticalPadding / 2;
-  const paddingLeft = props.horizontalPadding / 2;
+  // Merge props with default values
+  const mergedProps = {
+    ...columnDefaultValues,
+    ...props,
+    id,
+    children,
+  };
+
+  const paddingTop = mergedProps.verticalPadding / 2;
+  const paddingRight = mergedProps.horizontalPadding / 2;
+  const paddingBottom = mergedProps.verticalPadding / 2;
+  const paddingLeft = mergedProps.horizontalPadding / 2;
 
   return (
     <>
@@ -51,7 +62,7 @@ export const Column = ({
         dangerouslySetInnerHTML={{
           __html: `<!--[if mso]>
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr><td style="width: ${props.width}">
+      <tr><td style="width: ${mergedProps.width}">
     <![endif]-->`,
         }}
       />
@@ -61,12 +72,12 @@ export const Column = ({
         cellSpacing="0"
         border={0}
         role="presentation"
-        width={props.width}
+        width={mergedProps.width}
         style={{
           borderCollapse: "collapse",
           ["mso-table-lspace" as any]: "0pt",
           ["mso-table-rspace" as any]: "0pt",
-          width: `${props.width} !important`,
+          width: `${mergedProps.width} !important`,
           fontSize: "0px",
           lineHeight: "0px",
         }}
@@ -74,18 +85,18 @@ export const Column = ({
         <tr>
           <td
             data-el-type="column"
-            data-el-id={id}
+            data-el-id={mergedProps.id}
             style={{
               paddingTop: `${paddingTop}px`,
               paddingRight: `${paddingRight}px`,
               paddingBottom: `${paddingBottom}px`,
               paddingLeft: `${paddingLeft}px`,
-              backgroundColor: props.backgroundColor,
-              borderRadius: props.borderRadius,
+              backgroundColor: mergedProps.backgroundColor,
+              borderRadius: mergedProps.borderRadius,
               ["mso-line-height-rule" as any]: "exactly",
             }}
           >
-            {children}
+            {mergedProps.children}
           </td>
         </tr>
       </table>

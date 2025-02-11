@@ -5,7 +5,8 @@ import {
 } from "@/components/editor/elements";
 import { ElementsPicker } from "@/components/editor/elements-picker";
 import { RowsPicker } from "@/components/editor/rows-picker";
-import { newColumn } from "@/components/elements/column";
+import { columnDefaultValues } from "@/components/elements/column";
+
 import {
   Accordion,
   AccordionContent,
@@ -496,6 +497,11 @@ export const CollapsibleRows = ({
                                       parentColumnId={column.id}
                                       template={template}
                                       setTemplate={setTemplate}
+                                      afterElementId={
+                                        column.children[
+                                          column.children.length - 1
+                                        ]?.id || null
+                                      }
                                       trigger={
                                         <Button
                                           size="sm"
@@ -532,7 +538,7 @@ export const CollapsibleRows = ({
                               row.children.length >= 3)
                           }
                           onClick={() => {
-                            const column = newColumn();
+                            const column = columnDefaultValues;
                             setTemplate((prev) => {
                               const rowIndex =
                                 prev.container.children.findIndex(

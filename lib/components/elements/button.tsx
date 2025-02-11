@@ -3,6 +3,7 @@ import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { Button as Component } from "@react-email/button";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useCallback } from "react";
@@ -11,6 +12,7 @@ import { FontPicker } from "../custom/font-picker";
 
 export const ButtonSchema = z.object({
   id: z.string(),
+  type: z.literal("button"),
   title: z.string().optional().default("Untitled button"),
   text: z.string().default("Click me"),
   fontFamily: z.string().optional().default("Arial, Helvetica, sans-serif"),
@@ -27,25 +29,43 @@ export const ButtonSchema = z.object({
 
 export type ButtonSchemaType = z.infer<typeof ButtonSchema>;
 
+export function buttonDefaultValues(
+  props: Partial<ButtonSchemaType> = {},
+): ButtonSchemaType {
+  return {
+    id: createId(),
+    type: "button",
+    title: "Button",
+    text: "Click me",
+    fontFamily: "Arial, Helvetica, sans-serif",
+    href: "#",
+    align: "left",
+    width: "25%",
+    height: 16,
+    spacing: 10,
+    backgroundColor: "#000000",
+    color: "#ffffff",
+    fontSize: "16px",
+    borderRadius: 5,
+    ...props,
+  };
+}
+
 export const Button = ({
-  id,
-  text,
-  fontFamily,
-  href,
-  align,
-  width,
-  height,
-  spacing,
-  backgroundColor,
-  color,
-  fontSize,
-  borderRadius,
+  id = buttonDefaultValues().id,
+  ...props
 }: ButtonSchemaType) => {
-  const halfSpacing = spacing / 2;
-  const halfHeight = height / 2;
+  // Merge props with default values
+  const mergedProps = {
+    ...buttonDefaultValues(props),
+    id,
+  };
+
+  const halfSpacing = mergedProps.spacing / 2;
+  const halfHeight = mergedProps.height / 2;
 
   const getMarginAlignment = () => {
-    switch (align) {
+    switch (mergedProps.align) {
       case "center":
         return "0 auto";
       case "right":
@@ -58,14 +78,14 @@ export const Button = ({
   return (
     <Component
       data-el-type="button"
-      data-el-id={id}
-      href={href}
+      data-el-id={mergedProps.id}
+      href={mergedProps.href}
       style={{
-        backgroundColor,
-        color,
-        fontSize,
-        width: width === "100%" ? "100%" : width,
-        borderRadius: `${borderRadius}px`,
+        backgroundColor: mergedProps.backgroundColor,
+        color: mergedProps.color,
+        fontSize: mergedProps.fontSize,
+        width: mergedProps.width === "100%" ? "100%" : mergedProps.width,
+        borderRadius: `${mergedProps.borderRadius}px`,
         paddingTop: `${halfHeight}px`,
         paddingBottom: `${halfHeight}px`,
         margin: getMarginAlignment(),
@@ -77,14 +97,14 @@ export const Button = ({
         maxWidth: "100%",
         lineHeight: "120%",
         border: "0",
-        fontFamily: fontFamily,
+        fontFamily: mergedProps.fontFamily,
         // @ts-ignore
         "mso-line-height-rule": "exactly",
         WebkitTextSizeAdjust: "none",
         boxSizing: "border-box",
       }}
     >
-      {text}
+      {mergedProps.text}
     </Component>
   );
 };
@@ -296,19 +316,3 @@ export const ButtonEditor = ({ onChange, ...props }: ButtonEditorProps) => {
     </div>
   );
 };
-
-Button.defaultProps = ButtonSchema.parse({
-  id: "button-1",
-  title: "Button 1",
-  text: "Click me",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  href: "#",
-  align: "left",
-  width: "50%",
-  height: 10,
-  spacing: 0,
-  backgroundColor: "#000000",
-  color: "#ffffff",
-  fontSize: "16px",
-  borderRadius: 4,
-});

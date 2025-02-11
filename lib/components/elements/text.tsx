@@ -3,6 +3,7 @@ import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { Text as Component } from "@react-email/text";
 import { useCallback } from "react";
 import { z } from "zod";
@@ -12,8 +13,13 @@ import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 
 export const TextSchema = z.object({
   id: z.string(),
+  type: z.literal("text"),
   title: z.string().default("Untitled text"),
-  html: z.string().default("Text"),
+  html: z
+    .string()
+    .default(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.",
+    ),
   horizontalPadding: z.number().min(0).max(300).default(0),
   verticalPadding: z.number().min(0).max(500).default(0),
   lineHeight: z.number().optional().default(1.5),
@@ -29,19 +35,38 @@ export const TextSchema = z.object({
 export type TextSchemaType = z.infer<typeof TextSchema>;
 type TextProps = TextSchemaType;
 
+export function textDefaultValues(
+  props: Partial<TextSchemaType> = {},
+): TextSchemaType {
+  return {
+    id: createId(),
+    type: "text",
+    title: "Untitled text",
+    html: "Text",
+    horizontalPadding: 0,
+    verticalPadding: 0,
+    lineHeight: 1.5,
+    fontFamily: "Inter, sans-serif",
+    fontWeight: "400",
+    textAlign: "left",
+    fontSize: "16px",
+    ...props,
+  };
+}
+
 export const Text = ({
-  id,
-  html,
-  horizontalPadding,
-  verticalPadding,
-  lineHeight,
-  fontFamily,
-  fontWeight,
-  textAlign,
-  fontSize,
-}: TextProps) => {
-  const vertical = verticalPadding / 2; // half vertical spacing
-  const horizondal = horizontalPadding / 2; // half horizontal spacing
+  id = textDefaultValues().id,
+  ...props
+}: TextSchemaType) => {
+  // Merge props with default values
+  const mergedProps = {
+    ...textDefaultValues(props),
+    id,
+  };
+
+  const vertical = mergedProps.verticalPadding / 2; // half vertical spacing
+  const horizontal = mergedProps.horizontalPadding / 2; // half horizontal spacing
+
   return (
     <Component
       data-el-type="text"
@@ -50,15 +75,15 @@ export const Text = ({
         margin: "0",
         paddingTop: `${vertical}px`,
         paddingBottom: `${vertical}px`,
-        paddingLeft: `${horizondal}px`,
-        paddingRight: `${horizondal}px`,
-        fontSize: fontSize || "16px",
-        fontFamily: fontFamily || "Inter, sans-serif",
-        lineHeight: lineHeight || "1.5",
-        fontWeight: fontWeight || "400",
-        textAlign: textAlign || "left",
+        paddingLeft: `${horizontal}px`,
+        paddingRight: `${horizontal}px`,
+        fontSize: mergedProps.fontSize || "16px",
+        fontFamily: mergedProps.fontFamily || "Inter, sans-serif",
+        lineHeight: mergedProps.lineHeight || "1.5",
+        fontWeight: mergedProps.fontWeight || "400",
+        textAlign: mergedProps.textAlign || "left",
       }}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: mergedProps.html }}
     />
   );
 };
@@ -228,22 +253,6 @@ export const TextEditor = ({ onChange, ...props }: TextEditorProps) => {
           }
         />
       </div>
-
-      {/* <div className="space-y-2 gap-2">
-        <pre>{JSON.stringify(props, null, 2)}</pre>
-      </div> */}
     </div>
   );
 };
-
-Text.defaultProps = TextSchema.parse({
-  id: "text-1",
-  title: "Text 1",
-  html: "Text 1",
-  horizontalPadding: 0,
-  verticalPadding: 0,
-  lineHeight: 1.5,
-  fontFamily: "Inter, sans-serif",
-  fontWeight: "400",
-  textAlign: "left",
-});

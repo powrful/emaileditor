@@ -4,6 +4,7 @@ import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { createId } from "@/utils";
 import { Heading as Component } from "@react-email/heading";
 import { useCallback } from "react";
 import { z } from "zod";
@@ -22,6 +23,7 @@ import {
 
 export const HeadingSchema = z.object({
   id: z.string(),
+  type: z.literal("heading"),
   title: z.string().default("Untitled heading"),
   as: z.enum(["h1", "h2", "h3", "h4", "h5", "h6"]).default("h1"),
   text: z.string().default("Heading"),
@@ -42,36 +44,56 @@ export const HeadingSchema = z.object({
 export type HeadingSchemaType = z.infer<typeof HeadingSchema>;
 type HeadingProps = HeadingSchemaType;
 
+export function headingDefaultValues(
+  props: Partial<HeadingSchemaType> = {},
+): HeadingSchemaType {
+  return {
+    id: createId(),
+    type: "heading",
+    title: "Heading",
+    text: "Heading",
+    fontFamily: "Inter, sans-serif",
+    as: "h1",
+    color: "#000000",
+    lineHeight: 1.5,
+    fontWeight: "400",
+    textAlign: "left",
+    horizontalPadding: 0,
+    verticalPadding: 0,
+    horizontalMargin: 0,
+    verticalMargin: 0,
+    ...props,
+  };
+}
+
 export const Heading = ({
-  id,
-  as,
-  text,
-  horizontalPadding,
-  verticalPadding,
-  horizontalMargin,
-  verticalMargin,
-  color,
-  lineHeight,
-  fontFamily,
-  fontWeight,
-  textAlign,
-}: HeadingProps) => {
-  const halfVerticalPadding = verticalPadding / 2; // half vertical spacing
-  const halfHorizontalPadding = horizontalPadding / 2; // half horizontal spacing
-  const halfVerticalMargin = verticalMargin / 2; // half vertical spacing
-  const halfHorizontalMargin = horizontalMargin / 2; // half horizontal spacing
+  id = headingDefaultValues().id,
+  ...props
+}: HeadingSchemaType) => {
+  // Merge props with default values
+  const mergedProps = {
+    ...headingDefaultValues(props),
+    id,
+  };
+
+  const halfVerticalPadding = mergedProps.verticalPadding / 2; // half vertical spacing
+  const halfHorizontalPadding = mergedProps.horizontalPadding / 2; // half horizontal spacing
+  const halfVerticalMargin = mergedProps.verticalMargin / 2; // half vertical spacing
+  const halfHorizontalMargin = mergedProps.horizontalMargin / 2; // half horizontal spacing
 
   return (
     <Component
       data-el-type="heading"
       data-el-id={id}
-      as={as}
+      as={mergedProps.as}
       style={{
         margin: "0",
         padding: "0",
+        color: mergedProps.color,
+        fontFamily: mergedProps.fontFamily,
         // Using MSO conditional comments for Outlook
         // @ts-ignore
-        "mso-line-height-alt": `${lineHeight * 100}%`,
+        "mso-line-height-alt": `${mergedProps.lineHeight * 100}%`,
         // @ts-ignore
         "mso-margin-top-alt": `${halfVerticalMargin}px`,
         // @ts-ignore
@@ -96,13 +118,13 @@ export const Heading = ({
       >
         <tr>
           <td
-            align={textAlign || "left"}
+            align={mergedProps.textAlign || "left"}
             style={{
-              fontSize: getDefaultFontSize(as),
-              fontFamily: `${fontFamily || "Arial"}, sans-serif`,
-              lineHeight: lineHeight || "1.5",
-              color: color || "#000000",
-              fontWeight: fontWeight || "400",
+              fontSize: getDefaultFontSize(mergedProps.as),
+              fontFamily: `${mergedProps.fontFamily || "Arial"}, sans-serif`,
+              lineHeight: mergedProps.lineHeight || "1.5",
+              color: mergedProps.color || "#000000",
+              fontWeight: mergedProps.fontWeight || "400",
               margin: "0",
               // Add specific heading styles
               display: "block",
@@ -112,7 +134,7 @@ export const Heading = ({
               "mso-text-raise": "0",
             }}
           >
-            {text}
+            {mergedProps.text}
           </td>
         </tr>
       </table>
@@ -380,19 +402,3 @@ export const HeadingEditor = ({ onChange, ...props }: HeadingEditorProps) => {
     </div>
   );
 };
-
-Heading.defaultProps = HeadingSchema.parse({
-  id: "heading-1",
-  title: "Heading 1",
-  as: "h1",
-  text: "Heading 1",
-  horizontalPadding: 0,
-  verticalPadding: 0,
-  horizontalMargin: 0,
-  verticalMargin: 0,
-  color: "#000000",
-  lineHeight: 1.5,
-  fontFamily: "Inter, sans-serif",
-  fontWeight: "400",
-  textAlign: "left",
-});
