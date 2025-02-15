@@ -81,19 +81,3 @@ npm run publish
 bun run publish
 ```
 
-## Usage
-
-```javascript
-import { EmailEditor } from "email-editor";
-
-
-<EmailCanvas
-  onSave={(htmlTemplate, jsonTemplate, reactComponent) => {
-    // Do whatever you want with html, json and react template
-  }}
-  onBack={() => {
-    // Redirect back to where ever you want
-  }}
-  template={jsonTemplate} // Optional
-/>
-```
