@@ -7,7 +7,7 @@ import {
   Img,
   Row,
   Text,
-} from "@/components/elements";
+} from "@/components/editor/elements";
 import { type TemplateSchemaType } from "@/lib/schemas/template";
 import { Body, Font, Head, Html, Preview } from "@react-email/components";
 import React from "react";

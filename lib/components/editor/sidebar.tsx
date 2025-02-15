@@ -55,7 +55,7 @@ const navs = [
   },
 ];
 
-import { EmailCanvasProps } from "@/components/canvas";
+import { EmailCanvasProps } from "@/components/editor/canvas";
 
 const Placeholder = ({ text }: { text: string }) => {
   return <div className="p-4">{text}</div>;

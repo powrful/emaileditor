@@ -1,4 +1,4 @@
-import { rowDefaultValues } from "@/components/elements/row";
+import { rowDefaultValues } from "@/components/editor/elements/row";
 import type { TemplateSchemaType } from "@/schemas/template";
 import { createId } from "@/utils";
 

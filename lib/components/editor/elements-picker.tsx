@@ -1,8 +1,8 @@
-import { buttonDefaultValues } from "@/components/elements/button";
-import { headingDefaultValues } from "@/components/elements/heading";
-import { hrDefaultValues } from "@/components/elements/hr";
-import { imageDefaultValues } from "@/components/elements/image";
-import { textDefaultValues } from "@/components/elements/text";
+import { buttonDefaultValues } from "@/components/editor/elements/button";
+import { headingDefaultValues } from "@/components/editor/elements/heading";
+import { hrDefaultValues } from "@/components/editor/elements/hr";
+import { imageDefaultValues } from "@/components/editor/elements/image";
+import { textDefaultValues } from "@/components/editor/elements/text";
 import { Button } from "@/components/ui/button";
 import type { TemplateSchemaType } from "@/schemas/template";
 

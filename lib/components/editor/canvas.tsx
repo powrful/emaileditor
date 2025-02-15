@@ -1,4 +1,4 @@
-import EditorLayout from "@/components/layout";
+import EditorLayout from "@/components/editor/editor-layout";
 import { ThemeProvider } from "@/components/theme/provider";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useHistoryState } from "@uidotdev/usehooks";

@@ -2,10 +2,10 @@ import { Tooltip } from "@/components/custom/tooltip";
 import {
   type ActiveElementType,
   ElementsEditor,
-} from "@/components/editor/elements";
+} from "@/components/editor/elements-editor";
 import { ElementsPicker } from "@/components/editor/elements-picker";
+import { columnDefaultValues } from "@/components/editor/elements/column";
 import { RowsPicker } from "@/components/editor/rows-picker";
-import { columnDefaultValues } from "@/components/elements/column";
 
 import {
   Accordion,

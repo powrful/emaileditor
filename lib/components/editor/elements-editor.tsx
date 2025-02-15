@@ -11,7 +11,7 @@ import {
   ImgEditor,
   RowEditor,
   TextEditor,
-} from "@/components/elements";
+} from "@/components/editor/elements";
 
 export type ActiveElementType = {
   id: string;

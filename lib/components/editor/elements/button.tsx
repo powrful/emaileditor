@@ -1,4 +1,5 @@
 import { ColorPicker } from "@/components/custom/color-picker";
+import { FontPicker } from "@/components/custom/font-picker";
 import { ToggleButton } from "@/components/custom/toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,7 +9,6 @@ import { Button as Component } from "@react-email/button";
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { useCallback } from "react";
 import { z } from "zod";
-import { FontPicker } from "../custom/font-picker";
 
 export const ButtonSchema = z.object({
   id: z.string(),

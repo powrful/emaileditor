@@ -7,8 +7,8 @@ import {
   ImgSchema,
   RowSchema,
   TextSchema,
-} from "@/components/elements";
-import { PLACEHOLDER_IMAGE, PLACEHOLDER_LOGO } from "@/const";
+} from "@/components/editor/elements";
+
 import { z } from "zod";
 
 // Define element schemas

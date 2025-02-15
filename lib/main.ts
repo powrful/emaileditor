@@ -1,2 +1,2 @@
 import "./globals.css";
-export { EmailCanvas } from "./components/canvas";
+export { EmailCanvas } from "./components/editor/canvas";

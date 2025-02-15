@@ -1,9 +1,9 @@
 import { CodeBlock } from "@/components/custom/code";
 import { Tooltip } from "@/components/custom/tooltip";
-import { Frame } from "@/components/email/frame";
-import { EmailTemplate } from "@/components/email/template";
-import { FullscreenButton } from "@/components/layout/fullscreen-button";
-import { AppSidebar } from "@/components/layout/sidebar";
+import { Frame } from "@/components/editor/frame";
+import { FullscreenButton } from "@/components/editor/fullscreen-button";
+import { AppSidebar } from "@/components/editor/sidebar";
+import { EmailTemplate } from "@/components/editor/template";
 import { Button } from "@/components/ui/button";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/utils";
@@ -22,7 +22,7 @@ import {
   Undo2,
 } from "lucide-react";
 
-import { EmailCanvasProps } from "@/components/canvas";
+import { EmailCanvasProps } from "@/components/editor/canvas";
 import { ThemeToggle } from "@/components/theme/toggle";
 import { TemplateSchemaType } from "@/schemas/template";
 import { useEffect, useState } from "react";
