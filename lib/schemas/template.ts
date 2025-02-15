@@ -157,6 +157,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "intro-heading",
                 type: "heading",
+                title: "Main Heading",
                 as: "h1",
                 text: "Latest from Resend",
                 color: "#000000",
@@ -207,6 +208,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "update-1-heading",
                 type: "heading",
+                title: "React Email Update",
                 as: "h2",
                 text: "React Email 2.0",
                 color: "#000000",
@@ -222,6 +224,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "update-1-text",
                 type: "text",
+                title: "React Email Description",
                 html: "We're excited to announce React Email 2.0. Build and send emails using React components with improved performance, better developer experience, and new features.",
                 horizontalPadding: 0,
                 verticalPadding: 0,
@@ -230,7 +233,6 @@ export const defaultTemplate: TemplateSchemaType = {
                 fontFamily: "Inter, Helvetica, sans-serif",
                 textAlign: "left",
                 fontSize: "15px",
-                color: "#4b5563",
               },
             ],
           },
@@ -270,6 +272,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "update-2-heading",
                 type: "heading",
+                title: "Introducing Email Analytics",
                 as: "h2",
                 text: "Introducing Email Analytics",
                 color: "#000000",
@@ -293,7 +296,6 @@ export const defaultTemplate: TemplateSchemaType = {
                 fontFamily: "Inter, Helvetica, sans-serif",
                 textAlign: "left",
                 fontSize: "15px",
-                color: "#4b5563",
               },
             ],
           },
@@ -333,6 +335,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "update-3-heading",
                 type: "heading",
+                title: "New API Reference",
                 as: "h2",
                 text: "New API Reference",
                 color: "#000000",
@@ -348,6 +351,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "update-3-text",
                 type: "text",
+                title: "API Improvements Description",
                 html: "We've revamped our API documentation with improved navigation, better examples, and comprehensive guides to help you integrate Resend faster.",
                 horizontalPadding: 0,
                 verticalPadding: 0,
@@ -356,7 +360,6 @@ export const defaultTemplate: TemplateSchemaType = {
                 fontFamily: "Inter, Helvetica, sans-serif",
                 textAlign: "left",
                 fontSize: "15px",
-                color: "#4b5563",
               },
             ],
           },
@@ -385,6 +388,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "cta-text",
                 type: "text",
+                title: "CTA Text",
                 html: "Try Resend today",
                 horizontalPadding: 0,
                 verticalPadding: 0,
@@ -393,11 +397,11 @@ export const defaultTemplate: TemplateSchemaType = {
                 fontFamily: "Inter, Helvetica, sans-serif",
                 textAlign: "left",
                 fontSize: "16px",
-                color: "#000000",
               },
               {
                 id: "cta-button",
                 type: "button",
+                title: "CTA Button",
                 text: "Get started",
                 fontFamily: "Inter, Helvetica, sans-serif",
                 href: "https://resend.com",
@@ -438,6 +442,7 @@ export const defaultTemplate: TemplateSchemaType = {
               {
                 id: "footer-text",
                 type: "text",
+                title: "Footer Text",
                 html: "© 2024 Resend. All rights reserved.<br><a href='#' style='color: #6b7280; text-decoration: underline;'>Unsubscribe</a>",
                 horizontalPadding: 0,
                 verticalPadding: 0,
@@ -446,7 +451,6 @@ export const defaultTemplate: TemplateSchemaType = {
                 fontFamily: "Inter, Helvetica, sans-serif",
                 textAlign: "left",
                 fontSize: "14px",
-                color: "#6b7280",
               },
             ],
           },
