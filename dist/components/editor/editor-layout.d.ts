@@ -1,5 +1,5 @@
-import { EmailCanvasProps } from './canvas';
 import { TemplateSchemaType } from '../../schemas/template';
+import { EmailCanvasProps } from './canvas';
 export default function EditorLayout({ onSave, onBack, template, setTemplate, undo, redo, canUndo, canRedo, }: {
     onSave: EmailCanvasProps["onSave"];
     onBack: EmailCanvasProps["onBack"];

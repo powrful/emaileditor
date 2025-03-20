@@ -1,5 +1,5 @@
-import { VariantProps } from 'class-variance-authority';
 import * as TogglePrimitive from "@radix-ui/react-toggle";
+import { VariantProps } from 'class-variance-authority';
 import * as React from "react";
 declare const toggleVariants: (props?: ({
     variant?: "default" | "outline" | null | undefined;

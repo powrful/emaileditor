@@ -1,7 +1,7 @@
+import * as React from "react";
 import { TemplateSchemaType } from '../../schemas/template';
 import { Sidebar } from '../ui/sidebar';
 import { EmailCanvasProps } from './canvas';
-import * as React from "react";
 type AppSidebarProps = {
     template: TemplateSchemaType;
     setTemplate: (template: TemplateSchemaType) => void;

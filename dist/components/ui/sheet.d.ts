@@ -1,5 +1,5 @@
-import { VariantProps } from 'class-variance-authority';
 import * as SheetPrimitive from "@radix-ui/react-dialog";
+import { VariantProps } from 'class-variance-authority';
 import * as React from "react";
 declare const Sheet: React.FC<SheetPrimitive.DialogProps>;
 declare const SheetTrigger: React.ForwardRefExoticComponent<SheetPrimitive.DialogTriggerProps & React.RefAttributes<HTMLButtonElement>>;
