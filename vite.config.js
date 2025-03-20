@@ -20,6 +20,9 @@ export default defineConfig({
       lib: resolve(__dirname, "./lib"),
     },
   },
+  build: {
+    outDir: "dist",
+  },
   // build: {
   //   copyPublicDir: false,
   //   lib: {
