@@ -35,12 +35,12 @@ const navs = [
     icon: MailPlus,
     isActive: true,
   },
-  {
-    title: "Global settings",
-    slug: "global-settings",
-    icon: Globe,
-    isActive: false,
-  },
+  // {
+  //   title: "Global settings",
+  //   slug: "global-settings",
+  //   icon: Globe,
+  //   isActive: false,
+  // },
   {
     title: "Design",
     slug: "design",
